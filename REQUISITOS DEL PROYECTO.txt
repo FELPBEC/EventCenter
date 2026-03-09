@@ -1,0 +1,14 @@
+1. Poder crear salones y almacenarlos con persistencia
+2. Poder crear clientes y administradores y almacenarlos con persistencia
+6. Designar un tipo de acceso y acciones a administradores y clientes (por ejemplo los clientes pueden rankear los salones)
+4. Hacer reservaciones con esos clientes y almacenarlas con persistencia
+5. Uso de local date (o algo parecido )para determinar la dispobilidad de un salón
+6. Busquéda de salones por servicio, por ubicación o por nombre (podrían ser atributos)
+7. adaptabilidad a varios idiomas, almenos ingles, español y algun otro que use nuestra misma simbología 
+8. Testing superior a 80% usando jacoco
+
+//Obvio esta lista pueden editarla con sus ideas, el objetivo es clarificar lo que deseamos hacer
+
+
+EXTRA(cosas opcionales si da tiempo):
+1. Hacer un sistema de contratos con los salones por ejemplo djs, cantantes, servicio de aseo, restaurante, etc
