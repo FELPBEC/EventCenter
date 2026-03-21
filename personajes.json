@@ -1,0 +1,14 @@
+[
+  {
+    "nombre": "Goku",
+    "nivel": 99
+  },
+  {
+    "nombre": "Vegeta",
+    "nivel": 95
+  },
+  {
+    "nombre": "Piccolo",
+    "nivel": 80
+  }
+]
