@@ -21,4 +21,9 @@ public interface Repository<T>{
      * Si el archivo está vacío o hay un error al leer el archivo, devuelve una lista vacía.
      */
     public List<T> findAll();
+    /**
+     * Se encarga de guardar toda una lista con objetos editados y la remplaza por la lista original, actualizandola.
+     * @param list Es la nueva lista con la que vamos a remplazar a la anterior.
+     */
+    public void updateAll(List<T> list);
 }

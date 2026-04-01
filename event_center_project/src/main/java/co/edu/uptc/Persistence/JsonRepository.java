@@ -55,4 +55,12 @@ public class JsonRepository<T> implements Repository<T> {
             return new ArrayList<>();
         }
     }
+    @Override
+    public void updateAll(List<T> list){
+        try (FileWriter writer = new FileWriter(fileName)){
+            gson.toJson(list,writer);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
 }
