@@ -48,7 +48,11 @@ public class VistaConsola {
                         break;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Ingrese por favor un numero, no letras.");
+                System.out.println("""
+                        Ingrese por favor un numero no letras
+            
+                        Please enter a number, not letters
+                        """);
                 scanner.nextLine();
             }
         }
@@ -121,38 +125,46 @@ public class VistaConsola {
     }
 
     public void registrarCliente(){
-        boolean salir= false;
-        while (!salir) {
             System.out.println(mensajes.getString("registro.titulo"));
             System.out.println(mensajes.getString("registro.pedir.cedula"));
             String id= scanner.nextLine();
             System.out.println(mensajes.getString("registro.pedir.nombre"));
             String nombre= scanner.nextLine();
-            System.out.println(mensajes.getString("registro.pedir.empresarial"));
-            boolean esEmpresarial= false;
-            try {
-                int opEmpresarial=scanner.nextInt();
-                scanner.nextLine();
-                switch (opEmpresarial) {
-                    case 1:
-                        esEmpresarial=true;
-                        salir=true;
-                        break;
-                    case 2:
-                        esEmpresarial=false;
-                        salir=true;
-                        break;
-                    default:
-                        System.out.println(mensajes.getString("error.opcion.binaria"));
-                        break;
+            System.out.println(mensajes.getString("registro.pedir.correo"));
+            String correo= scanner.nextLine();
+            System.out.println(mensajes.getString("registro.pedir.telefono"));
+            String telefono= scanner.nextLine();
+            boolean esEmpresarial = false;
+            boolean tipoValido = false;
+
+            while (!tipoValido) {
+                System.out.println(mensajes.getString("registro.pedir.empresarial"));
+                try {
+                    int tipo = scanner.nextInt();
+                    scanner.nextLine();
+                    switch (tipo) {
+                        case 1:
+                            esEmpresarial = true;
+                            tipoValido = true;
+                            break;
+                        case 2:
+                            esEmpresarial = false;
+                            tipoValido = true;
+                            break;
+                        default:
+                            System.out.println(mensajes.getString("error.opcion.binaria"));
+                            break;
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println(mensajes.getString("error.letras.binaria"));
+                    scanner.nextLine();
                 }
-            } catch (InputMismatchException e) {
-                System.out.println(mensajes.getString("error.letras.binaria"));
             }
-        }
-        System.out.println(mensajes.getString("registro.guardando"));
-        this.clienteLogeado=new Object();
-        System.out.println(mensajes.getString("registro.exito"));
+
+            System.out.println(mensajes.getString("registro.guardando"));
+            this.clienteLogeado = nombre;
+            System.out.println(mensajes.getString("registro.exito"));
+            menuInternoCliente();
     }
 
     private void loginCliente(){
@@ -166,6 +178,11 @@ public class VistaConsola {
                 System.out.println(mensajes.getString("login.cancelando"));
                 break;
             }
+
+            this.clienteLogeado = "Cliente Prueba";
+            System.out.println(mensajes.getString("login.exito"));
+            menuInternoCliente();
+            autenticado=true;
         }
     }
 
@@ -176,24 +193,28 @@ public class VistaConsola {
             System.out.println(mensajes.getString("panel.cliente.op1"));
             System.out.println(mensajes.getString("panel.cliente.op2"));
             System.out.println(mensajes.getString("panel.cliente.op3"));
-            System.out.print("->");
+            System.out.println(mensajes.getString("panel.cliente.op4")); 
+            System.out.print(mensajes.getString("general.ingreso.opcion"));
             try {
                 int opcion=scanner.nextInt();
                 scanner.nextLine();
                 switch (opcion) {
                     case 1:
-                        
+                        System.out.println("\n>> [SIMULACION] Lista de salones filtrados...");
                         break;
                     case 2:
-                        
+                        System.out.println("\n>> [SIMULACION] Proceso de nueva reserva...");
                         break;
                     case 3:
+                        System.out.println("\n>> [SIMULACION] Mostrando historial de reservas...");
+                        break;
+                    case 4:
                         System.out.println(mensajes.getString("general.cerrando.sesion"));
                         this.clienteLogeado=null;
                         cerrarSesion=true;
                         break;
                     default:
-                        System.out.println(mensajes.getString("error.opcion.rango"));
+                        System.out.println(mensajes.getString("error.opcion.rango.4"));
                         break;
                 }
             } catch (InputMismatchException e) {
@@ -209,7 +230,14 @@ public class VistaConsola {
         String usuario= scanner.nextLine();
         System.out.println(mensajes.getString("login.admin.contrasena"));
         String contrasena= scanner.nextLine();
-
+        // SIMULACIÓN: Credenciales quemadas (admin / 1234) solo para probar la vista
+        if (usuario.equals("admin") && contrasena.equals("1234")) {
+            this.adminLogeado = true;
+            System.out.println(mensajes.getString("login.exito"));
+            menuInternoAdmin();
+        } else {
+            System.out.println(mensajes.getString("error.credenciales"));
+        }
     }
 
     private void menuInternoAdmin(){
@@ -219,17 +247,22 @@ public class VistaConsola {
             System.out.println(mensajes.getString("panel.admin.op1"));
             System.out.println(mensajes.getString("panel.admin.op2"));
             System.out.println(mensajes.getString("panel.admin.op3"));
+            System.out.println(mensajes.getString("panel.admin.op4"));
+            System.out.print(mensajes.getString("general.ingreso.opcion"));
             try {
                 int opcion= scanner.nextInt();
                 scanner.nextLine();
                 switch (opcion) {
                     case 1:
-                        
+                        menuGestionClientesAdmin();
                         break;
                     case 2:
-                        
+                        menuGestionSalonesAdmin();
                         break;
                     case 3:
+                        menuReportesAdmin();
+                        break;
+                    case 4:
                         System.out.println(mensajes.getString("general.cerrando.sesion"));
                         this.adminLogeado=null;
                         cerrarSesion=true;
@@ -245,6 +278,94 @@ public class VistaConsola {
             }
         }
     }
+
+    private void menuGestionClientesAdmin(){
+        boolean volver= false;
+        while (!volver) {
+            System.out.println(mensajes.getString("admin.clientes.titulo"));
+            System.out.println(mensajes.getString("admin.clientes.op1"));
+            System.out.println(mensajes.getString("admin.clientes.op2"));
+            System.out.println(mensajes.getString("admin.clientes.op3"));
+            System.out.println(mensajes.getString("admin.sub.volver"));
+            System.out.println(mensajes.getString("general.ingreso.opcion"));
+            int op= scanner.nextInt();
+            switch (op) {
+                case 1: 
+                    System.out.println("Mostrando todos los clientes en base de datos..."); 
+                    break;
+                case 2 : 
+                    System.out.println("Ingrese ID del cliente a modificar..."); 
+                    break;
+                case 3: 
+                    System.out.println("Ingrese ID del cliente a ELIMINAR..."); 
+                    break;
+                case 4: 
+                    volver = true; break;
+                default: 
+                    System.out.println(mensajes.getString("admin.sub.error")); break;
+            }
+        }
+    }
     
-    
+    private void menuGestionSalonesAdmin() {
+        boolean volver = false;
+        while(!volver){
+            System.out.println("\n" + mensajes.getString("admin.salones.titulo"));
+            System.out.println(mensajes.getString("admin.salones.op1"));
+            System.out.println(mensajes.getString("admin.salones.op2"));
+            System.out.println(mensajes.getString("admin.salones.op3"));
+            System.out.println(mensajes.getString("admin.sub.volver"));
+            System.out.print(mensajes.getString("general.ingreso.opcion"));
+            
+            int op = scanner.nextInt();
+            switch (op) {
+                case 1: 
+                    System.out.println("Pidiendo Codigo, Nombre, Capacidad, y Precio..."); 
+                    break;
+                case 2:
+                    System.out.println("Listando salones..."); 
+                    break;
+                case 3: 
+                    System.out.println("Ingrese codigo de salon para cambiar estado..."); 
+                    break;
+                case 4: 
+                    volver = true; 
+                    break;
+                default: 
+                    System.out.println(mensajes.getString("admin.sub.error")); 
+                    break;
+            }
+        }
+    }
+
+    private void menuReportesAdmin() {
+        boolean volver = false;
+        while(!volver){
+            System.out.println("\n" + mensajes.getString("admin.reportes.titulo"));
+            System.out.println(mensajes.getString("admin.reportes.op1"));
+            System.out.println(mensajes.getString("admin.reportes.op2"));
+            System.out.println(mensajes.getString("admin.reportes.op3"));
+            System.out.println(mensajes.getString("admin.sub.volver"));
+            System.out.print(mensajes.getString("general.ingreso.opcion"));
+            
+            int op = scanner.nextInt();
+            switch (op) {
+                case 1: 
+                    System.out.println("Ingrese fecha inicio y fin. Calculando total..."); 
+                    break;
+                case 2: 
+                    System.out.println("1. Salon VIP | 2. Salon Esmeralda | ..."); 
+                    break;
+                case 3: 
+                    System.out.println("Archivo exportado exitosamente."); 
+                    break;
+                case 4: 
+                    volver = true; 
+                    break;
+                default:
+                    System.out.println(mensajes.getString("admin.sub.error")); 
+                    break;
+            }
+        }
+    }
 }
