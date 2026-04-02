@@ -26,4 +26,19 @@ public interface Repository<T>{
      * @param list Es la nueva lista con la que vamos a remplazar a la anterior.
      */
     public void updateAll(List<T> list);
+
+    /**Método que actualiza un objeto en concreto sobreescribiendolo 
+     * 
+     * @param position posición del objeto que se desea modificar en la lista
+     * @param entity   el objeto modificado
+     */
+    public void updateNew(int position, T entity);
+
+    /**Elimina un objeto de la lista según una posición dada
+     * 
+     * @param position la posición del objeto que se desea eliminar
+     */
+    public void deleteObject(int position);
+
+
 }

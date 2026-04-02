@@ -62,4 +62,30 @@ public class JsonRepository<T> implements Repository<T> {
             e.getMessage();
         }
     }
+    @Override
+    public void updateNew(int position, T entity) {
+        List<T> list = findAll();
+        list.set(position, entity);
+        try(FileWriter writer= new FileWriter(fileName)) {
+            gson.toJson(list,writer);
+        } catch (Exception e) {
+           e.getMessage();
+        }
+        
+    }
+    @Override
+    public void deleteObject(int position) {
+        List<T> list = findAll();
+        list.remove(position);
+        try(FileWriter writer= new FileWriter(fileName)) {
+            gson.toJson(list,writer);
+        } catch (Exception e) {
+           e.getMessage();
+        }
+        
+    }
+
+    
+
+    
 }
