@@ -7,6 +7,7 @@ package co.edu.uptc.Model;
 public class Salon {
     private int id;
     private String salonName;
+    private int capacity;
     private double priceByHour;
 
     /**Constructor vacio para la clase,
@@ -16,17 +17,22 @@ public class Salon {
     public Salon() {
     }
 
-    /**Método constructor con párametros en caso de desear crear un salón manualmente
+    /**Método constructor con párametros de la clase Salon en caso de desear crear un salón manualmente
      * 
-     * @param id    identificador númerico del salón debe ser único
-     * @param salonName nombre del salón por ejemplo: "salón imperial"
-     * @param priceByHour   el precio de una hora de alquiler del salón
+     * @param id    identificador númerico del salón
+     * @param salonName nombre del salón
+     * @param capacity  cantitad de personas que admite el salón
+     * @param priceByHour   precio por hora de reserva del salón 
      */
-    public Salon(int id, String salonName, double priceByHour) {
+
+    public Salon(int id, String salonName, int capacity, double priceByHour) {
         this.id = id;
         this.salonName = salonName;
+        this.capacity = capacity;
         this.priceByHour = priceByHour;
     }
+
+
 
     /**Método que envía la id del salón
      * 
@@ -76,11 +82,25 @@ public class Salon {
         this.priceByHour = priceByHour;
     }
 
+    /**Método que envía la capacidad del salón
+     * 
+     * @return la capacidad del salón (número)
+     */
+    public int getCapacity() {
+        return capacity;
+    }
+
+    /**Método que modifica la capacida del salón
+     * 
+     * @param capacity  nueva capacidad del salón (número)
+     */
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
     @Override
     public String toString() {
         return "Salon [id=" + id + ", salonName=" + salonName + ", priceByHour=" + priceByHour + "]";
     }
-
     
 
     
