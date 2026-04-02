@@ -29,7 +29,6 @@ public class JsonRepository<T> implements Repository<T> {
         this.typeClass = typeClass;
         this.gson = new GsonBuilder().setPrettyPrinting().create();
     }
-
     @Override
     public void save(T entity){
         List<T> listObjects= findAll();
@@ -60,7 +59,7 @@ public class JsonRepository<T> implements Repository<T> {
         try (FileWriter writer = new FileWriter(fileName)){
             gson.toJson(list,writer);
         } catch (Exception e) {
-            // TODO: handle exception
+            e.getMessage();
         }
     }
 }
