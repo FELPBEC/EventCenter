@@ -9,6 +9,7 @@ public class Salon {
     private String salonName;
     private int capacity;
     private double priceByHour;
+    private int numberOfReservations;
 
     /**Constructor vacio para la clase,
      * con objetivo de poder cargar objetos guardados en repositorios
@@ -97,10 +98,24 @@ public class Salon {
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
-    @Override
-    public String toString() {
-        return "Salon [id=" + id + ", salonName=" + salonName + ", priceByHour=" + priceByHour + "]";
+
+    /**Envía el número de reservaciones por salón
+     * 
+     * @return número de reservaciones por salón
+     */
+    public int getNumberOfReservations() {
+        return numberOfReservations;
     }
+
+    /**Modifica el número de reservaciones que tiene el salón
+     * 
+     * @param numberOfReservations nuevo número de reservaciones
+     */
+    public void setNumberOfReservations(int numberOfReservations) {
+        this.numberOfReservations = numberOfReservations;
+    }
+   
+    
     
 
     

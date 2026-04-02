@@ -39,15 +39,13 @@ public class AdminServices {
         repository.save(admin);
     }
 
-    
-
     /**Método que envía un admnistrador atraves de su ID
      * 
      * @param id id del administrador
      * @return  devuelve un administrador en caso de encontrarlo
      * @return en caso de no encontrarlo devuelve un objeto vacio
      */
-    public Admin searchAdminById(int id){
+    public Admin sendAdminById(int id){
         return enlistAdmins().stream().filter(a->a.getId()==id).findFirst().orElse(null);
     }
 
@@ -57,8 +55,8 @@ public class AdminServices {
      * @return verdadero si se encuentra
      * @return falso si no se encuentra
      */
-    public boolean validateAdminById(int id){
-        if(searchAdminById(id)!=null){
+    public boolean searchAdminById(int id){
+        if(sendAdminById(id)!=null){
             return true;
         }else{
             return false;
@@ -104,7 +102,7 @@ public class AdminServices {
      * @return      una cadena de texto con los datos del administrador
      */
     public String showAdminInfo(int id){
-        return searchAdminById(id).toString();
+        return sendAdminById(id).toString();
     }
 
     /**Método que envía un booleando dependiendo de si las credenciales proporcionadas son correctas o no
@@ -115,7 +113,7 @@ public class AdminServices {
      * @return falso si no corresponden 
      */
     public boolean validateAccess(int id, String password){
-        Admin admin= searchAdminById(id);
+        Admin admin= sendAdminById(id);
         if (admin.getPassword().equals(password)) {
             return true;
         }else{

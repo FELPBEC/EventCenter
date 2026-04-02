@@ -18,9 +18,9 @@ public class Client extends Person {
      * 
      * @param userName  nombre del cliente
      * @param id        identificador único del cliente
-     * @param password     
-     * @param phoneNumber
-     * @param email
+     * @param password  contraseña del cliente
+     * @param phoneNumber   número de telefono del cliente
+     * @param email     correo electronico del cliente
      * todos los anteriores heredados de la clase abstracta {@link Person}
      * @param empresarial
      */
@@ -29,17 +29,22 @@ public class Client extends Person {
         Empresarial = empresarial;
     }
 
+    /**Método que envía un verdadero o falso según si el cliente pertenece a una empresa o no 
+     * 
+     * @return  un booleano indicando si el cliente es empresarial o no
+     */
     public boolean isEmpresarial() {
         return Empresarial;
     }
 
+    /**Método que modifica la pertenencia o no del cliente a una empresa
+     * 
+     * @param empresarial nuevo estado de pertenencia a una empresa (booleano)
+     */
     public void setEmpresarial(boolean empresarial) {
         Empresarial = empresarial;
     }
 
-    @Override
-    public String toString() {
-        return "Client [username=" + userName + ", Empresarial=" + Empresarial + ", id=" + id + "]";
-    }
+    
 
 }
