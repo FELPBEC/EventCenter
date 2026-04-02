@@ -2,16 +2,16 @@ package co.edu.uptc.Model;
 /**Clase reserva que modela las reservas de salones que hacen los clientes
  *  
  * @author Felipe Becerra
- * @version v 1.0
+ * @version v 1.1
  */
 public class Booking {
-    private String id;
+    private int id;
     private Client client;
     private Salon salon;
-    //las fechas y horas se modelan como Strings y no como LocalDate o LocalTime para poder almacenar en repositorios .Json
-    private String date;
-    private String starTime;
-    private String endTime;
+    //La fecha se instancia como String para poder almacenarla en repositorios Json, Csv
+    private String startDate;
+    private int amountOfHours;
+    private String endDate;
 
     /**Constructor vacío para facilitar la carga de objetos de tipo Reservas por parte de los repositorios
      * 
@@ -19,29 +19,32 @@ public class Booking {
     public Booking() {
     }
     
-    /**Método constructor con párametros en caso de desear crear una reservación manualmente 
+    /**Constructor con párametros en caso de desear crear una Reserva manualmente
      * 
-     * @param id id de la reservación 
-     * @param client    el cliente que realizó la reservación {@link Client}
-     * @param salon el salón que fue reservado {@link Salon}
-     * @param date fecha para la que se reservo el salón 
-     * @param starTime  hora de comienzo de la reservación
-     * @param endTime hora de finalización de la reservación 
+     * @param id    identificador númerico de la reserva 
+     * @param client    Cliente que realiza la reserva {@link Client}
+     * @param salon      Salón que fue reservado {@link Salon}
+     * @param startDate Fecha de inició de la reserva
+     * @param amountOfHours cantidad de horas que dura la reserva
+     * @param endDate    Fecha en que termina la reserva
      */
-    public Booking(String id, Client client, Salon salon, String date, String starTime, String endTime){
+
+    public Booking(int id, Client client, Salon salon, String startDate, int amountOfHours, String endDate) {
         this.id = id;
         this.client = client;
         this.salon = salon;
-        this.date = date;
-        this.starTime = starTime;
-        this.endTime = endTime;
+        this.startDate = startDate;
+        this.amountOfHours = amountOfHours;
+        this.endDate = endDate;
     }
+
+
 
     /**Método que envía la id de la reserva
      * 
      * @return id de la reserva 
      */
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -49,7 +52,7 @@ public class Booking {
      * 
      * @param id la nueva id de la reserva
      */
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -88,44 +91,52 @@ public class Booking {
      * 
      * @return la fecha en que se hizo la reservación (cadena de texto String)
      */
-    public String getDate() {
-        return date;
+    public String getStartDate() {
+        return startDate;
     }
 
     /**Método que modifica la fecha en que se realizó la reservación 
      * 
-     * @param date nueva fecha en la que se realizó la reservación (cadena de texto String)
+     * @param startDate nueva fecha en la que se realizó la reservación (cadena de texto String)
      */
-    public void setDate(String date) {
-        this.date = date;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
-    
-    /**Método para envíar la hora de comienzo de la reservación 
+    /**Método que envía la cantidad de horas que dura la reservación
      * 
-     * @return hora de comienzo reservación (cadena de texto String)
+     * @return horas que dura la reservación
      */
-    public String getStarTime() {
-        return starTime;
+    public int getAmountOfHours() {
+        return amountOfHours;
     }
 
+    /**Método para modificar la cantidad de horas que dura la reserva
+     * 
+     * @param amountOfHours nueva cantidad de horas que dura la reservación
+     */
+    public void setAmountOfHours(int amountOfHours) {
+        this.amountOfHours = amountOfHours;
+    }
+
+    /**Método que envía la fecha en que finaliza la reserva
+     * 
+     * @return la fecha en que finaliza la reserva
+     */
+    public String getEndDate() {
+        return endDate;
+    }
+
+    /**Método que modifica la fecha en que termina la reserva
+     * 
+     * @param endDate nueva fecha en que termina la reserva
+     */
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
     
-    public void setStarTime(String starTime) {
-        this.starTime = starTime;
-    }
+    
+    
 
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    @Override
-    public String toString() {
-        return "booking [id=" + id + ", clien=" + client + ", salon=" + salon + ", date=" + date + ", starTime="
-                + starTime + ", endTime=" + endTime + "]";
-    }
     
     
     
