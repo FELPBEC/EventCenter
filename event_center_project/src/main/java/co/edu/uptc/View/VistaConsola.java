@@ -10,8 +10,8 @@ import co.edu.uptc.Model.Client;
 import co.edu.uptc.Services.AdminServices;
 import co.edu.uptc.Services.BookingServices;
 import co.edu.uptc.Services.ClientService;
-import co.edu.uptc.Services.DateConvertor;
-import co.edu.uptc.Services.ExportadorService;
+import co.edu.uptc.Util.DateConvertor;
+import co.edu.uptc.Util.ExportadorService;
 
 public class VistaConsola {
     private Scanner scanner;

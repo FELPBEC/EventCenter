@@ -2,6 +2,7 @@ package co.edu.uptc.Services;
 
 import co.edu.uptc.Model.Salon;
 import co.edu.uptc.Persistence.JsonRepository;
+
 import java.util.List;
 import java.lang.reflect.Type;
 import com.google.gson.reflect.TypeToken;
@@ -107,7 +108,7 @@ public class SalonServices {
         return biggestId+1;
     }
 
-    
+   
 
 
     
