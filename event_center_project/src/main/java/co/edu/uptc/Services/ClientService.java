@@ -54,6 +54,16 @@ public class ClientService {
         }
         return null;
     }
+
+    public boolean validateAccess(int id, String password){
+        Client client= buscarClientPorId(id);
+        if (client!=null) {
+            if (client.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * Retorna la lista completa de clientes registrados en el sistema.
      * @return Lista de objetos Client.
