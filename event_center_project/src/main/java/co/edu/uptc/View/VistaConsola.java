@@ -5,16 +5,31 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+import co.edu.uptc.Model.Admin;
+import co.edu.uptc.Model.Client;
+import co.edu.uptc.Services.AdminServices;
+import co.edu.uptc.Services.BookingServices;
+import co.edu.uptc.Services.ClientService;
+import co.edu.uptc.Services.DateConvertor;
+import co.edu.uptc.Services.ExportadorService;
+
 public class VistaConsola {
     private Scanner scanner;
-    private Object clienteLogeado;
-    private Object adminLogeado;
+    private Client clienteLogeado;
+    private Admin adminLogeado;
     private ResourceBundle mensajes;
+    private AdminServices adminServices;
+    private ClientService clientService;
+    private BookingServices bookingServices;
+    private ExportadorService exportadorService;
 
     public VistaConsola() {
         this.scanner = new Scanner(System.in);
         this.clienteLogeado=null;
         this.adminLogeado=null;
+        this.adminServices= new AdminServices();
+        this.clientService= new ClientService();
+        this.bookingServices= new BookingServices();
         Locale idiomaInicial= Locale.of("es");
         this.mensajes= ResourceBundle.getBundle("co.edu.uptc.Resources.textos", idiomaInicial);
     }
@@ -127,9 +142,12 @@ public class VistaConsola {
     public void registrarCliente(){
             System.out.println(mensajes.getString("registro.titulo"));
             System.out.println(mensajes.getString("registro.pedir.cedula"));
-            String id= scanner.nextLine();
+            int id= scanner.nextInt();
+            scanner.nextLine();
             System.out.println(mensajes.getString("registro.pedir.nombre"));
             String nombre= scanner.nextLine();
+            System.out.println(mensajes.getString("registro.pedir.contrasena"));
+            String contrasena= scanner.nextLine();
             System.out.println(mensajes.getString("registro.pedir.correo"));
             String correo= scanner.nextLine();
             System.out.println(mensajes.getString("registro.pedir.telefono"));
@@ -160,29 +178,40 @@ public class VistaConsola {
                     scanner.nextLine();
                 }
             }
-
             System.out.println(mensajes.getString("registro.guardando"));
-            this.clienteLogeado = nombre;
-            System.out.println(mensajes.getString("registro.exito"));
-            menuInternoCliente();
+            Client cliente= new Client(nombre,id,contrasena,telefono,correo,esEmpresarial);
+            boolean exito= clientService.registrarCliente(cliente);
+            if (exito) {
+                System.out.println(mensajes.getString("registro.exito"));
+                this.clienteLogeado=cliente;
+                menuInternoCliente();
+            }else{
+                System.out.println(mensajes.getString("registro.error"));
+            }
     }
 
     private void loginCliente(){
         boolean autenticado= false;
         while (!autenticado) {
             System.out.println(mensajes.getString("login.cliente.titulo"));
-            System.out.println(mensajes.getString("login.pedir.cedula"));
             System.out.println(mensajes.getString("login.cancelar"));
-            String id = scanner.nextLine();
-            if (id.equals("0")) {
+            System.out.println(mensajes.getString("login.pedir.cedula"));
+            int id = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println(mensajes.getString("login.pedir.contrasena"));
+            String constrasena= scanner.nextLine();
+            if (id==0||constrasena.equals("0")) {
                 System.out.println(mensajes.getString("login.cancelando"));
                 break;
             }
-
-            this.clienteLogeado = "Cliente Prueba";
-            System.out.println(mensajes.getString("login.exito"));
-            menuInternoCliente();
-            autenticado=true;
+            if (clientService.validateAccess(id, constrasena)) {
+                System.out.println(mensajes.getString("login.exito"));
+                this.clienteLogeado=clientService.buscarClientPorId(id);
+                menuInternoCliente();
+                autenticado=true;
+            }else{
+                System.out.println(mensajes.getString("general.error.sesion"));
+            }
         }
     }
 
@@ -226,17 +255,17 @@ public class VistaConsola {
     //MENÚS ADMINISTRADOR
     private void loginAdmin(){
         System.out.println(mensajes.getString("login.admin.titulo"));
-        System.out.println(mensajes.getString("login.admin.usuario"));
-        String usuario= scanner.nextLine();
+        System.out.println(mensajes.getString("login.admin.cedula"));
+        int cedula= scanner.nextInt();
+        scanner.nextLine();
         System.out.println(mensajes.getString("login.admin.contrasena"));
         String contrasena= scanner.nextLine();
-        // SIMULACIÓN: Credenciales quemadas (admin / 1234) solo para probar la vista
-        if (usuario.equals("admin") && contrasena.equals("1234")) {
-            this.adminLogeado = true;
+        if (adminServices.validateAccess(cedula, contrasena)) {
+            this.adminLogeado=adminServices.sendAdminById(cedula);
             System.out.println(mensajes.getString("login.exito"));
             menuInternoAdmin();
-        } else {
-            System.out.println(mensajes.getString("error.credenciales"));
+        }else{
+            System.out.println(mensajes.getString("general.error.sesion"));
         }
     }
 
@@ -248,6 +277,7 @@ public class VistaConsola {
             System.out.println(mensajes.getString("panel.admin.op2"));
             System.out.println(mensajes.getString("panel.admin.op3"));
             System.out.println(mensajes.getString("panel.admin.op4"));
+            System.out.println(mensajes.getString("panel.admin.op5"));
             System.out.print(mensajes.getString("general.ingreso.opcion"));
             try {
                 int opcion= scanner.nextInt();
@@ -262,7 +292,7 @@ public class VistaConsola {
                     case 3:
                         menuReportesAdmin();
                         break;
-                    case 4:
+                    case 5:
                         System.out.println(mensajes.getString("general.cerrando.sesion"));
                         this.adminLogeado=null;
                         cerrarSesion=true;
@@ -276,6 +306,13 @@ public class VistaConsola {
                 System.out.println(mensajes.getString("error.letras"));
                 scanner.nextLine();
             }
+        }
+    }
+
+    private void menuGestionAdministradores(){
+        boolean volver= false;
+        while (!volver) {
+            
         }
     }
 
@@ -294,10 +331,62 @@ public class VistaConsola {
                     System.out.println("Mostrando todos los clientes en base de datos..."); 
                     break;
                 case 2 : 
-                    System.out.println("Ingrese ID del cliente a modificar..."); 
+                    System.out.println(mensajes.getString("admin.clientes.op2.id"));
+                    int idcliente= scanner.nextInt();
+                    scanner.nextLine();
+                    if (clientService.buscarClientPorId(idcliente)!=null) {
+                        System.out.println(mensajes.getString("admin.clientes.op2.aviso"));
+                        scanner.nextLine();
+                        System.out.println(mensajes.getString("registro.pedir.nombre"));
+                        String nombre= scanner.nextLine();
+                        System.out.println(mensajes.getString("registro.pedir.contrasena"));
+                        String contrasenaNueva= scanner.nextLine();
+                        System.out.println(mensajes.getString("registro.pedir.correo"));
+                        String correo= scanner.nextLine();
+                        System.out.println(mensajes.getString("registro.pedir.telefono"));
+                        String telefono= scanner.nextLine();
+                        boolean esEmpresarial = false;
+                        boolean tipoValido = false;
+                        while (!tipoValido) {
+                            System.out.println(mensajes.getString("registro.pedir.empresarial"));
+                            try {
+                                int tipo = scanner.nextInt();
+                                scanner.nextLine();
+                                switch (tipo) {
+                                    case 1:
+                                        esEmpresarial = true;
+                                        tipoValido = true;
+                                        break;
+                                    case 2:
+                                        esEmpresarial = false;
+                                        tipoValido = true;
+                                        break;
+                                    default:
+                                        System.out.println(mensajes.getString("error.opcion.binaria"));
+                                        break;
+                                }
+                            } catch (InputMismatchException e) {
+                                System.out.println(mensajes.getString("error.letras.binaria"));
+                                scanner.nextLine();
+                            }
+                        }
+                        if (clientService.modificarCliente(idcliente, nombre, contrasenaNueva, telefono, correo, esEmpresarial)) {
+                            System.out.println(mensajes.getString("general.modificado.exito"));
+                        }else{
+                            System.out.println(mensajes.getString("general.modificado.error"));
+                        }
+                    }else{
+                        System.out.println(mensajes.getString("general.modificado.error"));
+                    }
                     break;
                 case 3: 
-                    System.out.println("Ingrese ID del cliente a ELIMINAR..."); 
+                    System.out.println(mensajes.getString("admin.cliente.op3.id"));
+                    int id=scanner.nextInt();
+                    if (clientService.eliminarCliente(id)) {
+                        System.out.println(mensajes.getString("general.delete.exito"));
+                    }else{
+                        System.out.println("general.delete.error");
+                    }
                     break;
                 case 4: 
                     volver = true; break;

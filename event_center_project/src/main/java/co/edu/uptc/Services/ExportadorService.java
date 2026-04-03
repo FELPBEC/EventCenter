@@ -2,7 +2,6 @@ package co.edu.uptc.Services;
 
 import java.io.FileWriter;
 import java.util.List;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -36,5 +35,42 @@ public class ExportadorService {
             System.err.println("Error al intentar crear el archivo json "+e.getMessage());
             return false;
         }
+    }
+    
+    /**
+     * Exporta el reporte de ingresos a un archivo CSV para ser abierto en Excel.
+     * @param fechaInicio String de la fecha inicial
+     * @param fechaFin String de la fecha final
+     * @param totalIngresos El dinero total ya calculado
+     * @param reservas Lista de reservas filtradas
+     * @param nombreArchivo Nombre del archivo (ej. "reporte")
+     * @return true si se exportó bien, false si ocurrió un error.
+     */
+    public boolean exportarReporteIngresosCSV(String fechaInicio, String fechaFin, double totalIngresos, List<Booking> reservas, String nombreArchivo) {
+        try (FileWriter writer = new FileWriter(nombreArchivo+".csv")) {
+            writer.write("Reporte de Ingresos - Centro de Eventos Elite\n");
+            writer.write("Periodo:," + fechaInicio + " a " + fechaFin + "\n");
+            writer.write("Ingresos Totales:," + totalIngresos + "\n");
+            writer.write("\n");
+            writer.write("ID Reserva,Cliente,Tipo Cliente,Salon,Fecha,Horas\n");
+            for (Booking reserva : reservas) {
+                String tipoCliente;
+                if (reserva.getClient().isEmpresarial()) {
+                    tipoCliente= "Empresarial";
+                }else{
+                    tipoCliente="Particular";
+                }
+                writer.write(reserva.getId() + "," + 
+                            reserva.getClient().getUserName() + "," + 
+                            tipoCliente + "," + 
+                            reserva.getSalon().getSalonName() + "," + 
+                            reserva.getStartDate() + "," + 
+                            reserva.getAmountOfHours() + "\n");
+            }
+            return true; 
+            } catch (Exception e) {
+                System.err.println("Error al intentar crear el archivo CSV: " + e.getMessage());
+                return false; 
+            }
     }
 }
