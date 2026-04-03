@@ -80,20 +80,22 @@ public class AdminServices {
     }
     
     /**Método para eliminar un administrador por posición en la lista
+     * Hace uso del método sendAdminPosition para determinar la posición con base en la id
      * 
-     * @param position número que indica la posición del administrador en la lista
+     * @param id identificador númerico de un administrador en la lista
      */
-    public void fireAdmin(int position){
-        repository.deleteObject(position);
+    public void fireAdmin(int id){
+        repository.deleteObject(sendAdminPosition(id));
     }
 
     /**Método que actualiza un administrador a traves de su posición
+     * Hace uso del método sendAdminPosition para determinar la posición con base en la id
      * 
-     * @param position posición del administrador en la lista
+     * @param id posición del administrador en la lista
      * @param admin el administrador actualizado
      */
-    public void updateAdmin(int position,Admin admin){
-        repository.updateNew(position, admin);
+    public void updateAdmin(int id,Admin admin){
+        repository.updateNew(sendAdminPosition(id), admin);
     }
 
     /**Método que envía la información de un administrador a través de su id
