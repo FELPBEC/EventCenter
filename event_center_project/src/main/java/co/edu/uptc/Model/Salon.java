@@ -31,6 +31,7 @@ public class Salon {
         this.salonName = salonName;
         this.capacity = capacity;
         this.priceByHour = priceByHour;
+        this.numberOfReservations = 0;
     }
 
 
@@ -114,7 +115,8 @@ public class Salon {
     public void setNumberOfReservations(int numberOfReservations) {
         this.numberOfReservations = numberOfReservations;
     }
-   
+
+
     
     
 

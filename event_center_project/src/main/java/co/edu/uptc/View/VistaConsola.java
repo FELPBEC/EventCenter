@@ -1,17 +1,21 @@
 package co.edu.uptc.View;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
 import co.edu.uptc.Model.Admin;
+import co.edu.uptc.Model.Booking;
 import co.edu.uptc.Model.Client;
+import co.edu.uptc.Model.Salon;
 import co.edu.uptc.Services.AdminServices;
 import co.edu.uptc.Services.BookingServices;
 import co.edu.uptc.Services.ClientService;
 import co.edu.uptc.Services.DateConvertor;
 import co.edu.uptc.Services.ExportadorService;
+import co.edu.uptc.Services.SalonServices;
 
 public class VistaConsola {
     private Scanner scanner;
@@ -20,6 +24,7 @@ public class VistaConsola {
     private ResourceBundle mensajes;
     private AdminServices adminServices;
     private ClientService clientService;
+    private SalonServices salonServices;
     private BookingServices bookingServices;
     private ExportadorService exportadorService;
 
@@ -30,6 +35,7 @@ public class VistaConsola {
         this.adminServices= new AdminServices();
         this.clientService= new ClientService();
         this.bookingServices= new BookingServices();
+        this.salonServices= new SalonServices();
         Locale idiomaInicial= Locale.of("es");
         this.mensajes= ResourceBundle.getBundle("co.edu.uptc.Resources.textos", idiomaInicial);
     }
@@ -229,10 +235,45 @@ public class VistaConsola {
                 scanner.nextLine();
                 switch (opcion) {
                     case 1:
-                        System.out.println("\n>> [SIMULACION] Lista de salones filtrados...");
+                        System.out.println("\n Lista de salones filtrados...");
                         break;
                     case 2:
-                        System.out.println("\n>> [SIMULACION] Proceso de nueva reserva...");
+                        System.out.println("\n--- " + mensajes.getString("panel.cliente.op2") + " ---");
+                        System.out.println(mensajes.getString("cliente.reserva.pedir.salon"));
+                        int idSalon = scanner.nextInt();
+                        scanner.nextLine(); 
+                        Salon salonElegido = salonServices.buscarSalonPorId(idSalon);
+                        if (salonElegido != null) {
+                            System.out.println(mensajes.getString("cliente.reserva.pedir.fecha"));
+                            String fechaInicioStr = scanner.nextLine();
+                            int horas = 0;
+                            boolean horasValidas = false;
+                            while (!horasValidas) {
+                                try {
+                                    System.out.println(mensajes.getString("cliente.reserva.pedir.horas"));
+                                    horas = scanner.nextInt();
+                                    scanner.nextLine();
+                                    horasValidas = true;
+                                } catch (InputMismatchException e) {
+                                    System.out.println("\n" + mensajes.getString("error.letras"));
+                                    scanner.nextLine();
+                                }
+                            }
+                            DateConvertor convertor = new DateConvertor();
+                            try {
+                                java.time.LocalDateTime fechaInicio = convertor.StringToLocalDateTime(fechaInicioStr);
+                                java.time.LocalDateTime fechaFin = fechaInicio.plusHours(horas);
+                                String fechaFinStr = convertor.localDateTimeToString(fechaFin);
+                                int nuevoId = bookingServices.sendNewId();
+                                Booking nuevaReserva = new Booking(nuevoId, this.clienteLogeado, salonElegido, fechaInicioStr, horas, fechaFinStr);
+                                bookingServices.saveNewBooking(nuevaReserva);
+                                System.out.println("\n>> " + mensajes.getString("cliente.reserva.exito") + " " + fechaFinStr);
+                            } catch (java.time.format.DateTimeParseException e) {
+                                System.out.println("\n>> " + mensajes.getString("cliente.reserva.error.fecha"));
+                            }
+                        } else {
+                            System.out.println("\n>> " + mensajes.getString("cliente.reserva.error.salon"));
+                        }
                         break;
                     case 3:
                         System.out.println("\n>> [SIMULACION] Mostrando historial de reservas...");
@@ -328,7 +369,26 @@ public class VistaConsola {
             int op= scanner.nextInt();
             switch (op) {
                 case 1: 
-                    System.out.println("Mostrando todos los clientes en base de datos..."); 
+                    List<Client> listClient= clientService.obtenerListaClientes();
+                    if (listClient.isEmpty()) {
+                        System.out.println("\n>> No hay clientes registrados actualmente en el sistema.\n");
+                    } else {
+                        for (Client client : listClient) {
+                            System.out.println("-------------------------------------------------");
+                            System.out.println(mensajes.getString("client.services.mostrar.id") + " " + client.getId());
+                            System.out.println(mensajes.getString("client.services.mostrar.nombre") + " " + client.getUserName());
+                            System.out.println(mensajes.getString("client.services.mostrar.correo") + " " + client.getEmail());
+                            System.out.println(mensajes.getString("client.services.mostrar.numero.telefonico") + " " + client.getPhoneNumber());
+                            String esEmpresa;
+                            if (client.isEmpresarial()) {
+                                esEmpresa="SI/YES";
+                            }else{
+                                esEmpresa="NO";
+                            }
+                            System.out.println(mensajes.getString("client.services.mostrar.empresarial") + " " + esEmpresa);
+                        }
+                        System.out.println("-------------------------------------------------\n");
+                    }
                     break;
                 case 2 : 
                     System.out.println(mensajes.getString("admin.clientes.op2.id"));
@@ -405,25 +465,105 @@ public class VistaConsola {
             System.out.println(mensajes.getString("admin.salones.op3"));
             System.out.println(mensajes.getString("admin.sub.volver"));
             System.out.print(mensajes.getString("general.ingreso.opcion"));
-            
-            int op = scanner.nextInt();
-            switch (op) {
-                case 1: 
-                    System.out.println("Pidiendo Codigo, Nombre, Capacidad, y Precio..."); 
-                    break;
-                case 2:
-                    System.out.println("Listando salones..."); 
-                    break;
-                case 3: 
-                    System.out.println("Ingrese codigo de salon para cambiar estado..."); 
-                    break;
-                case 4: 
-                    volver = true; 
-                    break;
-                default: 
-                    System.out.println(mensajes.getString("admin.sub.error")); 
-                    break;
+            try {
+                int op = scanner.nextInt();
+                scanner.nextLine();
+                switch (op) {
+                    case 1: 
+                        int id= salonServices.generarNuevoId();
+                        System.out.println("\n--- " + mensajes.getString("admin.salones.op1").toUpperCase() + " ---");
+                        System.out.println(mensajes.getString("registro.salon.pedir.nombre"));
+                        String nombreSalon = scanner.nextLine();
+                        
+                        int capacidad = 0;
+                        double precio = 0.0;
+                        boolean datosValidos = false;
+                        while (!datosValidos) {
+                            try {
+                                System.out.println(mensajes.getString("registro.salon.pedir.capacidad"));
+                                capacidad = scanner.nextInt();
+                                
+                                System.out.println(mensajes.getString("registro.salon.pedir.precio"));
+                                precio = scanner.nextDouble();
+                                scanner.nextLine();
+                                datosValidos = true;
+                            } catch (InputMismatchException e) {
+                                System.out.println("\n" + mensajes.getString("error.letras"));
+                                scanner.nextLine();
+                            }
+                        }
+                        Salon nuevoSalon = new Salon(id,nombreSalon, capacidad, precio);
+                        boolean guardadoExitoso = salonServices.registrarSalon(nuevoSalon);
+                        
+                        if (guardadoExitoso) {
+                            System.out.println("\n>> " + mensajes.getString("registro.salon.exito"));
+                        } else {
+                            System.out.println("\n>> " + mensajes.getString("registro.salon.error"));
+                        }
+                        break;
+                    case 2:
+                        List<Salon> listSalones = salonServices.obtenerListaSalones();
+                        if (listSalones.isEmpty()) {
+                            System.out.println("\n>> No hay salones registrados actualmente en el sistema.\n");
+                        } else {
+                            for (Salon salon : listSalones) {
+                                System.out.println("-------------------------------------------------");
+                                System.out.println(mensajes.getString("salon.services.mostrar.id") + " " + salon.getId());
+                                System.out.println(mensajes.getString("salon.services.mostrar.nombre") + " " + salon.getSalonName());
+                                System.out.println(mensajes.getString("salon.services.mostrar.capacidad") + " " + salon.getCapacity());
+                                System.out.println(mensajes.getString("salon.services.mostrar.precio.por.hora") + " $" + salon.getPriceByHour());
+                                System.out.println(mensajes.getString("salon.services.mostrar.numero.reservaciones") + " " + salon.getNumberOfReservations());
+                            }
+                            System.out.println("-------------------------------------------------\n");
+                        }
+                        break;
+                    case 3: 
+                        System.out.println("\n--- " + mensajes.getString("admin.salones.op3") + " ---");
+                        System.out.println(mensajes.getString("modificar.salon.pedir.id"));
+                        int idModificar = scanner.nextInt();
+                        scanner.nextLine();
+                        if (salonServices.buscarSalonPorId(idModificar) != null) {
+                            System.out.println(mensajes.getString("modificar.salon.aviso"));
+                            System.out.println(mensajes.getString("registro.salon.pedir.nombre"));
+                            String nuevoNombre = scanner.nextLine();
+                            int nuevaCapacidad = 0;
+                            double nuevoPrecio = 0.0;
+                            boolean datosNuevosValidos = false;
+                            while (!datosNuevosValidos) {
+                                try {
+                                    System.out.println(mensajes.getString("registro.salon.pedir.capacidad"));
+                                    nuevaCapacidad = scanner.nextInt();
+                                    
+                                    System.out.println(mensajes.getString("registro.salon.pedir.precio"));
+                                    nuevoPrecio = scanner.nextDouble();
+                                    scanner.nextLine(); 
+                                    datosNuevosValidos = true;
+                                } catch (InputMismatchException e) {
+                                    System.out.println("\n" + mensajes.getString("error.letras"));
+                                    scanner.nextLine();
+                                }
+                            }
+                            if (salonServices.modificarSalon(idModificar, nuevoNombre, nuevaCapacidad, nuevoPrecio)) {
+                                System.out.println("\n>> " + mensajes.getString("modificar.salon.exito"));
+                            } else {
+                                System.out.println("\n>> " + mensajes.getString("modificar.salon.error"));
+                            }
+                        } else {
+                            System.out.println("\n>> " + mensajes.getString("modificar.salon.error"));
+                        }
+                        break;
+                    case 4: 
+                        volver = true; 
+                        break;
+                    default: 
+                        System.out.println(mensajes.getString("admin.sub.error")); 
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println(mensajes.getString("error.letras"));
+                scanner.nextLine();
             }
+            
         }
     }
 
