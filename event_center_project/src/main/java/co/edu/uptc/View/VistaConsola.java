@@ -242,7 +242,7 @@ public class VistaConsola {
                         System.out.println(mensajes.getString("cliente.reserva.pedir.salon"));
                         int idSalon = scanner.nextInt();
                         scanner.nextLine(); 
-                        Salon salonElegido = salonServices.buscarSalonPorId(idSalon);
+                        Salon salonElegido = salonServices.sendSalonById(idSalon);
                         if (salonElegido != null) {
                             System.out.println(mensajes.getString("cliente.reserva.pedir.fecha"));
                             String fechaInicioStr = scanner.nextLine();
@@ -470,7 +470,7 @@ public class VistaConsola {
                 scanner.nextLine();
                 switch (op) {
                     case 1: 
-                        int id= salonServices.generarNuevoId();
+                        int id= salonServices.generateNewId();
                         System.out.println("\n--- " + mensajes.getString("admin.salones.op1").toUpperCase() + " ---");
                         System.out.println(mensajes.getString("registro.salon.pedir.nombre"));
                         String nombreSalon = scanner.nextLine();
@@ -493,7 +493,7 @@ public class VistaConsola {
                             }
                         }
                         Salon nuevoSalon = new Salon(id,nombreSalon, capacidad, precio);
-                        boolean guardadoExitoso = salonServices.registrarSalon(nuevoSalon);
+                        boolean guardadoExitoso = salonServices.addNewSalon(nuevoSalon);
                         
                         if (guardadoExitoso) {
                             System.out.println("\n>> " + mensajes.getString("registro.salon.exito"));
@@ -502,7 +502,7 @@ public class VistaConsola {
                         }
                         break;
                     case 2:
-                        List<Salon> listSalones = salonServices.obtenerListaSalones();
+                        List<Salon> listSalones = salonServices.enlistSalons();
                         if (listSalones.isEmpty()) {
                             System.out.println("\n>> No hay salones registrados actualmente en el sistema.\n");
                         } else {
@@ -522,7 +522,7 @@ public class VistaConsola {
                         System.out.println(mensajes.getString("modificar.salon.pedir.id"));
                         int idModificar = scanner.nextInt();
                         scanner.nextLine();
-                        if (salonServices.buscarSalonPorId(idModificar) != null) {
+                        if (salonServices.searchSalonById(idModificar)) {
                             System.out.println(mensajes.getString("modificar.salon.aviso"));
                             System.out.println(mensajes.getString("registro.salon.pedir.nombre"));
                             String nuevoNombre = scanner.nextLine();

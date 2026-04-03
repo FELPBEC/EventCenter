@@ -13,11 +13,12 @@ import com.google.gson.reflect.TypeToken;
  */
 public class SalonServices {
     private JsonRepository<Salon> repository;
-
+    private List<Salon> listSalones;
     public SalonServices() {
         Type type= new TypeToken<List<Salon>>(){
         }.getType();
         repository= new JsonRepository<>("Salon.json", type);
+        this.listSalones = repository.findAll();
     }
 
     /**Método que lee el archivo json y envía la lista de salones 
@@ -32,8 +33,13 @@ public class SalonServices {
      * 
      * @param salon el nuevo salón que se ingresa
      */
-    public void addNewSalon(Salon salon){
-        repository.save(salon);
+    public boolean addNewSalon(Salon salon){
+        if (buscarSalonPorNombre(salon.getSalonName()) != null) {
+            return false; // El salón ya existe
+        }
+        this.listSalones.add(salon);
+        repository.updateAll(listSalones);
+        return true;
     }
 
     /**Método que envía un salón através de su id
@@ -108,7 +114,39 @@ public class SalonServices {
         return biggestId+1;
     }
 
-   
+    /**
+     * Busca un salón específico por su nombre (ignorando mayúsculas y minúsculas).
+     * @param nombre El nombre del salón a buscar.
+     * @return El objeto Salon si lo encuentra, de lo contrario retorna null.
+     */
+    public Salon buscarSalonPorNombre(String nombre) {
+        for (Salon salon : listSalones) {
+            if (salon.getSalonName().equalsIgnoreCase(nombre)) {
+                return salon;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Modifica los datos de un salón existente.
+     * @param id El ID del salón que se desea modificar.
+     * @param nuevoNombre El nuevo nombre.
+     * @param nuevaCapacidad La nueva capacidad.
+     * @param nuevoPrecio El nuevo precio por hora.
+     * @return true si la modificación fue exitosa, false si el salón no fue encontrado.
+     */
+    public boolean modificarSalon(int id, String nuevoNombre, int nuevaCapacidad, double nuevoPrecio) {
+        Salon salonEncontrado = sendSalonById(id);
+        if (salonEncontrado != null) {
+            salonEncontrado.setSalonName(nuevoNombre);
+            salonEncontrado.setCapacity(nuevaCapacidad);
+            salonEncontrado.setPriceByHour(nuevoPrecio);
+            repository.updateAll(listSalones);
+            return true;
+        }
+        return false;
+    }
 
 
     
