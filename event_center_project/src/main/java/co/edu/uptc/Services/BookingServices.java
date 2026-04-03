@@ -1,5 +1,6 @@
 package co.edu.uptc.Services;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.reflect.TypeToken;
 import co.edu.uptc.Model.Booking;
@@ -132,6 +133,20 @@ public class BookingServices {
         return biggestId+1;
     }
 
+    /**Método que envía la lista de reservaciones de un mismo salón
+     * 
+     * @param idSalon id del salón del que se buscan las reservas
+     * @return  una lista con todas las reservas del salón
+     */
+     public List<Booking> sendBookingListBySalon(int idSalon){
+        List<Booking> bookingBySalon= new ArrayList<>();
+        for (int i = 0; i < enlistBookings().size(); i++) {
+            if (enlistBookings().get(i).getSalon().getId()==idSalon) {
+                bookingBySalon.add(enlistBookings().get(i));
+            }
+        }
+        return bookingBySalon;
+    }
 
 
     
