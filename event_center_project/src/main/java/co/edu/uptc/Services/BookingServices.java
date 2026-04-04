@@ -153,6 +153,46 @@ public class BookingServices {
         return bookingBySalon;
     }
 
+    /**Método que envía una lista de reservaciones por cliente
+     * 
+     * @param idClient identificador númerico del cliente
+     * @return  una lista con las reservas que ha hecho el cliente
+     */
+    public List<Booking> sendBookingListByClient(int idClient){
+        List<Booking> bookingByClient= new ArrayList<>();
+        List<Booking> allBookingList= enlistBookings();
+        for (int i = 0; i < allBookingList.size(); i++) {
+            if (allBookingList.get(i).getClient()!=null && allBookingList.get(i).getClient().getId()==idClient) {
+                bookingByClient.add(allBookingList.get(i));
+            }
+        }
+        return bookingByClient;
+    }
+
+    /**Cálcula el precio de una reserva aplicando descuentos
+     *  
+     * @param idBooking identificador númerico de la reserva
+     * @return  el precio de la reserva (double)
+     */
+    public double calculatePriceBooking(int idBooking){
+        Booking booking=sendBookingById(idBooking);
+        double price=(booking.getSalon().getPriceByHour())*(booking.getAmountOfHours());
+        //Descuento a cliente empresarial
+        if(booking.getClient().isEmpresarial()){
+            price=price-(price*0.10);
+        }
+        //Descuento por reservas mayores o iguales a 8 horas
+        if(booking.getAmountOfHours()>=8){
+            price=price-(price*0.15);
+        }
+        //Descuento para clientes que tengan más de 3 reservaciones hechas
+        if(sendBookingListByClient(booking.getClient().getId()).size()>3){
+            price=price-(price*0.2);
+        }
+        booking.setPrice(price);
+        return price;
+    }
+
 
     
 }

@@ -12,6 +12,7 @@ public class Booking {
     private String startDate;
     private int amountOfHours;
     private String endDate;
+    private double price;
 
     /**Constructor vacío para facilitar la carga de objetos de tipo Reservas por parte de los repositorios
      * 
@@ -133,6 +134,23 @@ public class Booking {
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
+
+    /**Método que envía el precio de la reserva
+     * 
+     * @return
+     */
+    public double getPrice() {
+        return price;
+    }
+
+    /**Método que modifica el precio de la reserva
+     * 
+     * @param price
+     */
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    
     
     
     
