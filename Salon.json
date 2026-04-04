@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "salonName": "Afrodita",
+    "capacity": 200,
+    "priceByHour": 230000.0,
+    "numberOfReservations": 0
+  }
+]
