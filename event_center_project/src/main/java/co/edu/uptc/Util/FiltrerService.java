@@ -1,8 +1,12 @@
 package co.edu.uptc.Util;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import co.edu.uptc.Model.Booking;
 import co.edu.uptc.Model.Salon;
+import co.edu.uptc.Services.BookingServices;
 import co.edu.uptc.Services.SalonServices;
 /**Clase filtro de salones encargada de filtrar salones por precio, fechas y capacidad
  * 
@@ -12,35 +16,24 @@ import co.edu.uptc.Services.SalonServices;
 public class FiltrerService {
     private boolean filtrerByPrice;
     private boolean filtrerByCapacity;
-<<<<<<< HEAD
     private LocalDateTime startDate;
     private int hoursOfBooking;
     private LocalDateTime endDate;
-    private SalonServices salonServices= new SalonServices();
     private BookingServices bookingServices = new BookingServices();
-=======
-    private boolean filtrerByDate;
     private SalonServices salonServices= new SalonServices();
->>>>>>> 7982a26e9777f15198ecb5d036a47094bee32297
     private List<Salon> allSalons= salonServices.enlistSalons();
     private DateConvertor dateConvertor= new DateConvertor();
     
     /**Método constructor vacío que inicializa los filtros en falso (osea todos apagados)
      * 
      */
-<<<<<<< HEAD
     public FiltrerService(LocalDateTime startDate, int hoursOfBokking) {
+        filtrerByCapacity=false;
+        filtrerByPrice=false;
         this.startDate=startDate;
         this.hoursOfBooking=hoursOfBokking;
         this.endDate=startDate.plusHours(hoursOfBokking);
-=======
-    public FiltrerService() {
->>>>>>> 7982a26e9777f15198ecb5d036a47094bee32297
-        filtrerByCapacity=false;
-        filtrerByDate=false;
-        filtrerByPrice=false;
     }
-
     /**Método que envía un verdadero si el filtro por precio esta activado
      * o un falso si esta desactivado
      * 
@@ -53,45 +46,36 @@ public class FiltrerService {
 
     /**Método que modifica el estado del filtro por precio
      * 
-     * @param filtrerByPrice nuevo estado del filtro
+     * @param filtrerByPrice nuevo estado del filtro (activado o desactivado)
      */
     public void setFiltrerByPrice(boolean filtrerByPrice) {
         this.filtrerByPrice = filtrerByPrice;
     }
 
 
-
+    /**Método que envía el estado del filtro por capacidad
+     * 
+     * @return estado del filtro por capacidad (activado o desactivado)
+     */
     public boolean isFiltrerByCapacity() {
         return filtrerByCapacity;
     }
 
 
-
+    /**Método que modifica el estado del filtro por capacidad
+     * 
+     * @param filtrerByCapacity nuevo estado del filtro por capacidad (activado o desactivado)
+     */
     public void setFiltrerByCapacity(boolean filtrerByCapacity) {
         this.filtrerByCapacity = filtrerByCapacity;
     }
-<<<<<<< HEAD
     /**Método que envía la fecha del filtro
      * 
      * @return fecha del filtro
      */
     public LocalDateTime getStartDate() {
         return startDate;
-=======
-
-
-
-    public boolean isFiltrerByDate() {
-        return filtrerByDate;
->>>>>>> 7982a26e9777f15198ecb5d036a47094bee32297
     }
-
-
-
-    public void setFiltrerByDate(boolean filtrerByDate) {
-        this.filtrerByDate = filtrerByDate;
-    }
-
 
 
 /**Método que devuelve una lista de salones que no tengan reservas en la fecha dada
@@ -141,20 +125,13 @@ public class FiltrerService {
      */
     public List<Salon> filterByPrice(double budget, List<Salon> salonFilter){
         List<Salon> salons = new ArrayList<>();
-<<<<<<< HEAD
         for (int i = 0; i < salonFilter.size(); i++) {
             if((salonFilter.get(i).getPriceByHour()*hoursOfBooking)<=budget){
                 salons.add(salonFilter.get(i));
-=======
-        for (int i = 0; i < allSalons.size(); i++) {
-            if(allSalons.get(i).getPriceByHour()<=budget){
-                salons.add(allSalons.get(i));
->>>>>>> 7982a26e9777f15198ecb5d036a47094bee32297
             }
         }
         return salons;
     }
-    
     /**Método que filtra salones por capacidad de personas
      * 
      * @param capacity capacidad de personas requerida para la reserva
@@ -171,7 +148,6 @@ public class FiltrerService {
         return salons;
     }
 
-<<<<<<< HEAD
     
     
     /**Método de filtro de salones que filtra primero por fecha y luego por capacidad y precio si estan activados o no 
@@ -190,8 +166,7 @@ public class FiltrerService {
         return filtrerList;
     }
 
-=======
->>>>>>> 7982a26e9777f15198ecb5d036a47094bee32297
+
     
 }
 
