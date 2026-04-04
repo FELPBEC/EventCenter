@@ -37,7 +37,6 @@ public class BookingServices {
      * @param booking la nueva reserva que sera almacenada
      */
     public void saveNewBooking(Booking booking){
-        booking.getSalon().setNumberOfReservations(booking.getSalon().getNumberOfReservations()+1);
         repository.save(booking);
     }
 
@@ -48,7 +47,8 @@ public class BookingServices {
      * @return  un objeto vacío en caso de no encontrarlo
      */
     public Booking sendBookingById(int id){
-        return enlistBookings().stream().filter(b->b.getId()==id).findFirst().orElse(null);
+        List<Booking> bookingList= enlistBookings();
+        return bookingList.stream().filter(b->b.getId()==id).findFirst().orElse(null);
     }
 
     /**Método que busca y envía una reserva por la id del cliente que la solicito
@@ -58,7 +58,8 @@ public class BookingServices {
      * @return un objeto null en caso de no encontrarla
      */
     public Booking sendBookingByClientId(int idClient){
-        return enlistBookings().stream().filter(b->b.getClient().getId()==idClient).findFirst().orElse(null);
+        List<Booking> bookingList= enlistBookings();
+        return bookingList.stream().filter(b->b.getClient().getId()==idClient).findFirst().orElse(null);
     }
 
     /**Método que busca y envía una reserva por la id del salón
@@ -68,7 +69,8 @@ public class BookingServices {
      * @return un objeto null en caso de no encontrarla
      */
     public Booking sendBookingBySalonId(int idSalon){
-        return enlistBookings().stream().filter(b->b.getSalon().getId()==idSalon).findFirst().orElse(null);
+        List<Booking> bookingList= enlistBookings();
+        return bookingList.stream().filter(b->b.getSalon().getId()==idSalon).findFirst().orElse(null);
     }
     
     /**Método que verifica si la id de la reserva que se busca existe o no 
@@ -91,9 +93,10 @@ public class BookingServices {
      * @return la posición de la reserva en la lista
      */
     public int sendBookingPosition(int id){
-        int position=enlistBookings().size()+1;
-        for (int i = 0; i < enlistBookings().size(); i++) {
-            if(enlistBookings().get(i).getId()==id){
+        List<Booking> bookingList= enlistBookings();
+        int position=bookingList.size()+1;
+        for (int i = 0; i < bookingList.size(); i++) {
+            if(bookingList.get(i).getId()==id){
                 position=i;
             }
         }
@@ -125,9 +128,10 @@ public class BookingServices {
      */
     public int sendNewId(){
         int biggestId=0;
-        for (int i = 0; i < enlistBookings().size(); i++) {
-            if(enlistBookings().get(i).getId()>biggestId){
-                biggestId=enlistBookings().get(i).getId();
+        List<Booking> bookingList= enlistBookings();
+        for (int i = 0; i < bookingList.size(); i++) {
+            if(bookingList.get(i).getId()>biggestId){
+                biggestId=bookingList.get(i).getId();
             }
         }
         return biggestId+1;
@@ -140,9 +144,10 @@ public class BookingServices {
      */
      public List<Booking> sendBookingListBySalon(int idSalon){
         List<Booking> bookingBySalon= new ArrayList<>();
-        for (int i = 0; i < enlistBookings().size(); i++) {
-            if (enlistBookings().get(i).getSalon().getId()==idSalon) {
-                bookingBySalon.add(enlistBookings().get(i));
+        List<Booking> allBookingList= enlistBookings();
+        for (int i = 0; i < allBookingList.size(); i++) {
+            if (allBookingList.get(i).getSalon()!=null && allBookingList.get(i).getSalon().getId()==idSalon) {
+                bookingBySalon.add(allBookingList.get(i));
             }
         }
         return bookingBySalon;

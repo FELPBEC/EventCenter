@@ -42,7 +42,8 @@ public class SalonServices {
      * @return  un objeto salon
      */
     public Salon sendSalonById(int id){
-        return enlistSalons().stream().filter(s->s.getId()==id).findFirst().orElse(null);
+        List<Salon> listSalons= enlistSalons();
+        return listSalons.stream().filter(s->s.getId()==id).findFirst().orElse(null);
     }
 
     /**Método para buscar un salón atraves de su id 
@@ -68,9 +69,10 @@ public class SalonServices {
      * @return una posición superior a la lista;
      */
     public int sendSalonPosition(int id){
-        int position= enlistSalons().size()+1;
-        for (int i = 0; i < enlistSalons().size(); i++) {
-            if(id==enlistSalons().get(i).getId()){
+        List<Salon> listSalons= enlistSalons();
+        int position= listSalons.size()+1;
+        for (int i = 0; i < listSalons.size(); i++) {
+            if(id==listSalons.get(i).getId()){
                 position=i;
             }
         }
@@ -99,10 +101,11 @@ public class SalonServices {
      * @return el nuevo identificador númerico de salón
      */
     public int generateNewId(){
+        List<Salon> listSalons= enlistSalons();
         int biggestId=0;
-        for (int i = 0; i < enlistSalons().size(); i++) {
-            if(enlistSalons().get(i).getId()>biggestId){
-                biggestId=enlistSalons().get(i).getId();
+        for (int i = 0; i < listSalons.size(); i++) {
+            if(listSalons.get(i).getId()>biggestId){
+                biggestId=listSalons.get(i).getId();
             }
         }
         return biggestId+1;

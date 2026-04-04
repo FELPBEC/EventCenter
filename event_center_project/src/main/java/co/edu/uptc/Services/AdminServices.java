@@ -46,7 +46,8 @@ public class AdminServices {
      * @return en caso de no encontrarlo devuelve un objeto vacio
      */
     public Admin sendAdminById(int id){
-        return enlistAdmins().stream().filter(a->a.getId()==id).findFirst().orElse(null);
+        List<Admin> adminList=enlistAdmins();
+        return adminList.stream().filter(a->a.getId()==id).findFirst().orElse(null);
     }
 
     /**Método que valida que un administrador exista a traves de su ID
@@ -70,9 +71,10 @@ public class AdminServices {
      * @return      en caso de no encontrarlo enviara una posición inválida
      */
     public int sendAdminPosition(int id){
-        int position=enlistAdmins().size()+1;
-        for (int i = 0; i < enlistAdmins().size(); i++) {
-            if(enlistAdmins().get(i).getId()==id){
+        List<Admin> adminList=enlistAdmins();
+        int position=adminList.size()+1;
+        for (int i = 0; i < adminList.size(); i++) {
+            if(adminList.get(i).getId()==id){
                 position=i;
             }
         }
