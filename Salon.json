@@ -5,5 +5,40 @@
     "capacity": 200,
     "priceByHour": 230000.0,
     "numberOfReservations": 0
+  },
+  {
+    "id": 2,
+    "salonName": "Zeus",
+    "capacity": 12,
+    "priceByHour": 120000.0,
+    "numberOfReservations": 0
+  },
+  {
+    "id": 3,
+    "salonName": "Poseidon",
+    "capacity": 34,
+    "priceByHour": 450000.0,
+    "numberOfReservations": 0
+  },
+  {
+    "id": 4,
+    "salonName": "Apolo",
+    "capacity": 200,
+    "priceByHour": 400000.0,
+    "numberOfReservations": 0
+  },
+  {
+    "id": 5,
+    "salonName": "Caliop�",
+    "capacity": 56,
+    "priceByHour": 1000000.0,
+    "numberOfReservations": 0
+  },
+  {
+    "id": 6,
+    "salonName": "Odiseo",
+    "capacity": 10,
+    "priceByHour": 100000.0,
+    "numberOfReservations": 0
   }
 ]

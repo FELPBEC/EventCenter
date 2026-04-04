@@ -16,6 +16,7 @@ import co.edu.uptc.Services.ClientService;
 import co.edu.uptc.Services.SalonServices;
 import co.edu.uptc.Util.DateConvertor;
 import co.edu.uptc.Util.ExportadorService;
+import co.edu.uptc.Util.RankedSalon;
 
 public class VistaConsola {
     private Scanner scanner;
@@ -27,7 +28,7 @@ public class VistaConsola {
     private SalonServices salonServices;
     private BookingServices bookingServices;
     private ExportadorService exportadorService;
-
+    private RankedSalon rankedSalon;
     public VistaConsola() {
         this.scanner = new Scanner(System.in);
         this.clienteLogeado=null;
@@ -37,6 +38,7 @@ public class VistaConsola {
         this.bookingServices= new BookingServices();
         this.salonServices= new SalonServices();
         Locale idiomaInicial= Locale.of("es");
+        this.rankedSalon= new RankedSalon();
         this.mensajes= ResourceBundle.getBundle("co.edu.uptc.Resources.textos", idiomaInicial);
     }
 
@@ -266,8 +268,10 @@ public class VistaConsola {
                                 String fechaFinStr = convertor.localDateTimeToString(fechaFin);
                                 int nuevoId = bookingServices.sendNewId();
                                 Booking nuevaReserva = new Booking(nuevoId, this.clienteLogeado, salonElegido, fechaInicioStr, horas, fechaFinStr);
+                                nuevaReserva.setPrice(bookingServices.calculatePriceBooking(nuevaReserva));
                                 bookingServices.saveNewBooking(nuevaReserva);
                                 System.out.println("\n>> " + mensajes.getString("cliente.reserva.exito") + " " + fechaFinStr);
+                                System.out.println(mensajes.getString("booking.services.mostrar.precio")+" $"+nuevaReserva.getPrice());
                             } catch (java.time.format.DateTimeParseException e) {
                                 System.out.println("\n>> " + mensajes.getString("cliente.reserva.error.fecha"));
                             }
@@ -276,7 +280,30 @@ public class VistaConsola {
                         }
                         break;
                     case 3:
-                        System.out.println("\n>> [SIMULACION] Mostrando historial de reservas...");
+                        List<Booking> listReservas =bookingServices.sendBookingListByClient(this.clienteLogeado.getId());
+                        if (listReservas.isEmpty()) {
+                            System.out.println(mensajes.getString("panel.cliente.op3.vacio"));
+                        } else {
+                            for (Booking reserva : listReservas) {
+                                System.out.println("-------------------------------------------------");
+                                System.out.println(mensajes.getString("booking.services.mostrar.id") + " " + reserva.getId());
+                                System.out.println(mensajes.getString("booking.services.mostrar.fecha.inicio") + " " + reserva.getStartDate());
+                                System.out.println(mensajes.getString("booking.services.mostrar.horas.duracion") + " " + reserva.getAmountOfHours());
+                                System.out.println(mensajes.getString("booking.services.mostrar.fecha.finalizacion") +" "+reserva.getEndDate());
+                                System.out.println(mensajes.getString("booking.services.mostrar.precio")+" $"+reserva.getPrice());
+                                System.out.println("-------------------------------------------------\n");
+                                System.out.println(mensajes.getString("salon.services.mostrar.clase"));
+                                Salon salon=reserva.getSalon();
+                                System.out.println("-------------------------------------------------");
+                                System.out.println(mensajes.getString("salon.services.mostrar.id") + " " + salon.getId());
+                                System.out.println(mensajes.getString("salon.services.mostrar.nombre") + " " + salon.getSalonName());
+                                System.out.println(mensajes.getString("salon.services.mostrar.capacidad") + " " + salon.getCapacity());
+                                System.out.println(mensajes.getString("salon.services.mostrar.precio.por.hora") + salon.getPriceByHour());
+                                System.out.println(mensajes.getString("salon.services.mostrar.numero.reservaciones") + " " + salon.getNumberOfReservations());
+
+                            }
+                            System.out.println("-------------------------------------------------\n");
+                        }
                         break;
                     case 4:
                         System.out.println(mensajes.getString("general.cerrando.sesion"));
@@ -371,7 +398,7 @@ public class VistaConsola {
                 case 1: 
                     List<Client> listClient= clientService.obtenerListaClientes();
                     if (listClient.isEmpty()) {
-                        System.out.println("\n>> No hay clientes registrados actualmente en el sistema.\n");
+                        System.out.println(mensajes.getString("admin.salones.op2.vacio"));
                     } else {
                         for (Client client : listClient) {
                             System.out.println("-------------------------------------------------");
@@ -578,15 +605,80 @@ public class VistaConsola {
             System.out.print(mensajes.getString("general.ingreso.opcion"));
             
             int op = scanner.nextInt();
+            scanner.nextLine();
             switch (op) {
                 case 1: 
                     System.out.println("Ingrese fecha inicio y fin. Calculando total..."); 
                     break;
                 case 2: 
-                    System.out.println("1. Salon VIP | 2. Salon Esmeralda | ..."); 
+                    List<Salon> listSalones = rankedSalon.sendTop5BestSalons();
+                        if (listSalones.isEmpty()) {
+                            System.out.println("admin.salones.op2.vacio");
+                        } else {
+                            for (Salon salon : listSalones) {
+                                System.out.println("-------------------------------------------------");
+                                System.out.println(mensajes.getString("salon.services.mostrar.id") + " " + salon.getId());
+                                System.out.println(mensajes.getString("salon.services.mostrar.nombre") + " " + salon.getSalonName());
+                                System.out.println(mensajes.getString("salon.services.mostrar.capacidad") + " " + salon.getCapacity());
+                                System.out.println(mensajes.getString("salon.services.mostrar.precio.por.hora") + " $" + salon.getPriceByHour());
+                                System.out.println(mensajes.getString("salon.services.mostrar.numero.reservaciones") + " " + salon.getNumberOfReservations());
+                            }
+                            System.out.println("-------------------------------------------------\n");
+                        };
                     break;
-                case 3: 
-                    System.out.println("Archivo exportado exitosamente."); 
+                case 3:
+                    System.out.println("\n--- EXPORTAR REPORTE DE INGRESOS ---");
+                    try {
+                        System.out.println("Ingrese la fecha de inicio (Formato EXACTO: yyyy/MM/dd/HH:mm:ss):");
+                        String fechaInicio = scanner.nextLine();
+                        
+                        System.out.println("Ingrese la fecha final (Formato EXACTO: yyyy/MM/dd/HH:mm:ss):");
+                        String fechaFin = scanner.nextLine();
+                        
+                        // 1. Usamos los métodos nuevos para obtener los datos
+                        List<Booking> reservasFiltradas = bookingServices.obtenerReservasPorRango(fechaInicio, fechaFin);
+                        
+                        if (reservasFiltradas.isEmpty()) {
+                            System.out.println("\n>> No se encontraron reservas en ese rango de fechas.");
+                            break; // Salimos del case si no hay nada que exportar
+                        }
+                        
+                        double totalIngresos = bookingServices.calcularTotalIngresos(reservasFiltradas);
+                        
+                        System.out.println("\n>> Se encontraron " + reservasFiltradas.size() + " reservas. Ingresos: $" + totalIngresos);
+                        System.out.println("Ingrese el nombre para guardar el archivo (Ej: ReporteEnero):");
+                        String nombreArchivo = scanner.nextLine();
+                        
+                        System.out.println("¿En que formato desea exportarlo? (1. JSON | 2. CSV):");
+                        int opFormato = scanner.nextInt();
+                        scanner.nextLine(); // Limpiar buffer
+                        
+                        // 2. Nos aseguramos de que el exportador esté inicializado
+                        if (this.exportadorService == null) {
+                            this.exportadorService = new ExportadorService();
+                        }
+                        
+                        boolean exito = false;
+                        
+                        // 3. Llamamos a TU lógica de ExportadorService
+                        if (opFormato == 1) {
+                            exito = exportadorService.exportarReporteIngresosJson(fechaInicio, fechaFin, totalIngresos, reservasFiltradas, nombreArchivo);
+                        } else if (opFormato == 2) {
+                            exito = exportadorService.exportarReporteIngresosCSV(fechaInicio, fechaFin, totalIngresos, reservasFiltradas, nombreArchivo);
+                        } else {
+                            System.out.println("\n>> Opción no válida.");
+                        }
+                        
+                        // 4. Mensaje final
+                        if (exito) {
+                            System.out.println("\n>> ¡Archivo '" + nombreArchivo + "' exportado exitosamente en la carpeta de tu proyecto!");
+                        } else {
+                            System.out.println("\n>> Error al intentar guardar el archivo.");
+                        }
+                        
+                    } catch (java.time.format.DateTimeParseException e) {
+                        System.out.println("\n>> Error: El formato de las fechas no es correcto. Recuerde usar yyyy/MM/dd/HH:mm:ss");
+                    }
                     break;
                 case 4: 
                     volver = true; 

@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "id": 1,
+    "client": {
+      "Empresarial": true,
+      "userName": "pepe",
+      "id": 1234,
+      "password": "1234",
+      "phoneNumber": "1234",
+      "email": "julian"
+    },
+    "salon": {
+      "id": 1,
+      "salonName": "Afrodita",
+      "capacity": 200,
+      "priceByHour": 230000.0,
+      "numberOfReservations": 0
+    },
+    "startDate": "2008/09/09/09:09:09",
+    "amountOfHours": 1,
+    "endDate": "2008/09/09/10:09:09",
+    "price": 207000.0
+  },
+  {
+    "id": 2,
+    "client": {
+      "Empresarial": true,
+      "userName": "pepe",
+      "id": 1234,
+      "password": "1234",
+      "phoneNumber": "1234",
+      "email": "julian"
+    },
+    "salon": {
+      "id": 4,
+      "salonName": "Apolo",
+      "capacity": 200,
+      "priceByHour": 400000.0,
+      "numberOfReservations": 0
+    },
+    "startDate": "2008/09/09/09:09:09",
+    "amountOfHours": 2,
+    "endDate": "2008/09/09/11:09:09",
+    "price": 720000.0
+  }
+]

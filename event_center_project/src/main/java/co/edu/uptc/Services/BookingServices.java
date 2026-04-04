@@ -5,7 +5,10 @@ import java.util.List;
 import com.google.gson.reflect.TypeToken;
 import co.edu.uptc.Model.Booking;
 import co.edu.uptc.Persistence.JsonRepository;
+import co.edu.uptc.Util.DateConvertor;
+
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 
 /**Clase Servicios de Reserva que crea, elimina, lee y modifica las reservas {@link Booking}
  * 
@@ -142,7 +145,7 @@ public class BookingServices {
      * @param idSalon id del salón del que se buscan las reservas
      * @return  una lista con todas las reservas del salón
      */
-     public List<Booking> sendBookingListBySalon(int idSalon){
+    public List<Booking> sendBookingListBySalon(int idSalon){
         List<Booking> bookingBySalon= new ArrayList<>();
         List<Booking> allBookingList= enlistBookings();
         for (int i = 0; i < allBookingList.size(); i++) {
@@ -174,8 +177,7 @@ public class BookingServices {
      * @param idBooking identificador númerico de la reserva
      * @return  el precio de la reserva (double)
      */
-    public double calculatePriceBooking(int idBooking){
-        Booking booking=sendBookingById(idBooking);
+    public double calculatePriceBooking(Booking booking){
         double price=(booking.getSalon().getPriceByHour())*(booking.getAmountOfHours());
         //Descuento a cliente empresarial
         if(booking.getClient().isEmpresarial()){
@@ -192,7 +194,46 @@ public class BookingServices {
         booking.setPrice(price);
         return price;
     }
+    /**
+     * Filtra y obtiene una lista de reservas cuya fecha de inicio se encuentra 
+     * dentro de un rango de fechas especificado (ambas fechas inclusive).
+     * @param fechaInicioStr La fecha inicial del rango en formato de texto (ej. "yyyy/MM/dd/HH:mm:ss").
+     * @param fechaFinStr La fecha final del rango en formato de texto (ej. "yyyy/MM/dd/HH:mm:ss").
+     * @return Una lista de objetos {@link Booking} que se encuentran dentro del rango de fechas dado. 
+     * Si no se encuentran reservas, retorna una lista vacía.
+     * @throws java.time.format.DateTimeParseException Si el formato de las fechas ingresadas no es el correcto.
+     */
+    public List<Booking> obtenerReservasPorRango(String fechaInicioStr, String fechaFinStr) {
+        DateConvertor convertor = new co.edu.uptc.Util.DateConvertor();
+        LocalDateTime inicio = convertor.StringToLocalDateTime(fechaInicioStr);
+        LocalDateTime fin = convertor.StringToLocalDateTime(fechaFinStr);
 
+        List<Booking> filtradas = new ArrayList<>();
+        
+        for (Booking b : enlistBookings()) {
+            LocalDateTime fechaReserva = convertor.StringToLocalDateTime(b.getStartDate());
+            if ((fechaReserva.isEqual(inicio) || fechaReserva.isAfter(inicio)) && 
+                (fechaReserva.isEqual(fin) || fechaReserva.isBefore(fin))) {
+                filtradas.add(b);
+            }
+        }
+        return filtradas;
+    }
+
+    /**
+     * Calcula la suma total de los ingresos generados a partir de una lista de reservas.
+     * Itera sobre la lista proporcionada y suma el precio de cada una.
+     * @param reservas La lista de objetos {@link Booking} sobre la cual se calcularán los ingresos.
+     * @return El valor total (double) de los ingresos generados por las reservas de la lista. 
+     * Retorna 0.0 si la lista está vacía.
+     */
+    public double calcularTotalIngresos(List<Booking> reservas) {
+        double total = 0;
+        for (Booking b : reservas) {
+            total += b.getPrice();
+        }
+        return total;
+    }
 
     
 }
