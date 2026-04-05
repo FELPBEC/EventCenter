@@ -10,6 +10,7 @@ import co.edu.uptc.Model.Admin;
 import co.edu.uptc.Model.Booking;
 import co.edu.uptc.Model.Client;
 import co.edu.uptc.Model.Salon;
+import co.edu.uptc.Persistence.AdminJsonRepository;
 import co.edu.uptc.Services.AdminServices;
 import co.edu.uptc.Services.BookingServices;
 import co.edu.uptc.Services.ClientService;
@@ -29,6 +30,9 @@ public class VistaConsola {
     private BookingServices bookingServices;
     private ExportadorService exportadorService;
     private RankedSalon rankedSalon;
+    private AdminJsonRepository adminJsonRepository= new AdminJsonRepository();
+    //Aquí vamos a indicarle de donde sale la lista:
+    private List<Admin> adminList = adminJsonRepository.sendJsonAdminList();
     public VistaConsola() {
         this.scanner = new Scanner(System.in);
         this.clienteLogeado=null;
@@ -328,8 +332,9 @@ public class VistaConsola {
         scanner.nextLine();
         System.out.println(mensajes.getString("login.admin.contrasena"));
         String contrasena= scanner.nextLine();
-        if (adminServices.validateAccess(cedula, contrasena)) {
-            this.adminLogeado=adminServices.sendAdminById(cedula);
+        //Aquí por ejemplo estamos trabajando con esa lista de administradores que se cargo en memoria
+        if (adminServices.validateAccess(cedula, contrasena,adminList)) {
+            this.adminLogeado=adminServices.sendAdminById(cedula,adminList);
             System.out.println(mensajes.getString("login.exito"));
             menuInternoAdmin();
         }else{

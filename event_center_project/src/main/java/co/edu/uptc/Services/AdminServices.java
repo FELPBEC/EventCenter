@@ -12,31 +12,20 @@ import java.util.List;
  * @version v 1.0
  */
 public class AdminServices {
-    private JsonRepository<Admin> repository;
 
     /**Método constructor de la clase  de administración de servicios
      * Genera un nuevo repositorio tipo Json para modificar la lista de Administradores
      */
     public AdminServices() {
-        Type type = new TypeToken<List<Admin>>(){
-        }.getType();
-        repository= new JsonRepository<>("Admins.json", type);
-    }
-
-    /**Método que lee el archivo Json y retorna una lista de administradores
-     * 
-     * @return  lista de administradores 
-     */
-    public List<Admin> enlistAdmins(){
-        return repository.findAll();
     }
 
     /**Método que almacena un nuevo Administrador y lo agrega a la lista
      * 
      * @param admin el nuevo administrador
+     * @param adminList la lista a la que se va a añadir ese administrador
      */
-    public void saveNewAdmin(Admin admin){
-        repository.save(admin);
+    public void saveNewAdmin(Admin admin, List<Admin> adminList){
+        adminList.add(admin);
     }
 
     /**Método que envía un admnistrador atraves de su ID
@@ -45,8 +34,7 @@ public class AdminServices {
      * @return  devuelve un administrador en caso de encontrarlo
      * @return en caso de no encontrarlo devuelve un objeto vacio
      */
-    public Admin sendAdminById(int id){
-        List<Admin> adminList=enlistAdmins();
+    public Admin sendAdminById(int id, List<Admin> adminList){
         return adminList.stream().filter(a->a.getId()==id).findFirst().orElse(null);
     }
 
@@ -56,8 +44,8 @@ public class AdminServices {
      * @return verdadero si se encuentra
      * @return falso si no se encuentra
      */
-    public boolean searchAdminById(int id){
-        if(sendAdminById(id)!=null){
+    public boolean searchAdminById(int id, List<Admin> adminList){
+        if(sendAdminById(id,adminList)!=null){
             return true;
         }else{
             return false;
@@ -70,8 +58,7 @@ public class AdminServices {
      * @return      la posición del administrador en caso de encontrarlo
      * @return      en caso de no encontrarlo enviara una posición inválida
      */
-    public int sendAdminPosition(int id){
-        List<Admin> adminList=enlistAdmins();
+    public int sendAdminPosition(int id, List<Admin> adminList){
         int position=adminList.size()+1;
         for (int i = 0; i < adminList.size(); i++) {
             if(adminList.get(i).getId()==id){
@@ -85,9 +72,10 @@ public class AdminServices {
      * Hace uso del método sendAdminPosition para determinar la posición con base en la id
      * 
      * @param id identificador númerico de un administrador en la lista
+     * @param adminList la lista donde se buscará al administrador para ser eliminado
      */
-    public void fireAdmin(int id){
-        repository.deleteObject(sendAdminPosition(id));
+    public void fireAdmin(int id,List<Admin> adminList){
+        adminList.remove(sendAdminPosition(id,adminList));
     }
 
     /**Método que actualiza un administrador a traves de su posición
@@ -95,29 +83,22 @@ public class AdminServices {
      * 
      * @param id posición del administrador en la lista
      * @param admin el administrador actualizado
+     * @param adminList la lista de administradores en la que vamos a actualizar el administrador
      */
-    public void updateAdmin(int id,Admin admin){
-        repository.updateNew(sendAdminPosition(id), admin);
-    }
-
-    /**Método que envía la información de un administrador a través de su id
-     * 
-     * @param id    identificador númerico del administrador
-     * @return      una cadena de texto con los datos del administrador
-     */
-    public String showAdminInfo(int id){
-        return sendAdminById(id).toString();
+    public void updateAdmin(int id,Admin admin, List<Admin> adminList){
+        adminList.set(sendAdminPosition(id, adminList), admin);
     }
 
     /**Método que envía un booleando dependiendo de si las credenciales proporcionadas son correctas o no
      * 
      * @param id    identificador númerico del administrador
      * @param password  contraseña del administrador que debe coincidir con la id propocionada
+     * 
      * @return  verdadero si correspondente
      * @return falso si no corresponden 
      */
-    public boolean validateAccess(int id, String password){
-        Admin admin= sendAdminById(id);
+    public boolean validateAccess(int id, String password, List<Admin> adminList){
+        Admin admin= sendAdminById(id,adminList);
         if (admin.getPassword().equals(password)) {
             return true;
         }else{
