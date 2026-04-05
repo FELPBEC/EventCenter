@@ -16,10 +16,10 @@
       "priceByHour": 230000.0,
       "numberOfReservations": 0
     },
-    "startDate": "2008/09/09/09:09:09",
-    "amountOfHours": 1,
-    "endDate": "2008/09/09/10:09:09",
-    "price": 207000.0
+    "startDate": "2026/08/25/12:12:12",
+    "amountOfHours": 2,
+    "endDate": "2026/08/25/14:12:12",
+    "price": 414000.0
   },
   {
     "id": 2,
@@ -32,15 +32,37 @@
       "email": "julian"
     },
     "salon": {
-      "id": 4,
-      "salonName": "Apolo",
-      "capacity": 200,
-      "priceByHour": 400000.0,
+      "id": 2,
+      "salonName": "Zeus",
+      "capacity": 12,
+      "priceByHour": 120000.0,
       "numberOfReservations": 0
     },
-    "startDate": "2008/09/09/09:09:09",
+    "startDate": "2026/08/25/12:12:12",
+    "amountOfHours": 1,
+    "endDate": "2026/08/25/13:12:12",
+    "price": 108000.0
+  },
+  {
+    "id": 3,
+    "client": {
+      "Empresarial": true,
+      "userName": "pepe",
+      "id": 1234,
+      "password": "1234",
+      "phoneNumber": "1234",
+      "email": "julian"
+    },
+    "salon": {
+      "id": 3,
+      "salonName": "Poseidon",
+      "capacity": 34,
+      "priceByHour": 450000.0,
+      "numberOfReservations": 0
+    },
+    "startDate": "2026/09/12/12:12:12",
     "amountOfHours": 2,
-    "endDate": "2008/09/09/11:09:09",
-    "price": 720000.0
+    "endDate": "2026/09/12/14:12:12",
+    "price": 810000.0
   }
 ]

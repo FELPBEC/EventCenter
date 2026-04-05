@@ -17,7 +17,7 @@ public class RankedSalon {
             Salon salon = rankedSalon.get(i);
             int numberOfReservations=bookingServices.sendBookingListBySalon(salon.getId()).size();
             salon.setNumberOfReservations(numberOfReservations);
-            salonServices.updateSalon(i, salon);  
+            salonServices.updateSalon(salon.getId(), salon);  
         }
     }
 
