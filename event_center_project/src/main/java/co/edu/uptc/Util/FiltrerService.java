@@ -7,7 +7,6 @@ import java.util.List;
 import co.edu.uptc.Model.Booking;
 import co.edu.uptc.Model.Salon;
 import co.edu.uptc.Services.BookingServices;
-import co.edu.uptc.Services.SalonServices;
 /**Clase filtro de salones encargada de filtrar salones por precio, fechas y capacidad
  * 
  * @author Felipe Becerra
@@ -20,11 +19,12 @@ public class FiltrerService {
     private int hoursOfBooking;
     private LocalDateTime endDate;
     private BookingServices bookingServices = new BookingServices();
-    private SalonServices salonServices= new SalonServices();
-    private List<Salon> allSalons= salonServices.enlistSalons();
     private DateConvertor dateConvertor= new DateConvertor();
     
-    /**Método constructor vacío que inicializa los filtros en falso (osea todos apagados)
+    
+    public FiltrerService() {
+    }
+    /**Método constructor que inicializa los filtros en falso (osea todos apagados)
      * 
      */
     public FiltrerService(LocalDateTime startDate, int hoursOfBokking) {
@@ -78,17 +78,18 @@ public class FiltrerService {
     }
 
 
-/**Método que devuelve una lista de salones que no tengan reservas en la fecha dada
+/**Método axuliar que devuelve una lista de salones que no tengan reservas en la fecha dada
      * Es el primer filtro y el más indispensable
+     * @param lista de salones que serán filtrados 
      * @return lista de salones válidos con respecto a la fecha
      */
-    public List<Salon> filterByDate() {
+    public List<Salon> filterByDate(List<Salon> allSalons, List<Booking> allBookings) {
         //Lista de salones que vamos a enviar 
     List<Salon> validSalons = new ArrayList<>();
 
     for (Salon salon : allSalons) {
         boolean isAvailable = true;
-        List<Booking> bookings = bookingServices.sendBookingListBySalon(salon.getId());
+        List<Booking> bookings = bookingServices.sendBookingListBySalon(salon.getId(),allBookings);
 
         for (Booking b : bookings) {
             //Se refiere a la fecha en que inicia la reserva que estamos evaluando 
@@ -117,9 +118,10 @@ public class FiltrerService {
 
 
 
-    /**Filtra los salones por precio y envía una lista con todos los salones con menor o igual presupuesto
+    /**Método auxiliar que filtra los salones por precio y envía una lista con todos los salones con menor o igual presupuesto
      * 
      * @param budget presupuesto del cliente para la reserva del salón
+     * @param salonFilter la lista prefiltrada por la fecha
      * @return  lista de salones que cumplen con el presupuesto
      * @return en caso de no encontrar ninguno enviara una lista vacía
      */
@@ -132,9 +134,10 @@ public class FiltrerService {
         }
         return salons;
     }
-    /**Método que filtra salones por capacidad de personas
+    /**Método auxiliar que filtra salones por capacidad de personas
      * 
      * @param capacity capacidad de personas requerida para la reserva
+     * @param salonFilter lista de salones prefiltrados por la fecha
      * @return Lista de salones que cumplen con la capacidad requerida
      * @return en caso de no encontrar ningun salón que cumpla con la capacidad envía una lista vacía
      */
@@ -154,10 +157,11 @@ public class FiltrerService {
      * 
      * @param budget    presupuesto del cliente (necesario para el filtro por precio)
      * @param capacity  capacidad del lugar requerida (necesario para el filtro por capacidad)
+     * @param allSalons envía la lista de todos los salones
      * @return la lista de salones filtrada según preferencias
      */
-    public List<Salon> sendFiltrerSalonList(double budget,int capacity){
-        List<Salon> filtrerList = filterByDate();
+    public List<Salon> sendFiltrerSalonList(double budget,int capacity, List<Salon> allSalons, List<Booking> bookingList){
+        List<Salon> filtrerList = filterByDate(allSalons, bookingList);
         if(filtrerByPrice){
             filtrerList=filterByPrice(budget, filtrerList);
         }if(filtrerByCapacity){

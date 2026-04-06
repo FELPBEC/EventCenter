@@ -1,13 +1,7 @@
 package co.edu.uptc.Services;
 
-import java.lang.reflect.Type;
 import java.util.List;
-
-import com.google.gson.reflect.TypeToken;
-
-import co.edu.uptc.Interfaces.Repository;
 import co.edu.uptc.Model.Client;
-import co.edu.uptc.Persistence.JsonRepository;
 
 /**
  * Clase responsable de manejar toda la logica del modelo Client.
@@ -16,29 +10,23 @@ import co.edu.uptc.Persistence.JsonRepository;
  * @version 1.0
  */
 public class ClientService {
-    private Repository<Client> repositoryClient;
-    private List<Client> listClient;
 
     /**
      * Constructor de la clase ClientService.
      * Inicializa el repositorio de la clase Client trayendo la lista de objetos del archivo Cliente.json.
      */
     public ClientService(){
-        Type type= new TypeToken<List<Client>>(){}.getType();
-        this.repositoryClient= new JsonRepository<>("Cliente.json", type);
-        this.listClient= repositoryClient.findAll();
     }   
     /**
      * Registra un nuevo cliente en el sistema tras validar que su ID no exista.
      * @param cliente El objeto Client con los datos a registrar.
      * @return true si el registro fue exitoso, false si la ID ya estaba registrada en el sistema.
      */
-    public boolean registrarCliente(Client client){
-        if (buscarClientPorId(client.getId())!=null) {
+    public boolean registrarCliente(Client client, List<Client> listClient){
+        if (buscarClientPorId(client.getId(),listClient)!=null) {
             return false;
         }
         listClient.add(client);
-        repositoryClient.save(client);
         return true;
     }
     /**
@@ -46,7 +34,7 @@ public class ClientService {
      * @param id Identificador númerico del cliente a buscar.
      * @return El objeto Client si es encontrado, o null si no existe.
      */
-    public Client buscarClientPorId(int idClient){
+    public Client buscarClientPorId(int idClient, List<Client> listClient){
         for (Client client : listClient) {
             if (client.getId()==idClient) {
                 return client;
@@ -55,8 +43,8 @@ public class ClientService {
         return null;
     }
 
-    public boolean validateAccess(int id, String password){
-        Client client= buscarClientPorId(id);
+    public boolean validateAccess(int id, String password, List<Client> listClient){
+        Client client= buscarClientPorId(id,listClient);
         if (client!=null) {
             if (client.getPassword().equals(password)) {
                 return true;
@@ -65,34 +53,20 @@ public class ClientService {
         return false;
     }
     /**
-     * Retorna la lista completa de clientes registrados en el sistema.
-     * @return Lista de objetos Client.
-     */
-    public List<Client> obtenerListaClientes(){
-        this.listClient= repositoryClient.findAll();
-        return listClient;
-    }
-    /**
      * Modifica los datos de un cliente existente. El ID no puede ser modificado.
      * @param id Identificador del cliente a modificar.
-     * @param nuevoNombre Nuevo nombre del cliente.
-     * @param nuevaContrasena Nueva contraseña .
-     * @param nuevoTelefono Nuevo número de teléfono.
-     * @param nuevoCorreo Nuevo correo electrónico.
-     * @param esEmpresarial true si es empresarial, false si es particular.
+     * @param updatedClient cliente modificado
+     * @param clientList lista donde se modificara el cliente
      * @return true si la modificación fue exitosa, false si el cliente no fue encontrado.
      */
-    public boolean modificarCliente(int id, String nuevoNombre, String nuevaContrasena, String nuevoTelefono, String nuevoCorreo, boolean esEmpresarial){
-        Client clienteEncontrado= buscarClientPorId(id);
-        if (clienteEncontrado!=null) {
-            clienteEncontrado.setId(id);
-            clienteEncontrado.setEmpresarial(esEmpresarial);
-            clienteEncontrado.setPassword(nuevaContrasena);
-            clienteEncontrado.setUserName(nuevoNombre);
-            clienteEncontrado.setEmail(nuevoCorreo);
-            clienteEncontrado.setPhoneNumber(nuevoTelefono);
-
-            repositoryClient.updateAll(listClient);
+    public boolean modificarCliente(int id, Client updatedClient, List<Client> clientList){
+       Client clienteEncontrado =  buscarClientPorId(id,clientList);
+        if (clienteEncontrado != null) {
+            for (int i = 0; i < clientList.size(); i++) {
+            if (clientList.get(i).getId() == id) {
+                clientList.set(i, updatedClient);
+            }
+        }
             return true;
         }
         return false;
@@ -102,11 +76,10 @@ public class ClientService {
      * * @param id Identificador único del cliente a eliminar.
      * @return true si el cliente fue eliminado correctamente, false si no se encontró.
      */
-    public boolean eliminarCliente(int id){
-        Client clienteEncontrado= buscarClientPorId(id);
+    public boolean eliminarCliente(int id,List<Client> clientList){
+        Client clienteEncontrado= buscarClientPorId(id,clientList);
         if (clienteEncontrado!=null) {
-            this.listClient.remove(clienteEncontrado);
-            repositoryClient.updateAll(listClient);
+            clientList.removeIf(client->client.getId()==id);
             return true;
         }
         return false;

@@ -1,9 +1,6 @@
 package co.edu.uptc.Services;
 
 import co.edu.uptc.Model.Admin;
-import co.edu.uptc.Persistence.JsonRepository;
-import java.lang.reflect.Type;
-import com.google.gson.reflect.TypeToken;
 import java.util.List;
 
 /**Clase de servicio de administradores que sirve para añadir, eliminar, leer o modificar a un administrador
@@ -14,7 +11,7 @@ import java.util.List;
 public class AdminServices {
 
     /**Método constructor de la clase  de administración de servicios
-     * Genera un nuevo repositorio tipo Json para modificar la lista de Administradores
+     *
      */
     public AdminServices() {
     }
@@ -51,23 +48,6 @@ public class AdminServices {
             return false;
         }
     }
-    
-    /**Método que envía la posición del administrador en la lista mediante la id, 
-     * útil para encontrar elimar o modificar por posición
-     * @param id    identificador del admnistrador
-     * @return      la posición del administrador en caso de encontrarlo
-     * @return      en caso de no encontrarlo enviara una posición inválida
-     */
-    public int sendAdminPosition(int id, List<Admin> adminList){
-        int position=adminList.size()+1;
-        for (int i = 0; i < adminList.size(); i++) {
-            if(adminList.get(i).getId()==id){
-                position=i;
-            }
-        }
-        return position;
-    }
-    
     /**Método para eliminar un administrador por posición en la lista
      * Hace uso del método sendAdminPosition para determinar la posición con base en la id
      * 
@@ -75,7 +55,7 @@ public class AdminServices {
      * @param adminList la lista donde se buscará al administrador para ser eliminado
      */
     public void fireAdmin(int id,List<Admin> adminList){
-        adminList.remove(sendAdminPosition(id,adminList));
+       adminList.removeIf(admin -> admin.getId() == id);
     }
 
     /**Método que actualiza un administrador a traves de su posición
@@ -85,8 +65,17 @@ public class AdminServices {
      * @param admin el administrador actualizado
      * @param adminList la lista de administradores en la que vamos a actualizar el administrador
      */
-    public void updateAdmin(int id,Admin admin, List<Admin> adminList){
-        adminList.set(sendAdminPosition(id, adminList), admin);
+    public boolean updateAdmin(int id,Admin updatedAdmin, List<Admin> adminList){
+        Admin admin = sendAdminById(id, adminList);
+        if(admin!=null){
+            for (int i = 0; i < adminList.size(); i++) {
+             if (adminList.get(i).getId() == id) {
+                 adminList.set(i, updatedAdmin);
+        }
+        }
+            return true;
+        }
+        return false;
     }
 
     /**Método que envía un booleando dependiendo de si las credenciales proporcionadas son correctas o no
@@ -96,14 +85,12 @@ public class AdminServices {
      * 
      * @return  verdadero si correspondente
      * @return falso si no corresponden 
+     * @return en caso de no encontrarse el administrador no lo intentará
+     * 
      */
     public boolean validateAccess(int id, String password, List<Admin> adminList){
-        Admin admin= sendAdminById(id,adminList);
-        if (admin.getPassword().equals(password)) {
-            return true;
-        }else{
-            return false;
-        }
+        Admin admin = sendAdminById(id, adminList);
+        return admin != null && admin.getPassword().equals(password);
     }
     
 }

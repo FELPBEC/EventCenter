@@ -14,8 +14,11 @@ public class AdminJsonRepository {
     private JsonRepository<Admin> repository;
 
 
-/**Método constructor de la clase JsonRepository que instancia el jsonRepository */
-    public AdminJsonRepository() {
+/**Método constructor de la clase JsonRepository que instancia el jsonRepository
+ * 
+ * @param pathname dirección del archivo Json
+ */
+    public AdminJsonRepository(String pathname) {
         Type type = new TypeToken<List<Admin>>(){
         }.getType();
         repository= new JsonRepository<>("Admins.json", type);
