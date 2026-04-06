@@ -1,5 +1,6 @@
 package co.edu.uptc.Persistence;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
@@ -25,7 +26,16 @@ public class JsonRepository<T> implements Repository<T> {
      * @param typeClass Indica el tipo de clase de los objetos o datos que vamos a guardar para que al generar una lista sea del tipo correspondiente.
      */
     public JsonRepository(String fileName, Type typeClass) {
-        this.fileName = fileName;
+        String rutaDeEjecucion = System.getProperty("user.dir");
+        File carpetaData = new File(rutaDeEjecucion, "data");
+        // Si la carpeta "data" no existe junto al programa, la crea
+        if (!carpetaData.exists()) {
+            carpetaData.mkdirs(); 
+        }
+        // Une la carpeta "data" con el nombre del archivo (ej: "Admin.json")
+        File archivoFinal = new File(carpetaData, fileName);
+        // Guardamos la ruta completa en la variable que usan los demás métodos
+        this.fileName = archivoFinal.getAbsolutePath();
         this.typeClass = typeClass;
         this.gson = new GsonBuilder().setPrettyPrinting().create();
     }
@@ -69,7 +79,7 @@ public class JsonRepository<T> implements Repository<T> {
         try(FileWriter writer= new FileWriter(fileName)) {
             gson.toJson(list,writer);
         } catch (Exception e) {
-           e.getMessage();
+            e.getMessage();
         }
         
     }
@@ -80,7 +90,7 @@ public class JsonRepository<T> implements Repository<T> {
         try(FileWriter writer= new FileWriter(fileName)) {
             gson.toJson(list,writer);
         } catch (Exception e) {
-           e.getMessage();
+            e.getMessage();
         }
         
     }

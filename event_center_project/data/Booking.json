@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "client": {
+      "Empresarial": true,
+      "userName": "pepe",
+      "id": 1234,
+      "password": "1234",
+      "phoneNumber": "1234",
+      "email": "julian"
+    },
+    "salon": {
+      "id": 1,
+      "salonName": "Afrodita",
+      "capacity": 200,
+      "priceByHour": 230000.0,
+      "numberOfReservations": 0
+    },
+    "startDate": "2026/08/25/12:12:12",
+    "amountOfHours": 2,
+    "endDate": "2026/08/25/14:12:12",
+    "price": 414000.0
+  },
+  {
+    "id": 2,
+    "client": {
+      "Empresarial": true,
+      "userName": "pepe",
+      "id": 1234,
+      "password": "1234",
+      "phoneNumber": "1234",
+      "email": "julian"
+    },
+    "salon": {
+      "id": 2,
+      "salonName": "Zeus",
+      "capacity": 12,
+      "priceByHour": 120000.0,
+      "numberOfReservations": 0
+    },
+    "startDate": "2026/08/25/12:12:12",
+    "amountOfHours": 1,
+    "endDate": "2026/08/25/13:12:12",
+    "price": 108000.0
+  },
+  {
+    "id": 3,
+    "client": {
+      "Empresarial": true,
+      "userName": "julian",
+      "id": 1234,
+      "password": "1234",
+      "phoneNumber": "dsadas",
+      "email": "judsa"
+    },
+    "salon": {
+      "id": 1,
+      "salonName": "Afrodita",
+      "capacity": 200,
+      "priceByHour": 230000.0,
+      "numberOfReservations": 1
+    },
+    "startDate": "2026/09/12/12:12:00",
+    "amountOfHours": 2,
+    "endDate": "2026/09/12/14:12:00",
+    "price": 414000.0
+  }
+]

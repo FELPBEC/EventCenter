@@ -1,5 +1,6 @@
 package co.edu.uptc.Util;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.util.List;
 import com.google.gson.Gson;
@@ -15,6 +16,18 @@ import co.edu.uptc.Model.ReporteIngresos;
  * @version v 1.0
  */
 public class ExportadorService {
+
+    private String obtenerRutaReporte(String nombreArchivo, String extension) {
+        String rutaDeEjecucion = System.getProperty("user.dir");
+        File carpetaReportes = new File(rutaDeEjecucion, "reportes");
+        
+        if (!carpetaReportes.exists()) {
+            carpetaReportes.mkdirs(); 
+        }
+        
+        // Retorna algo como: C:/.../MiPrograma/reportes/mi_reporte.csv
+        return new File(carpetaReportes, nombreArchivo + extension).getAbsolutePath();
+    }
     /**
      * Exporta el reporte de ingresos a un archivo JSON usando Gson.
      * @param fechaInicio String de la fecha inicial (ej. "2026-01-01")
@@ -27,9 +40,10 @@ public class ExportadorService {
     public boolean exportarReporteIngresosJson(String fechaInicio, String fechaFin, double totalIngresos, List<Booking> reservas, String nombreArchivo){
         ReporteIngresos reporteIngresos= new ReporteIngresos(nombreArchivo, fechaInicio, fechaFin, totalIngresos, reservas);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        try (FileWriter writer= new FileWriter(nombreArchivo+".json")){
+        String rutaCompleta = obtenerRutaReporte(nombreArchivo, ".json");
+        try (FileWriter writer= new FileWriter(rutaCompleta)){
             gson.toJson(reporteIngresos,writer);
+            System.out.println(">> Reporte guardado en: " + rutaCompleta);
             return true;
         } catch (Exception e) {
             System.err.println("Error al intentar crear el archivo json "+e.getMessage());
@@ -47,7 +61,8 @@ public class ExportadorService {
      * @return true si se exportó bien, false si ocurrió un error.
      */
     public boolean exportarReporteIngresosCSV(String fechaInicio, String fechaFin, double totalIngresos, List<Booking> reservas, String nombreArchivo) {
-        try (FileWriter writer = new FileWriter(nombreArchivo+".csv")) {
+        String rutaCompleta = obtenerRutaReporte(nombreArchivo, ".csv");
+        try (FileWriter writer = new FileWriter(rutaCompleta)) {
             writer.write("Reporte de Ingresos - Centro de Eventos Elite\n");
             writer.write("Periodo:," + fechaInicio + " a " + fechaFin + "\n");
             writer.write("Ingresos Totales:," + totalIngresos + "\n");
@@ -68,6 +83,7 @@ public class ExportadorService {
                             reserva.getAmountOfHours() + ","+
                             reserva.getPrice()+"\n");
             }
+            System.out.println(">> Reporte CSV guardado en: " + rutaCompleta);
             return true; 
             } catch (Exception e) {
                 System.err.println("Error al intentar crear el archivo CSV: " + e.getMessage());

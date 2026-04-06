@@ -55,7 +55,7 @@ public class AdminServices {
      * @param adminList la lista donde se buscará al administrador para ser eliminado
      */
     public void fireAdmin(int id,List<Admin> adminList){
-       adminList.removeIf(admin -> admin.getId() == id);
+        adminList.removeIf(admin -> admin.getId() == id);
     }
 
     /**Método que actualiza un administrador a traves de su posición
@@ -69,8 +69,8 @@ public class AdminServices {
         Admin admin = sendAdminById(id, adminList);
         if(admin!=null){
             for (int i = 0; i < adminList.size(); i++) {
-             if (adminList.get(i).getId() == id) {
-                 adminList.set(i, updatedAdmin);
+            if (adminList.get(i).getId() == id) {
+                adminList.set(i, updatedAdmin);
         }
         }
             return true;

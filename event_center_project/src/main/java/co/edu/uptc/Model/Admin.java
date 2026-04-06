@@ -22,7 +22,7 @@ public class Admin extends Person{
      * @param phoneNumber   número de telefono del admnistrador
      * @param email     correo eléctronico del administrador
      */
-    public Admin(String userName, int id, String password, String phoneNumber, String email) {
+    public Admin(String userName, int id, String email, String password, String phoneNumber) {
         super(userName, id, password, phoneNumber, email);
     }
     

@@ -1,6 +1,7 @@
 package co.edu.uptc.View;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Locale;
@@ -355,6 +356,7 @@ public class VistaConsola {
                                         tipoValido = true;
                                         System.out.println(mensajes.getString("cliente.reserva.pedir.capacidad"));
                                         capacity=scanner.nextInt();
+                                        scanner.nextLine();
                                         break;
                                     case 2:
                                         filtro.setFiltrerByCapacity(false);
@@ -404,15 +406,19 @@ public class VistaConsola {
                             System.out.println("No hay salones disponibles para esa fecha");
                         }else{ //Si hay salones disponibles
                             for (Salon salon : salonesDisponibles) {
-                                System.out.println("-------------------------------------------------\n");
-                                System.out.println(mensajes.getString("salon.services.mostrar.clase"));
-                                System.out.println("-------------------------------------------------");
-                                System.out.println(mensajes.getString("salon.services.mostrar.id") + " " + salon.getId());
-                                System.out.println(mensajes.getString("salon.services.mostrar.nombre") + " " + salon.getSalonName());
-                                System.out.println(mensajes.getString("salon.services.mostrar.capacidad") + " " + salon.getCapacity());
-                                System.out.println(mensajes.getString("salon.services.mostrar.precio.por.hora") + salon.getPriceByHour());
-                                System.out.println(mensajes.getString("salon.services.mostrar.numero.reservaciones") + " " + salon.getNumberOfReservations());
-                                System.out.println("-------------------------------------------------");
+                                if (salon!=null) {
+                                    System.out.println("-------------------------------------------------\n");
+                                    System.out.println(mensajes.getString("salon.services.mostrar.clase"));
+                                    System.out.println("-------------------------------------------------");
+                                    System.out.println(mensajes.getString("salon.services.mostrar.id") + " " + salon.getId());
+                                    System.out.println(mensajes.getString("salon.services.mostrar.nombre") + " " + salon.getSalonName());
+                                    System.out.println(mensajes.getString("salon.services.mostrar.capacidad") + " " + salon.getCapacity());
+                                    System.out.println(mensajes.getString("salon.services.mostrar.precio.por.hora") + salon.getPriceByHour());
+                                    System.out.println(mensajes.getString("salon.services.mostrar.numero.reservaciones") + " " + salon.getNumberOfReservations());
+                                    System.out.println("-------------------------------------------------");
+                                }else{
+                                    System.out.println(mensajes.getString("cliente.reserva.error.salon.null"));
+                                }
                             }
                                 boolean idvalido=false;
                                 while (!idvalido) {
@@ -599,9 +605,11 @@ public class VistaConsola {
                             System.out.println(mensajes.getString("admin.services.mostrar.id")+admin.getId());
                             System.out.println(mensajes.getString("admin.services.mostrar.numero.telefonico")+admin.getPhoneNumber());
                             System.out.println(mensajes.getString("admin.services.mostrar.correo")+admin.getEmail());
+                            System.out.println("-------------------------------------------------\n");
                         }
                         break;
                     case 2:
+                        try {
                             System.out.println(mensajes.getString("admin.admins.op2.pedirID"));
                             int idModificar=scanner.nextInt();
                             scanner.nextLine();
@@ -630,7 +638,7 @@ public class VistaConsola {
                                 }
                                 }
                                 if(adminServices.updateAdmin(idModificar, new Admin(name, idModificar, correo, contraseña, numeroTelefonico), adminList)){
-                                    clientJsonRepository.saveClientList(listClient);
+                                    adminJsonRepository.saveJsonAdminList(adminList);
                                     System.out.println(mensajes.getString("modificar.admin.exito"));
                                 }else{
                                     System.out.println(mensajes.getString("modificar.admin.error"));
@@ -639,20 +647,28 @@ public class VistaConsola {
                             }else{
                                     System.out.println(mensajes.getString("modificar.admin.error"));
                             }
+                        } catch (InputMismatchException e) {
+                            System.out.println(mensajes.getString("general.error.formato"));
+                        }
 
                         break;
                     
                     case 3:
-                            System.out.println(mensajes.getString("admin.admins.op3.pedirID"));
-                            int idFired=scanner.nextInt();
-                            scanner.nextLine();
-                            adminServices.fireAdmin(idFired, adminList);
-                    break;
+                            try{ 
+                                System.out.println(mensajes.getString("admin.admins.op3.pedirID"));
+                                int idFired=scanner.nextInt();
+                                scanner.nextLine();
+                                adminServices.fireAdmin(idFired, adminList);    
+                                adminJsonRepository.saveJsonAdminList(adminList);
+                            } catch (InputMismatchException e) {
+                                System.out.println(mensajes.getString("general.error.formato"));
+                            }
+                        break;
                     case 4:
                             System.out.println(mensajes.getString("admin.admins.op4.pedirID"));
                             int idNuevoAdmin=scanner.nextInt();
                             scanner.nextLine();
-                            datosValidos=false;
+                            boolean datosValidos=false;
                             
                             if(adminServices.sendAdminById(idNuevoAdmin, adminList)==null){
                                 String name="";
@@ -660,21 +676,21 @@ public class VistaConsola {
                                 String contraseña="";
                                 String numeroTelefonico="";
                                 while (!datosValidos) {
-                                try {
-                                System.out.println(mensajes.getString("admin.admins.op2.aviso"));
-                                System.out.println(mensajes.getString("registro.pedir.nombre"));
-                                name= scanner.nextLine();
-                                System.out.println(mensajes.getString("registro.pedir.correo"));
-                                correo = scanner.nextLine();
-                                System.out.println(mensajes.getString("registro.pedir.contrasena"));
-                                contraseña= scanner.nextLine();
-                                System.out.println(mensajes.getString("registro.pedir.telefono"));
-                                numeroTelefonico = scanner.nextLine();
-                                datosValidos=true;
-                                } catch (InputMismatchException e) {
-                                    System.out.println("\n" + mensajes.getString("error.letras"));
-                                    scanner.nextLine();
-                                }
+                                    try {
+                                    System.out.println(mensajes.getString("admin.admins.op2.aviso"));
+                                    System.out.println(mensajes.getString("registro.pedir.nombre"));
+                                    name= scanner.nextLine();
+                                    System.out.println(mensajes.getString("registro.pedir.correo"));
+                                    correo = scanner.nextLine();
+                                    System.out.println(mensajes.getString("registro.pedir.contrasena"));
+                                    contraseña= scanner.nextLine();
+                                    System.out.println(mensajes.getString("registro.pedir.telefono"));
+                                    numeroTelefonico = scanner.nextLine();
+                                    datosValidos=true;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("\n" + mensajes.getString("error.letras"));
+                                        scanner.nextLine();
+                                    }
                                 }
                                 adminServices.saveNewAdmin(new Admin(name, idNuevoAdmin, correo, contraseña, numeroTelefonico), adminList);
                                 adminJsonRepository.saveJsonAdminList(adminList);
@@ -733,52 +749,56 @@ public class VistaConsola {
                         String correo =null;
                         String telefono =null;
                         boolean esEmpresarial=false;
-                        System.out.println(mensajes.getString("admin.clientes.op2.id"));
-                        int idcliente= scanner.nextInt();
-                        scanner.nextLine();
-                        if (clientService.buscarClientPorId(idcliente, listClient)!=null) {
-                            System.out.println(mensajes.getString("admin.clientes.op2.aviso"));
+                        try{ 
+                            System.out.println(mensajes.getString("admin.clientes.op2.id"));
+                            int idcliente= scanner.nextInt();
                             scanner.nextLine();
-                            System.out.println(mensajes.getString("registro.pedir.nombre"));
-                            nombre= scanner.nextLine();
-                            System.out.println(mensajes.getString("registro.pedir.contrasena"));
-                            contrasenaNueva= scanner.nextLine();
-                            System.out.println(mensajes.getString("registro.pedir.correo"));
-                            correo= scanner.nextLine();
-                            System.out.println(mensajes.getString("registro.pedir.telefono"));
-                            telefono= scanner.nextLine();
-                            boolean tipoValido = false;
-                            while (!tipoValido) {
-                                System.out.println(mensajes.getString("registro.pedir.empresarial"));
-                                try {
-                                    int tipo = scanner.nextInt();
-                                    scanner.nextLine();
-                                    switch (tipo) {
-                                        case 1:
-                                            esEmpresarial = true;
-                                            tipoValido = true;
-                                            break;
-                                        case 2:
-                                            esEmpresarial = false;
-                                            tipoValido = true;
-                                            break;
-                                        default:
-                                            System.out.println(mensajes.getString("error.opcion.binaria"));
-                                            break;
+                            if (clientService.buscarClientPorId(idcliente, listClient)!=null) {
+                                System.out.println(mensajes.getString("admin.clientes.op2.aviso"));
+                                scanner.nextLine();
+                                System.out.println(mensajes.getString("registro.pedir.nombre"));
+                                nombre= scanner.nextLine();
+                                System.out.println(mensajes.getString("registro.pedir.contrasena"));
+                                contrasenaNueva= scanner.nextLine();
+                                System.out.println(mensajes.getString("registro.pedir.correo"));
+                                correo= scanner.nextLine();
+                                System.out.println(mensajes.getString("registro.pedir.telefono"));
+                                telefono= scanner.nextLine();
+                                boolean tipoValido = false;
+                                while (!tipoValido) {
+                                    System.out.println(mensajes.getString("registro.pedir.empresarial"));
+                                    try {
+                                        int tipo = scanner.nextInt();
+                                        scanner.nextLine();
+                                        switch (tipo) {
+                                            case 1:
+                                                esEmpresarial = true;
+                                                tipoValido = true;
+                                                break;
+                                            case 2:
+                                                esEmpresarial = false;
+                                                tipoValido = true;
+                                                break;
+                                            default:
+                                                System.out.println(mensajes.getString("error.opcion.binaria"));
+                                                break;
+                                        }
+                                    } catch (InputMismatchException e) {
+                                        System.out.println(mensajes.getString("error.letras.binaria"));
+                                        scanner.nextLine();
                                     }
-                                } catch (InputMismatchException e) {
-                                    System.out.println(mensajes.getString("error.letras.binaria"));
-                                    scanner.nextLine();
                                 }
-                            }
-                            if (clientService.modificarCliente(idcliente, new Client(nombre, idcliente, contrasenaNueva, correo, telefono, esEmpresarial),listClient)) {
-                                clientJsonRepository.saveClientList(listClient);
-                                System.out.println(mensajes.getString("general.modificado.exito"));
+                                if (clientService.modificarCliente(idcliente, new Client(nombre, idcliente, contrasenaNueva, correo, telefono, esEmpresarial),listClient)) {
+                                    clientJsonRepository.saveClientList(listClient);
+                                    System.out.println(mensajes.getString("general.modificado.exito"));
+                                }else{
+                                    System.out.println(mensajes.getString("general.modificado.error"));
+                                }
                             }else{
                                 System.out.println(mensajes.getString("general.modificado.error"));
                             }
-                        }else{
-                            System.out.println(mensajes.getString("general.modificado.error"));
+                        } catch (InputMismatchException e) {
+                            System.out.println(mensajes.getString("general.error.formato"));
                         }
                         break;
                     case 3: 
@@ -816,6 +836,9 @@ public class VistaConsola {
                 scanner.nextLine();
                 switch (op) {
                     case 1: 
+                        if (salonList==null) {
+                            salonList= new ArrayList<>();
+                        }
                         int id= salonServices.generateNewId(salonList);
                         System.out.println("\n--- " + mensajes.getString("admin.salones.op1").toUpperCase() + " ---");
                         System.out.println(mensajes.getString("registro.salon.pedir.nombre"));
@@ -951,14 +974,19 @@ public class VistaConsola {
                         System.out.println(mensajes.getString("admin.pedir.fecha.inicio"));
                         System.out.println(mensajes.getString("admin.pedir.año"));
                         int year = scanner.nextInt();
+                        scanner.nextLine();
                         System.out.println(mensajes.getString("admin.pedir.mes"));
                         int mounth = scanner.nextInt();
+                        scanner.nextLine();
                         System.out.println(mensajes.getString("admin.pedir.dia"));
                         int day = scanner.nextInt();
+                        scanner.nextLine();
                         System.out.println(mensajes.getString("admin.pedir.hora"));
                         int hour = scanner.nextInt();
+                        scanner.nextLine();
                         System.out.println(mensajes.getString("admin.pedir.minuto"));
                         int minute= scanner.nextInt();
+                        scanner.nextLine();
                         fechaInicio=LocalDateTime.of(year, mounth, day, hour, minute, 0);
                         boolean fechaValida= false;
                         while (!fechaValida) {
@@ -1017,12 +1045,12 @@ public class VistaConsola {
                         }
                         
                     } catch(InputMismatchException e){
-                        System.out.println("general.error.formato");
+                        System.out.println(mensajes.getString("general.error.formato"));
                     }
                     catch (java.time.DateTimeException e) {
                         System.out.println(mensajes.getString("admin.export.date_error"));
                     } catch (Exception e) {
-                        System.out.println("general.error");
+                        System.out.println(mensajes.getString("general.error"));
                     }
                     break;
                 case 3: 

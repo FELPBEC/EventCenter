@@ -19,7 +19,7 @@ public class SalonServices {
      * @param salon el nuevo salón que se ingresa
      */
     public boolean addNewSalon(Salon salon, List<Salon> listSalones){
-        if (buscarSalonPorNombre(salon.getSalonName()) != null) {
+        if (buscarSalonPorNombre(salon.getSalonName(),listSalones) != null) {
             return false; // El salón ya existe
         }
         listSalones.add(salon);
@@ -113,7 +113,7 @@ public class SalonServices {
      * @param nombre El nombre del salón a buscar.
      * @return El objeto Salon si lo encuentra, de lo contrario retorna null.
      */
-    public Salon buscarSalonPorNombre(String nombre) {
+    public Salon buscarSalonPorNombre(String nombre,List<Salon> listSalones) {
         for (Salon salon : listSalones) {
             if (salon.getSalonName().equalsIgnoreCase(nombre)) {
                 return salon;
