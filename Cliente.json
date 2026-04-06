@@ -6,5 +6,13 @@
     "password": "1234",
     "phoneNumber": "1234",
     "email": "julian"
+  },
+  {
+    "Empresarial": false,
+    "userName": "pepe",
+    "id": 45,
+    "password": "123",
+    "phoneNumber": "321321",
+    "email": "ref"
   }
 ]

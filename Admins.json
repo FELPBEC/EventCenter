@@ -1,9 +1,26 @@
 [
-    {
-        "username":"Admin",
-        "id":1234,
-        "password":"1234",
-        "phoneNumber":"3142159789",
-        "email":"julian.moreno21@gmail.com"
-    }
+  {
+    "nivelAcceso": 0,
+    "userName": "pepe",
+    "id": 1234,
+    "password": "1234",
+    "phoneNumber": "3142159789",
+    "email": "julian.moreno21@gmail.com"
+  },
+  {
+    "nivelAcceso": 0,
+    "userName": "pepe",
+    "id": 2,
+    "password": "pepe",
+    "phoneNumber": "1234",
+    "email": "3213213"
+  },
+  {
+    "nivelAcceso": 0,
+    "userName": "felipe",
+    "id": 12,
+    "password": "felp",
+    "phoneNumber": "12",
+    "email": "123132"
+  }
 ]

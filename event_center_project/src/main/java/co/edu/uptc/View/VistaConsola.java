@@ -277,7 +277,6 @@ public class VistaConsola {
                                 System.out.println(mensajes.getString("salon.services.mostrar.capacidad") + " " + salon.getCapacity());
                                 System.out.println(mensajes.getString("salon.services.mostrar.precio.por.hora") + salon.getPriceByHour());
                                 System.out.println(mensajes.getString("salon.services.mostrar.numero.reservaciones") + " " + salon.getNumberOfReservations());
-
                             }
                             System.out.println("-------------------------------------------------\n");
                         }
@@ -312,32 +311,35 @@ public class VistaConsola {
                                 
                             }
                         }
-
-
                         //Pidiendo la fecha de la reserva
                         while (!fechaValida) {
-                            System.out.println(mensajes.getString("cliente.reserva.pedir.año"));
-                            int year = scanner.nextInt();
-                            System.out.println(mensajes.getString("cliente.reserva.pedir.mes"));
-                            int mounth = scanner.nextInt();
-                            System.out.println(mensajes.getString("cliente.reserva.pedir.dia"));
-                            int day = scanner.nextInt();
-                            System.out.println(mensajes.getString("cliente.reserva.pedir.hora"));
-                            int hour = scanner.nextInt();
-                            System.out.println(mensajes.getString("cliente.reserva.pedir.minuto"));
-                            int minute= scanner.nextInt();
-                            startDateBooking=LocalDateTime.of(year, mounth, day, hour, minute);
+                            try{ 
+                                System.out.println(mensajes.getString("cliente.reserva.pedir.año"));
+                                int year = scanner.nextInt();
+                                System.out.println(mensajes.getString("cliente.reserva.pedir.mes"));
+                                int mounth = scanner.nextInt();
+                                System.out.println(mensajes.getString("cliente.reserva.pedir.dia"));
+                                int day = scanner.nextInt();
+                                System.out.println(mensajes.getString("cliente.reserva.pedir.hora"));
+                                int hour = scanner.nextInt();
+                                System.out.println(mensajes.getString("cliente.reserva.pedir.minuto"));
+                                int minute= scanner.nextInt();
+                                startDateBooking=LocalDateTime.of(year, mounth, day, hour, minute);
 
-                            filtro= new FiltrerService(startDateBooking , horas);
-                            try {
-                                if (startDateBooking.isBefore(LocalDateTime.now())) {
-                                    System.out.println(mensajes.getString("cliente.reserva.pedir.fecha.pasado"));
-                                }else{
-                                    fechaValida=true;
+                                filtro= new FiltrerService(startDateBooking , horas);
+                                try {
+                                    if (startDateBooking.isBefore(LocalDateTime.now())) {
+                                        System.out.println(mensajes.getString("cliente.reserva.pedir.fecha.pasado"));
+                                    }else{
+                                        fechaValida=true;
+                                    }
+                                } catch (java.time.format.DateTimeParseException e) {
+                                    System.out.println(mensajes.getString("general.error.fecha"));
                                 }
-                            } catch (java.time.format.DateTimeParseException e) {
-                                System.out.println(mensajes.getString("general.error.fecha"));
-                            }
+                            }catch (InputMismatchException e) {
+                                System.out.println(mensajes.getString("general.error.formato"));
+                                scanner.nextLine();
+                            }   
                         } 
 
                         //Pidiendo filtro por capacidad
@@ -395,69 +397,61 @@ public class VistaConsola {
                                 scanner.nextLine();
                             }
                         }
-
-
-                        //APLICANDO FILTROS Y SELECCIONANDO EL SALÓN
-                                    rankedSalon.setNumberOfReservations(salonList,bookingList);
-
-                                    List<Salon> salonesDisponibles= filtro.sendFiltrerSalonList(budget, capacity, salonList,bookingList);
-
-                                    if (salonesDisponibles.isEmpty()) { //No hay salones que cumplan con los requerimientos
-                                        System.out.println("No hay salones disponibles para esa fecha");
-                                    }else{ //Si hay salones disponibles
+            //APLICANDO FILTROS Y SELECCIONANDO EL SALÓN
+                        rankedSalon.setNumberOfReservations(salonList,bookingList);
+                        List<Salon> salonesDisponibles= filtro.sendFiltrerSalonList(budget, capacity, salonList,bookingList);
+                        if (salonesDisponibles.isEmpty()) { //No hay salones que cumplan con los requerimientos
+                            System.out.println("No hay salones disponibles para esa fecha");
+                        }else{ //Si hay salones disponibles
+                            for (Salon salon : salonesDisponibles) {
+                                System.out.println("-------------------------------------------------\n");
+                                System.out.println(mensajes.getString("salon.services.mostrar.clase"));
+                                System.out.println("-------------------------------------------------");
+                                System.out.println(mensajes.getString("salon.services.mostrar.id") + " " + salon.getId());
+                                System.out.println(mensajes.getString("salon.services.mostrar.nombre") + " " + salon.getSalonName());
+                                System.out.println(mensajes.getString("salon.services.mostrar.capacidad") + " " + salon.getCapacity());
+                                System.out.println(mensajes.getString("salon.services.mostrar.precio.por.hora") + salon.getPriceByHour());
+                                System.out.println(mensajes.getString("salon.services.mostrar.numero.reservaciones") + " " + salon.getNumberOfReservations());
+                                System.out.println("-------------------------------------------------");
+                            }
+                                boolean idvalido=false;
+                                while (!idvalido) {
+                                    try {
+                                        System.out.println(mensajes.getString("cliente.reserva.pedir.salon"));
+                                        id= scanner.nextInt();
+                                        scanner.nextLine();
                                         for (Salon salon : salonesDisponibles) {
-                                            System.out.println("-------------------------------------------------\n");
-                                            System.out.println(mensajes.getString("salon.services.mostrar.clase"));
-                                            System.out.println("-------------------------------------------------");
-                                            System.out.println(mensajes.getString("salon.services.mostrar.id") + " " + salon.getId());
-                                            System.out.println(mensajes.getString("salon.services.mostrar.nombre") + " " + salon.getSalonName());
-                                            System.out.println(mensajes.getString("salon.services.mostrar.capacidad") + " " + salon.getCapacity());
-                                            System.out.println(mensajes.getString("salon.services.mostrar.precio.por.hora") + salon.getPriceByHour());
-                                            System.out.println(mensajes.getString("salon.services.mostrar.numero.reservaciones") + " " + salon.getNumberOfReservations());
-                                            System.out.println("-------------------------------------------------");
+                                            if (salon.getId()==id) {
+                                                salonElegido=salon;
+                                                idvalido=true;
+                                                break;
+                                            }
                                         }
-                                            boolean idvalido=false;
-                                            while (!idvalido) {
-                                                try {
-                                                    System.out.println(mensajes.getString("cliente.reserva.pedir.salon"));
-                                                    id= scanner.nextInt();
-                                                    scanner.nextLine();
-                                                    for (Salon salon : salonesDisponibles) {
-                                                        if (salon.getId()==id) {
-                                                            salonElegido=salon;
-                                                            idvalido=true;
-                                                            break;
-                                                        }
-                                                    }
-                                                    if (!idvalido) {
-                                                        System.out.println(mensajes.getString("cliente.reservas.pedir.id.error"));
-                                                    }
-                                                } catch (InputMismatchException e) {
-                                                    System.out.println("\n" + mensajes.getString("error.letras"));
-                                                    scanner.nextLine();
-                                                }
-
-                                            }
-                                            try {
-                                                 //Calculamos la fecha de finalización de la reserva 
-                                                LocalDateTime endDateBooking = startDateBooking.plusHours(horas);
-
-                                                //Pasamos a formato String para poder importarlas
-                                                String fechaInicioStr=dateConvertor.localDateTimeToString(startDateBooking);
-                                                String fechaFinStr = dateConvertor.localDateTimeToString(endDateBooking);
-                                                int nuevoId = bookingServices.sendNewId(bookingList);
-                                                Booking nuevaReserva = new Booking(nuevoId, this.clienteLogeado, salonElegido, fechaInicioStr, horas, fechaFinStr);
-                                                nuevaReserva.setPrice(bookingServices.calculatePriceBooking(nuevaReserva,bookingList));
-                                                bookingServices.saveNewBooking(nuevaReserva,bookingList);
-                                                bookingJsonRepository.saveBookingList(bookingList);
-                                                System.out.println("\n>> " + mensajes.getString("cliente.reserva.exito") + " " + fechaFinStr);
-                                                System.out.println(mensajes.getString("booking.services.mostrar.precio")+" $"+nuevaReserva.getPrice());
-                                            } catch (java.time.format.DateTimeParseException e) {
-                                                 System.out.println("\n>> " + mensajes.getString("cliente.reserva.error.fecha"));
-                                            }
+                                        if (!idvalido) {
+                                            System.out.println(mensajes.getString("cliente.reservas.pedir.id.error"));
+                                        }
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("\n" + mensajes.getString("error.letras"));
+                                        scanner.nextLine();
                                     }
-                        
-                        
+                                }
+                                try {
+                                     //Calculamos la fecha de finalización de la reserva 
+                                    LocalDateTime endDateBooking = startDateBooking.plusHours(horas);
+                                    //Pasamos a formato String para poder importarlas
+                                    String fechaInicioStr=dateConvertor.localDateTimeToString(startDateBooking);
+                                    String fechaFinStr = dateConvertor.localDateTimeToString(endDateBooking);
+                                    int nuevoId = bookingServices.sendNewId(bookingList);
+                                    Booking nuevaReserva = new Booking(nuevoId, this.clienteLogeado, salonElegido, fechaInicioStr, horas, fechaFinStr);
+                                    nuevaReserva.setPrice(bookingServices.calculatePriceBooking(nuevaReserva,bookingList));
+                                    bookingServices.saveNewBooking(nuevaReserva,bookingList);
+                                    bookingJsonRepository.saveBookingList(bookingList);
+                                    System.out.println("\n>> " + mensajes.getString("cliente.reserva.exito") + " " + fechaFinStr);
+                                    System.out.println(mensajes.getString("booking.services.mostrar.precio")+" $"+nuevaReserva.getPrice());
+                                } catch (java.time.format.DateTimeParseException e) {
+                                    System.out.println("\n>> " + mensajes.getString("cliente.reserva.error.fecha"));
+                                }
+                        }
                         break;
                     case 3:
                         listReservas =bookingServices.sendBookingListByClient(this.clienteLogeado.getId(),bookingList);
@@ -480,35 +474,31 @@ public class VistaConsola {
                                 System.out.println(mensajes.getString("salon.services.mostrar.capacidad") + " " + salon.getCapacity());
                                 System.out.println(mensajes.getString("salon.services.mostrar.precio.por.hora") + salon.getPriceByHour());
                                 System.out.println(mensajes.getString("salon.services.mostrar.numero.reservaciones") + " " + salon.getNumberOfReservations());
-
                             }
                             System.out.println("-------------------------------------------------\n");
-                                boolean idvalido=false;
-                                    while (!idvalido) {
-                                        try {
-                                                    System.out.println(mensajes.getString("cliente.eliminar.reserva"));
-                                                    id=scanner.nextInt();
-                                                    scanner.nextLine();
-                                                    for (Booking booking : listReservas) {
-                                                        if (booking.getId()==id) {
-                                                            bookingServices.cancelBooking(id, bookingList);
-                                                            bookingJsonRepository.saveBookingList(bookingList);
-                                                            idvalido=true;
-                                                            break;
-                                                        }
-                                                    }
-                                                    if (!idvalido) {
-                                                        System.out.println(mensajes.getString("cliente.reservas.pedir.id.error"));
-                                                    }
-                                                } catch (InputMismatchException e) {
-                                                    System.out.println("\n" + mensajes.getString("error.letras"));
-                                                    scanner.nextLine();
-                                                }
-
-                                            }
+                            boolean idvalido=false;
+                            while (!idvalido) {
+                                try {
+                                    System.out.println(mensajes.getString("cliente.eliminar.reserva"));
+                                    id=scanner.nextInt();
+                                    scanner.nextLine();
+                                    for (Booking booking : listReservas) {
+                                        if (booking.getId()==id) {
+                                            bookingServices.cancelBooking(id, bookingList);
+                                            bookingJsonRepository.saveBookingList(bookingList);
+                                            idvalido=true;
+                                            break;
+                                        }
+                                    }
+                                    if (!idvalido) {
+                                        System.out.println(mensajes.getString("cliente.reservas.pedir.id.error"));
+                                    }
+                                } catch (InputMismatchException e) {
+                                    System.out.println("\n" + mensajes.getString("error.letras"));
+                                    scanner.nextLine();
+                                }
+                            }
                         }
-                        
-                                
                         break;
                     case 4:
                         System.out.println(mensajes.getString("general.cerrando.sesion"));
@@ -525,38 +515,24 @@ public class VistaConsola {
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //MENÚS ADMINISTRADOR
     private void loginAdmin(){
-        System.out.println(mensajes.getString("login.admin.titulo"));
-        System.out.println(mensajes.getString("login.admin.cedula"));
-        int cedula= scanner.nextInt();
-        scanner.nextLine();
-        System.out.println(mensajes.getString("login.admin.contrasena"));
-        String contrasena= scanner.nextLine();
-        if (adminServices.validateAccess(cedula, contrasena,adminList)) {
-            this.adminLogeado=adminServices.sendAdminById(cedula,adminList);
-            System.out.println(mensajes.getString("login.exito"));
-            menuInternoAdmin();
-        }else{
-            System.out.println(mensajes.getString("general.error.sesion"));
+        try{ 
+            System.out.println(mensajes.getString("login.admin.titulo"));
+            System.out.println(mensajes.getString("login.admin.cedula"));
+            int cedula= scanner.nextInt();
+            scanner.nextLine();
+            System.out.println(mensajes.getString("login.admin.contrasena"));
+            String contrasena= scanner.nextLine();
+            if (adminServices.validateAccess(cedula, contrasena,adminList)) {
+                this.adminLogeado=adminServices.sendAdminById(cedula,adminList);
+                System.out.println(mensajes.getString("login.exito"));
+                menuInternoAdmin();
+            }else{
+                System.out.println(mensajes.getString("general.error.sesion"));
+            }
+        }catch (InputMismatchException e) {
+            System.out.println(mensajes.getString("general.error.formato"));
         }
     }
 
@@ -605,110 +581,116 @@ public class VistaConsola {
 
     private void menuGestionAdministradores(){
         boolean volver= false;
-        
         while (!volver) {
             System.out.println(mensajes.getString("admin.admins.titulo"));
             System.out.println(mensajes.getString("admin.admins.op1"));//VER LISTA COMPLETA DE ADMINISTRADORES
             System.out.println(mensajes.getString("admin.admins.op2"));//MODIFICAR UN ADMINISTRADOR
             System.out.println(mensajes.getString("admin.admins.op3"));//ELIMINAR UN ADMINISTRADOR
             System.out.println(mensajes.getString("admin.admins.op4"));//CREAR UN ADMINISTRADOR
-            System.out.println(mensajes.getString("admin.sub.volver"));//VOLVER AL MENÚ PRINCIPAL
+            System.out.println(mensajes.getString("admin.admins.op5"));//VOLVER AL MENÚ PRINCIPAL
             System.out.println(mensajes.getString("general.ingreso.opcion"));
-            int op = scanner.nextInt();
-            switch (op) {
-                case 1:
-                    for (Admin admin : adminList) {
-                        System.out.println(mensajes.getString("admin.services.mostrar.nombre")+admin.getUserName());
-                        System.out.println(mensajes.getString("admin.services.mostrar.id")+admin.getId());
-                        System.out.println(mensajes.getString("admin.services.mostrar.numero.telefonico")+admin.getPhoneNumber());
-                        System.out.println(mensajes.getString("admin.services.mostrar.correo")+admin.getEmail());
-                    }
-                    break;
-                case 2:
-                        System.out.println(mensajes.getString("admin.admins.op2.pedirID"));
-                        int idModificar=scanner.nextInt();
-                        scanner.nextLine();
-                        boolean datosValidos=false;
-                        
-                        if(adminServices.sendAdminById(idModificar, adminList)!=null){
-                            String name="";
-                            String correo="";
-                            String contraseña="";
-                            String numeroTelefonico="";
-                            while (!datosValidos) {
-                            try {
-                            System.out.println(mensajes.getString("admin.admins.op2.aviso"));
-                            System.out.println(mensajes.getString("registro.pedir.nombre"));
-                            name= scanner.nextLine();
-                            System.out.println(mensajes.getString("registro.pedir.correo"));
-                            correo = scanner.nextLine();
-                            System.out.println(mensajes.getString("registro.pedir.contrasena"));
-                            contraseña= scanner.nextLine();
-                            System.out.println(mensajes.getString("registro.pedir.telefono"));
-                             numeroTelefonico = scanner.nextLine();
-                             datosValidos=true;
-                            } catch (InputMismatchException e) {
-                                System.out.println("\n" + mensajes.getString("error.letras"));
-                                scanner.nextLine();
-                            }
-                            }
-                            if(adminServices.updateAdmin(idModificar, new Admin(name, idModificar, correo, contraseña, numeroTelefonico), adminList)){
-                                clientJsonRepository.saveClientList(listClient);
-                                System.out.println(mensajes.getString("modificar.admin.exito"));
+            try{
+                int op = scanner.nextInt();
+                scanner.nextLine();
+                switch (op) {
+                    case 1:
+                        for (Admin admin : adminList) {
+                            System.out.println(mensajes.getString("admin.services.mostrar.nombre")+admin.getUserName());
+                            System.out.println(mensajes.getString("admin.services.mostrar.id")+admin.getId());
+                            System.out.println(mensajes.getString("admin.services.mostrar.numero.telefonico")+admin.getPhoneNumber());
+                            System.out.println(mensajes.getString("admin.services.mostrar.correo")+admin.getEmail());
+                        }
+                        break;
+                    case 2:
+                            System.out.println(mensajes.getString("admin.admins.op2.pedirID"));
+                            int idModificar=scanner.nextInt();
+                            scanner.nextLine();
+                            boolean datosValidos=false;
+                            
+                            if(adminServices.sendAdminById(idModificar, adminList)!=null){
+                                String name="";
+                                String correo="";
+                                String contraseña="";
+                                String numeroTelefonico="";
+                                while (!datosValidos) {
+                                try {
+                                System.out.println(mensajes.getString("admin.admins.op2.aviso"));
+                                System.out.println(mensajes.getString("registro.pedir.nombre"));
+                                name= scanner.nextLine();
+                                System.out.println(mensajes.getString("registro.pedir.correo"));
+                                correo = scanner.nextLine();
+                                System.out.println(mensajes.getString("registro.pedir.contrasena"));
+                                contraseña= scanner.nextLine();
+                                System.out.println(mensajes.getString("registro.pedir.telefono"));
+                                numeroTelefonico = scanner.nextLine();
+                                datosValidos=true;
+                                } catch (InputMismatchException e) {
+                                    System.out.println("\n" + mensajes.getString("error.letras"));
+                                    scanner.nextLine();
+                                }
+                                }
+                                if(adminServices.updateAdmin(idModificar, new Admin(name, idModificar, correo, contraseña, numeroTelefonico), adminList)){
+                                    clientJsonRepository.saveClientList(listClient);
+                                    System.out.println(mensajes.getString("modificar.admin.exito"));
+                                }else{
+                                    System.out.println(mensajes.getString("modificar.admin.error"));
+                                }
+                                
                             }else{
-                                System.out.println(mensajes.getString("modificar.admin.error"));
+                                    System.out.println(mensajes.getString("modificar.admin.error"));
                             }
-                            
-                        }else{
-                                System.out.println(mensajes.getString("modificar.admin.error"));
-                        }
 
+                        break;
+                    
+                    case 3:
+                            System.out.println(mensajes.getString("admin.admins.op3.pedirID"));
+                            int idFired=scanner.nextInt();
+                            scanner.nextLine();
+                            adminServices.fireAdmin(idFired, adminList);
                     break;
-                
-                case 3:
-                        System.out.println(mensajes.getString(mensajes.getString("admin.admins.op3.pedirID")));
-                        int idFired=scanner.nextInt();
-                        adminServices.fireAdmin(idFired, adminList);
-                break;
-                case 4:
-                        int idNuevoAdmin=scanner.nextInt();
-                        scanner.nextLine();
-                        datosValidos=false;
-                        
-                        if(adminServices.sendAdminById(idNuevoAdmin, adminList)==null){
-                            String name="";
-                            String correo="";
-                            String contraseña="";
-                            String numeroTelefonico="";
-                            while (!datosValidos) {
-                            try {
-                            System.out.println(mensajes.getString("admin.admins.op2.aviso"));
-                            System.out.println(mensajes.getString("registro.pedir.nombre"));
-                            name= scanner.nextLine();
-                            System.out.println(mensajes.getString("registro.pedir.correo"));
-                            correo = scanner.nextLine();
-                            System.out.println(mensajes.getString("registro.pedir.contrasena"));
-                            contraseña= scanner.nextLine();
-                            System.out.println(mensajes.getString("registro.pedir.telefono"));
-                             numeroTelefonico = scanner.nextLine();
-                             datosValidos=true;
-                            } catch (InputMismatchException e) {
-                                System.out.println("\n" + mensajes.getString("error.letras"));
-                                scanner.nextLine();
-                            }
-                            }
-                            adminServices.saveNewAdmin(new Admin(name, idNuevoAdmin, correo, contraseña, numeroTelefonico), adminList);
+                    case 4:
+                            System.out.println(mensajes.getString("admin.admins.op4.pedirID"));
+                            int idNuevoAdmin=scanner.nextInt();
+                            scanner.nextLine();
+                            datosValidos=false;
                             
-                        }else{
-                                System.out.println(mensajes.getString("modificar.admin.error"));
-                        }
-                    break;
-            
-                default:
-                    break;
+                            if(adminServices.sendAdminById(idNuevoAdmin, adminList)==null){
+                                String name="";
+                                String correo="";
+                                String contraseña="";
+                                String numeroTelefonico="";
+                                while (!datosValidos) {
+                                try {
+                                System.out.println(mensajes.getString("admin.admins.op2.aviso"));
+                                System.out.println(mensajes.getString("registro.pedir.nombre"));
+                                name= scanner.nextLine();
+                                System.out.println(mensajes.getString("registro.pedir.correo"));
+                                correo = scanner.nextLine();
+                                System.out.println(mensajes.getString("registro.pedir.contrasena"));
+                                contraseña= scanner.nextLine();
+                                System.out.println(mensajes.getString("registro.pedir.telefono"));
+                                numeroTelefonico = scanner.nextLine();
+                                datosValidos=true;
+                                } catch (InputMismatchException e) {
+                                    System.out.println("\n" + mensajes.getString("error.letras"));
+                                    scanner.nextLine();
+                                }
+                                }
+                                adminServices.saveNewAdmin(new Admin(name, idNuevoAdmin, correo, contraseña, numeroTelefonico), adminList);
+                                adminJsonRepository.saveJsonAdminList(adminList);
+                            }else{
+                                    System.out.println(mensajes.getString("modificar.admin.error"));
+                            }
+                        break;
+                    case 5:
+                        volver=true;
+                        break;
+                    default:
+                        break;
+                }
+            }catch (InputMismatchException e) {
+                            System.out.println(mensajes.getString("general.error.formato"));
             }
-
-
         }
     }
 
@@ -721,93 +703,101 @@ public class VistaConsola {
             System.out.println(mensajes.getString("admin.clientes.op3"));//ElIMINAR UN CLIENTE
             System.out.println(mensajes.getString("admin.sub.volver")); //VOLVER AL MENÚ ANTERIOR
             System.out.println(mensajes.getString("general.ingreso.opcion"));//INGRESE UNA OPCIÓN
-            int op= scanner.nextInt();
-            switch (op) {
-                case 1: 
-                    if (listClient.isEmpty()) {
-                        System.out.println(mensajes.getString("admin.salones.op2.vacio"));
-                    } else {
-                        for (Client client : listClient) {
-                            System.out.println("-------------------------------------------------");
-                            System.out.println(mensajes.getString("client.services.mostrar.id") + " " + client.getId());
-                            System.out.println(mensajes.getString("client.services.mostrar.nombre") + " " + client.getUserName());
-                            System.out.println(mensajes.getString("client.services.mostrar.correo") + " " + client.getEmail());
-                            System.out.println(mensajes.getString("client.services.mostrar.numero.telefonico") + " " + client.getPhoneNumber());
-                            String esEmpresa;
-                            if (client.isEmpresarial()) {
-                                esEmpresa="SI/YES";
-                            }else{
-                                esEmpresa="NO";
-                            }
-                            System.out.println(mensajes.getString("client.services.mostrar.empresarial") + " " + esEmpresa);
-                        }
-                        System.out.println("-------------------------------------------------\n");
-                    }
-                    break;
-                case 2 : 
-                    System.out.println(mensajes.getString("admin.clientes.op2.id"));
-                    int idcliente= scanner.nextInt();
-                    scanner.nextLine();
-                    if (clientService.buscarClientPorId(idcliente, listClient)!=null) {
-                        System.out.println(mensajes.getString("admin.clientes.op2.aviso"));
-                        scanner.nextLine();
-                        System.out.println(mensajes.getString("registro.pedir.nombre"));
-                        String nombre= scanner.nextLine();
-                        System.out.println(mensajes.getString("registro.pedir.contrasena"));
-                        String contrasenaNueva= scanner.nextLine();
-                        System.out.println(mensajes.getString("registro.pedir.correo"));
-                        String correo= scanner.nextLine();
-                        System.out.println(mensajes.getString("registro.pedir.telefono"));
-                        String telefono= scanner.nextLine();
-                        boolean esEmpresarial = false;
-                        boolean tipoValido = false;
-                        while (!tipoValido) {
-                            System.out.println(mensajes.getString("registro.pedir.empresarial"));
-                            try {
-                                int tipo = scanner.nextInt();
-                                scanner.nextLine();
-                                switch (tipo) {
-                                    case 1:
-                                        esEmpresarial = true;
-                                        tipoValido = true;
-                                        break;
-                                    case 2:
-                                        esEmpresarial = false;
-                                        tipoValido = true;
-                                        break;
-                                    default:
-                                        System.out.println(mensajes.getString("error.opcion.binaria"));
-                                        break;
+            try{
+                int op= scanner.nextInt();
+                switch (op) {
+                    case 1: 
+                        if (listClient.isEmpty()) {
+                            System.out.println(mensajes.getString("admin.salones.op2.vacio"));
+                        } else {
+                            for (Client client : listClient) {
+                                System.out.println("-------------------------------------------------");
+                                System.out.println(mensajes.getString("client.services.mostrar.id") + " " + client.getId());
+                                System.out.println(mensajes.getString("client.services.mostrar.nombre") + " " + client.getUserName());
+                                System.out.println(mensajes.getString("client.services.mostrar.correo") + " " + client.getEmail());
+                                System.out.println(mensajes.getString("client.services.mostrar.numero.telefonico") + " " + client.getPhoneNumber());
+                                String esEmpresa;
+                                if (client.isEmpresarial()) {
+                                    esEmpresa="SI/YES";
+                                }else{
+                                    esEmpresa="NO";
                                 }
-                            } catch (InputMismatchException e) {
-                                System.out.println(mensajes.getString("error.letras.binaria"));
-                                scanner.nextLine();
+                                System.out.println(mensajes.getString("client.services.mostrar.empresarial") + " " + esEmpresa);
                             }
+                            System.out.println("-------------------------------------------------\n");
                         }
-                        if (clientService.modificarCliente(idcliente, new Client(nombre, idcliente, contrasenaNueva, correo, telefono, esEmpresarial),listClient)) {
-                            clientJsonRepository.saveClientList(listClient);
-                            System.out.println(mensajes.getString("general.modificado.exito"));
+                        break;
+                    case 2 : 
+                        String nombre =null;
+                        String contrasenaNueva =null;
+                        String correo =null;
+                        String telefono =null;
+                        boolean esEmpresarial=false;
+                        System.out.println(mensajes.getString("admin.clientes.op2.id"));
+                        int idcliente= scanner.nextInt();
+                        scanner.nextLine();
+                        if (clientService.buscarClientPorId(idcliente, listClient)!=null) {
+                            System.out.println(mensajes.getString("admin.clientes.op2.aviso"));
+                            scanner.nextLine();
+                            System.out.println(mensajes.getString("registro.pedir.nombre"));
+                            nombre= scanner.nextLine();
+                            System.out.println(mensajes.getString("registro.pedir.contrasena"));
+                            contrasenaNueva= scanner.nextLine();
+                            System.out.println(mensajes.getString("registro.pedir.correo"));
+                            correo= scanner.nextLine();
+                            System.out.println(mensajes.getString("registro.pedir.telefono"));
+                            telefono= scanner.nextLine();
+                            boolean tipoValido = false;
+                            while (!tipoValido) {
+                                System.out.println(mensajes.getString("registro.pedir.empresarial"));
+                                try {
+                                    int tipo = scanner.nextInt();
+                                    scanner.nextLine();
+                                    switch (tipo) {
+                                        case 1:
+                                            esEmpresarial = true;
+                                            tipoValido = true;
+                                            break;
+                                        case 2:
+                                            esEmpresarial = false;
+                                            tipoValido = true;
+                                            break;
+                                        default:
+                                            System.out.println(mensajes.getString("error.opcion.binaria"));
+                                            break;
+                                    }
+                                } catch (InputMismatchException e) {
+                                    System.out.println(mensajes.getString("error.letras.binaria"));
+                                    scanner.nextLine();
+                                }
+                            }
+                            if (clientService.modificarCliente(idcliente, new Client(nombre, idcliente, contrasenaNueva, correo, telefono, esEmpresarial),listClient)) {
+                                clientJsonRepository.saveClientList(listClient);
+                                System.out.println(mensajes.getString("general.modificado.exito"));
+                            }else{
+                                System.out.println(mensajes.getString("general.modificado.error"));
+                            }
                         }else{
                             System.out.println(mensajes.getString("general.modificado.error"));
                         }
-                    }else{
-                        System.out.println(mensajes.getString("general.modificado.error"));
-                    }
-                    break;
-                case 3: 
-                    System.out.println(mensajes.getString("admin.cliente.op3.id"));
-                    int id=scanner.nextInt();
-                    if (clientService.eliminarCliente(id,listClient)) {
-                        System.out.println(mensajes.getString("general.delete.exito"));
-                        clientJsonRepository.saveClientList(listClient);
-                    }else{
-                        System.out.println("general.delete.error");
-                    }
-                    break;
-                case 4: 
-                    volver = true; break;
-                default: 
-                    System.out.println(mensajes.getString("admin.sub.error")); break;
+                        break;
+                    case 3: 
+                        System.out.println(mensajes.getString("admin.cliente.op3.id"));
+                        int id=scanner.nextInt();
+                        if (clientService.eliminarCliente(id,listClient)) {
+                            System.out.println(mensajes.getString("general.delete.exito"));
+                            clientJsonRepository.saveClientList(listClient);
+                        }else{
+                            System.out.println(mensajes.getString("general.delete.error"));
+                        }
+                        break;
+                    case 4: 
+                        volver = true; break;
+                    default: 
+                        System.out.println(mensajes.getString("admin.sub.error")); break;
+                }
+            }catch (InputMismatchException e) {
+                            System.out.println(mensajes.getString("general.error.formato"));
             }
         }
     }
@@ -932,16 +922,12 @@ public class VistaConsola {
             System.out.println(mensajes.getString("admin.reportes.op1"));
             System.out.println(mensajes.getString("admin.reportes.op2"));
             System.out.println(mensajes.getString("admin.reportes.op3"));
-            System.out.println(mensajes.getString("admin.sub.volver"));
             System.out.print(mensajes.getString("general.ingreso.opcion"));
             
             int op = scanner.nextInt();
             scanner.nextLine();
             switch (op) {
                 case 1: 
-                    System.out.println("Ingrese fecha inicio y fin. Calculando total..."); 
-                    break;
-                case 2: 
                     List<Salon> listSalones = rankedSalon.sendTop5BestSalons(salonList);
                         if (listSalones.isEmpty()) {
                             System.out.println("admin.salones.op2.vacio");
@@ -957,15 +943,47 @@ public class VistaConsola {
                             System.out.println("-------------------------------------------------\n");
                         };
                     break;
-                case 3:
+                case 2:
+                    LocalDateTime fechaInicio=null;
+                    LocalDateTime fechaFin= null;
                     System.out.println(mensajes.getString("admin.export.title"));
                     try {
-                        System.out.println(mensajes.getString("cliente.reserva.pedir.fecha"));
-                        String fechaInicio = scanner.nextLine();
-                        
-                        System.out.println(mensajes.getString("admin.export.pedir.fecha.final"));
-                        String fechaFin = scanner.nextLine();
-                        List<Booking> reservasFiltradas = bookingServices.obtenerReservasPorRango(fechaInicio, fechaFin,bookingList);
+                        System.out.println(mensajes.getString("admin.pedir.fecha.inicio"));
+                        System.out.println(mensajes.getString("admin.pedir.año"));
+                        int year = scanner.nextInt();
+                        System.out.println(mensajes.getString("admin.pedir.mes"));
+                        int mounth = scanner.nextInt();
+                        System.out.println(mensajes.getString("admin.pedir.dia"));
+                        int day = scanner.nextInt();
+                        System.out.println(mensajes.getString("admin.pedir.hora"));
+                        int hour = scanner.nextInt();
+                        System.out.println(mensajes.getString("admin.pedir.minuto"));
+                        int minute= scanner.nextInt();
+                        fechaInicio=LocalDateTime.of(year, mounth, day, hour, minute, 0);
+                        boolean fechaValida= false;
+                        while (!fechaValida) {
+                            System.out.println(mensajes.getString("admin.pedir.fecha.final"));
+                            System.out.println(mensajes.getString("admin.pedir.año"));
+                            int year2 = scanner.nextInt();
+                            System.out.println(mensajes.getString("admin.pedir.mes"));
+                            int mounth2 = scanner.nextInt();
+                            System.out.println(mensajes.getString("admin.pedir.dia"));
+                            int day2 = scanner.nextInt();
+                            System.out.println(mensajes.getString("admin.pedir.hora"));
+                            int hour2 = scanner.nextInt();
+                            System.out.println(mensajes.getString("admin.pedir.minuto"));
+                            int minute2= scanner.nextInt();
+                            scanner.nextLine();
+                            fechaFin= LocalDateTime.of(year2, mounth2, day2, hour2, minute2, 0);
+                            if (fechaFin.isBefore(fechaInicio)||fechaFin.isEqual(fechaInicio)) {
+                                System.out.println(mensajes.getString("admin.export.date.error.fin"));
+                            }else{
+                                fechaValida=true;
+                            }
+                        }
+                        String fechaInicioStr=dateConvertor.localDateTimeToString(fechaInicio);
+                        String fechaFinStr= dateConvertor.localDateTimeToString(fechaFin);
+                        List<Booking> reservasFiltradas = bookingServices.obtenerReservasPorRango(fechaInicioStr, fechaFinStr,bookingList);
                         
                         if (reservasFiltradas.isEmpty()) {
                             System.out.println(mensajes.getString("admin.export.pedir.fecha.error"));
@@ -986,9 +1004,9 @@ public class VistaConsola {
                         
                         boolean exito = false;
                         if (opFormato == 1) {
-                            exito = exportadorService.exportarReporteIngresosJson(fechaInicio, fechaFin, totalIngresos, reservasFiltradas, nombreArchivo);
+                            exito = exportadorService.exportarReporteIngresosJson(fechaInicioStr, fechaFinStr, totalIngresos, reservasFiltradas, nombreArchivo);
                         } else if (opFormato == 2) {
-                            exito = exportadorService.exportarReporteIngresosCSV(fechaInicio, fechaFin, totalIngresos, reservasFiltradas, nombreArchivo);
+                            exito = exportadorService.exportarReporteIngresosCSV(fechaInicioStr, fechaFinStr, totalIngresos, reservasFiltradas, nombreArchivo);
                         } else {
                             System.out.println(mensajes.getString("admin.export.invalid"));
                         }
@@ -998,11 +1016,16 @@ public class VistaConsola {
                             System.out.println(mensajes.getString("admin.export.error"));
                         }
                         
-                    } catch (java.time.format.DateTimeParseException e) {
+                    } catch(InputMismatchException e){
+                        System.out.println("general.error.formato");
+                    }
+                    catch (java.time.DateTimeException e) {
                         System.out.println(mensajes.getString("admin.export.date_error"));
+                    } catch (Exception e) {
+                        System.out.println("general.error");
                     }
                     break;
-                case 4: 
+                case 3: 
                     volver = true; 
                     break;
                 default:

@@ -54,15 +54,15 @@
       "email": "julian"
     },
     "salon": {
-      "id": 3,
-      "salonName": "Poseidon",
-      "capacity": 34,
-      "priceByHour": 450000.0,
+      "id": 4,
+      "salonName": "Apolo",
+      "capacity": 200,
+      "priceByHour": 400000.0,
       "numberOfReservations": 0
     },
-    "startDate": "2026/09/12/12:12:12",
+    "startDate": "2026/08/25/12:30:00",
     "amountOfHours": 2,
-    "endDate": "2026/09/12/14:12:12",
-    "price": 810000.0
+    "endDate": "2026/08/25/14:30:00",
+    "price": 720000.0
   }
 ]

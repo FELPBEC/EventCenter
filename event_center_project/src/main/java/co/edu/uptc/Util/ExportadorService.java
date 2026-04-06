@@ -52,7 +52,7 @@ public class ExportadorService {
             writer.write("Periodo:," + fechaInicio + " a " + fechaFin + "\n");
             writer.write("Ingresos Totales:," + totalIngresos + "\n");
             writer.write("\n");
-            writer.write("ID Reserva,Cliente,Tipo Cliente,Salon,Fecha,Horas\n");
+            writer.write("ID Reserva,Cliente,Tipo Cliente,Salon,Fecha,Horas,Costo\n");
             for (Booking reserva : reservas) {
                 String tipoCliente;
                 if (reserva.getClient().isEmpresarial()) {
@@ -65,7 +65,8 @@ public class ExportadorService {
                             tipoCliente + "," + 
                             reserva.getSalon().getSalonName() + "," + 
                             reserva.getStartDate() + "," + 
-                            reserva.getAmountOfHours() + "\n");
+                            reserva.getAmountOfHours() + ","+
+                            reserva.getPrice()+"\n");
             }
             return true; 
             } catch (Exception e) {
