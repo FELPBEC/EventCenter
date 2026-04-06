@@ -21,7 +21,7 @@ public class AdminJsonRepository {
     public AdminJsonRepository(String pathname) {
         Type type = new TypeToken<List<Admin>>(){
         }.getType();
-        repository= new JsonRepository<>("Admins.json", type);
+        repository= new JsonRepository<>(pathname, type);
     }
 
     /**Método que envía la lista de administradores 
