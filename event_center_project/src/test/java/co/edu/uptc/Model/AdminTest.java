@@ -21,9 +21,9 @@ public class AdminTest {
         Admin admin = new Admin(
                 "Julian",
                 1,
+                "julian@test.com",
                 "1234",
-                "3001234567",
-                "julian@test.com"
+                "3001234567"
         );
 
         assertEquals("Julian", admin.getUserName());
