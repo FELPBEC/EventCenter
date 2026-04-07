@@ -1,0 +1,18 @@
+[
+    {
+        "userName": "pepe",
+        "id": 1234,
+        "password": "1234",
+        "phoneNumber": "1234",
+        "email": "julian",
+        "empresarial": true
+    },
+    {
+        "userName": "ana",
+        "id": 5678,
+        "password": "abcd",
+        "phoneNumber": "5678",
+        "email": "ana@mail.com",
+        "empresarial": false
+    }
+]
