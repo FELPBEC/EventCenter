@@ -1,0 +1,10 @@
+[
+  {
+    "Empresarial": true,
+    "userName": "TestClient",
+    "id": 999,
+    "password": "testpass",
+    "phoneNumber": "555555555",
+    "email": "test@email.com"
+  }
+]
