@@ -1,10 +1,9 @@
 [
-  {
-    "nivelAcceso": 0,
-    "userName": "TestAdmin",
-    "id": 999,
-    "password": "testpass",
-    "phoneNumber": "555555555",
-    "email": "test@email.com"
-  }
+    {
+        "userName": "pepe",
+        "id": 1234,
+        "password": "1234",
+        "phoneNumber": "3142159789",
+        "email": "julian.moreno21@gmail.com"
+    }
 ]

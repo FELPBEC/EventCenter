@@ -34,7 +34,7 @@ public class AdminServicesTest {
         assertFalse(adminServices.searchAdminById(2, adminList));
         assertEquals(2, adminList.size());
 
-        // Validación extra 🔥
+        
         assertNull(adminServices.sendAdminById(2, adminList));
     }
 

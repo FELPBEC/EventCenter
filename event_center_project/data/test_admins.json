@@ -1,0 +1,10 @@
+[
+  {
+    "nivelAcceso": 0,
+    "userName": "TestAdmin",
+    "id": 999,
+    "password": "555555555",
+    "phoneNumber": "test@email.com",
+    "email": "testpass"
+  }
+]
