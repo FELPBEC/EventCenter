@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import co.edu.uptc.Model.Client;
 import co.edu.uptc.Persistence.ClientJsonRepository;
+import co.edu.uptc.Services.ClientService;
 
 public class VistaConsolaTest {
 
@@ -49,27 +50,25 @@ public class VistaConsolaTest {
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         VistaConsola vista = new VistaConsola();
-        setPrivateField(vista, "listClient", new ArrayList<Client>());
-
-        ClientJsonRepository stubRepository = new ClientJsonRepository("Cliente.json") {
-            @Override
-            public void saveClientList(List<Client> clientList) {
-                
-            }
-        };
-        setPrivateField(vista, "clientJsonRepository", stubRepository);
+        
+        // 1. NUEVA ARQUITECTURA: Creamos el servicio simulado en memoria
+        ClientService mockClientService = new ClientService(new ArrayList<Client>());
+        
+        // 2. Inyectamos solo el servicio en la vista (ya no existen listClient ni repositorios ahí)
+        setPrivateField(vista, "clientService", mockClientService);
 
         assertDoesNotThrow(vista::registrarCliente);
 
-        @SuppressWarnings("unchecked")
-        List<Client> listClient = (List<Client>) getPrivateField(vista, "listClient");
+        // 3. Verificamos los resultados consultando directamente al servicio simulado
+        List<Client> listClient = mockClientService.getListClients();
+        
         assertEquals(1, listClient.size());
         Client created = listClient.get(0);
         assertEquals(999, created.getId());
         assertEquals("Test User", created.getUserName());
         assertTrue(created.isEmpresarial());
     }
-
+    
     private static Object getPrivateField(Object target, String fieldName) throws Exception {
         Field field = target.getClass().getDeclaredField(fieldName);
         field.setAccessible(true);

@@ -3,6 +3,7 @@ package co.edu.uptc.Services;
 import java.util.ArrayList;
 import java.util.List;
 import co.edu.uptc.Model.Booking;
+import co.edu.uptc.Persistence.BookingJsonRepository;
 import co.edu.uptc.Util.DateConvertor;
 import java.time.LocalDateTime;
 
@@ -12,20 +13,29 @@ import java.time.LocalDateTime;
  * @version v 1.0
  */
 public class BookingServices {
-
+    private List<Booking> listBooking;
+    private BookingJsonRepository repository;
     /**Método constructor de la clase services que inicializa el repositorio Json
      * 
      */
     public BookingServices() {
+        this.repository= new BookingJsonRepository("Booking.json");
+        this.listBooking= repository.sendJsonBookingList();
     }
-
+    public BookingServices(List<Booking> listBookingSimulada) {
+        this.listBooking = listBookingSimulada;
+        this.repository = null;
+    }
     /**Método que agrega una reserva a la lista de reservas
      * 
      * @param booking nueva reserva que se va a guardar
-     * @param bookingList   lista de reservas donde se va a guardar
      */
-    public void saveNewBooking(Booking booking,List<Booking>bookingList){
-        bookingList.add(booking);
+    public void saveNewBooking(Booking booking){
+        listBooking.add(booking);
+        if (this.repository != null) {
+            repository.saveBookingList(listBooking);
+        }
+        return;
     }
     /**Método que busca y envía una reserva por la id
      * 
@@ -33,8 +43,8 @@ public class BookingServices {
      * @return  la reserva buscada en caso de encontrarla
      * @return  un objeto vacío en caso de no encontrarlo
      */
-    public Booking sendBookingById(int id, List<Booking> bookingList){
-        return bookingList.stream().filter(b->b.getId()==id).findFirst().orElse(null);
+    public Booking sendBookingById(int id){
+        return listBooking.stream().filter(b->b.getId()==id).findFirst().orElse(null);
     }
 
     /**Método que busca y envía una reserva por la id del cliente que la solicito
@@ -43,8 +53,8 @@ public class BookingServices {
      * @return la reserva buscada en caso de encontrarla
      * @return un objeto null en caso de no encontrarla
      */
-    public Booking sendBookingByClientId(int idClient,List<Booking> bookingList ){
-        return bookingList.stream().filter(b->b.getClient().getId()==idClient).findFirst().orElse(null);
+    public Booking sendBookingByClientId(int idClient ){
+        return listBooking.stream().filter(b->b.getClient().getId()==idClient).findFirst().orElse(null);
     }
 
     /**Método que busca y envía una reserva por la id del salón
@@ -53,8 +63,8 @@ public class BookingServices {
      * @return  la reserva buscada en caso de encontrarla
      * @return un objeto null en caso de no encontrarla
      */
-    public Booking sendBookingBySalonId(int idSalon,List<Booking> bookingList ){
-        return bookingList.stream().filter(b->b.getSalon().getId()==idSalon).findFirst().orElse(null);
+    public Booking sendBookingBySalonId(int idSalon){
+        return listBooking.stream().filter(b->b.getSalon().getId()==idSalon).findFirst().orElse(null);
     }
     
     /**Método que verifica si la id de la reserva que se busca existe o no 
@@ -63,8 +73,8 @@ public class BookingServices {
      * @return  verdadero si encuentra la reserva y existe
      * @return falso si no la encuentra y no existe
      */
-    public boolean foundBookingById(int id, List<Booking> bookingList){
-            if(sendBookingById(id, bookingList)!=null){
+    public boolean foundBookingById(int id){
+            if(sendBookingById(id)!=null){
                 return true;
             }else{
                 return false;
@@ -76,10 +86,10 @@ public class BookingServices {
      * @param id identificador númerico de la reserva
      * @return la posición de la reserva en la lista
      */
-    public int sendBookingPosition(int id, List<Booking> bookingList){
-        int position=bookingList.size()+1;
-        for (int i = 0; i < bookingList.size(); i++) {
-            if(bookingList.get(i).getId()==id){
+    public int sendBookingPosition(int id){
+        int position=listBooking.size()+1;
+        for (int i = 0; i < listBooking.size(); i++) {
+            if(listBooking.get(i).getId()==id){
                 position=i;
             }
         }
@@ -91,20 +101,26 @@ public class BookingServices {
      * le resta una reservación 
      * @param id   identificador númerico de la reserva
      */
-    public void cancelBooking(int id,List<Booking> bookingList){
-        bookingList.removeIf(booking->booking.getId()==id);
+    public void cancelBooking(int id){
+        listBooking.removeIf(booking->booking.getId()==id);
+        if (this.repository != null) {
+            repository.saveBookingList(listBooking);
+        }
     }
     
 
-     public boolean updateBooking(int id,Booking updatedBooking,List<Booking> bookingList) {
-        Booking bookingFound = sendBookingById(id,bookingList);
+    public boolean updateBooking(int id,Booking updatedBooking) {
+        Booking bookingFound = sendBookingById(id);
         if (bookingFound != null) {
-            for (int i = 0; i < bookingList.size(); i++) {
-            if (bookingList.get(i).getId() == id) {
-                bookingList.set(i, updatedBooking);
+            for (int i = 0; i < listBooking.size(); i++) {
+                if (listBooking.get(i).getId() == id) {
+                    listBooking.set(i, updatedBooking);
+                    if (this.repository != null) {
+                        repository.saveBookingList(listBooking);
+                    }
+                    return true;
+                }
             }
-        }
-            return true;
         }
         return false;
     }
@@ -112,11 +128,11 @@ public class BookingServices {
      * 
      * @return la nueva Id que tendrá la reserva
      */
-    public int sendNewId(List<Booking> bookingList){
+    public int sendNewId(){
         int biggestId=0;
-        for (int i = 0; i < bookingList.size(); i++) {
-            if(bookingList.get(i).getId()>biggestId){
-                biggestId=bookingList.get(i).getId();
+        for (int i = 0; i < listBooking.size(); i++) {
+            if(listBooking.get(i).getId()>biggestId){
+                biggestId=listBooking.get(i).getId();
             }
         }
         return biggestId+1;
@@ -127,11 +143,11 @@ public class BookingServices {
      * @param idSalon id del salón del que se buscan las reservas
      * @return  una lista con todas las reservas del salón
      */
-    public List<Booking> sendBookingListBySalon(int idSalon, List<Booking> allBookingList){
+    public List<Booking> sendBookingListBySalon(int idSalon){
         List<Booking> bookingBySalon= new ArrayList<>();
-        for (int i = 0; i < allBookingList.size(); i++) {
-            if (allBookingList.get(i).getSalon()!=null && allBookingList.get(i).getSalon().getId()==idSalon) {
-                bookingBySalon.add(allBookingList.get(i));
+        for (int i = 0; i < listBooking.size(); i++) {
+            if (listBooking.get(i).getSalon()!=null && listBooking.get(i).getSalon().getId()==idSalon) {
+                bookingBySalon.add(listBooking.get(i));
             }
         }
         return bookingBySalon;
@@ -142,11 +158,11 @@ public class BookingServices {
      * @param idClient identificador númerico del cliente
      * @return  una lista con las reservas que ha hecho el cliente
      */
-    public List<Booking> sendBookingListByClient(int idClient, List<Booking>allBookingList){
+    public List<Booking> sendBookingListByClient(int idClient){
         List<Booking> bookingByClient= new ArrayList<>();
-        for (int i = 0; i < allBookingList.size(); i++) {
-            if (allBookingList.get(i).getClient()!=null && allBookingList.get(i).getClient().getId()==idClient) {
-                bookingByClient.add(allBookingList.get(i));
+        for (int i = 0; i < listBooking.size(); i++) {
+            if (listBooking.get(i).getClient()!=null && listBooking.get(i).getClient().getId()==idClient) {
+                bookingByClient.add(listBooking.get(i));
             }
         }
         return bookingByClient;
@@ -157,7 +173,7 @@ public class BookingServices {
      * @param idBooking identificador númerico de la reserva
      * @return  el precio de la reserva (double)
      */
-    public double calculatePriceBooking(Booking booking, List<Booking>bookingList){
+    public double calculatePriceBooking(Booking booking){
         double price=(booking.getSalon().getPriceByHour())*(booking.getAmountOfHours());
         //Descuento a cliente empresarial
         if(booking.getClient().isEmpresarial()){
@@ -168,7 +184,7 @@ public class BookingServices {
             price=price-(price*0.15);
         }
         //Descuento para clientes que tengan más de 3 reservaciones hechas
-        if(sendBookingListByClient(booking.getClient().getId(),bookingList).size()>3){
+        if(sendBookingListByClient(booking.getClient().getId()).size()>3){
             price=price-(price*0.2);
         }
         booking.setPrice(price);
@@ -183,14 +199,14 @@ public class BookingServices {
      * Si no se encuentran reservas, retorna una lista vacía.
      * @throws java.time.format.DateTimeParseException Si el formato de las fechas ingresadas no es el correcto.
      */
-    public List<Booking> obtenerReservasPorRango(String fechaInicioStr, String fechaFinStr, List<Booking> bookingList) {
+    public List<Booking> obtenerReservasPorRango(String fechaInicioStr, String fechaFinStr) {
         DateConvertor convertor = new co.edu.uptc.Util.DateConvertor();
         LocalDateTime inicio = convertor.StringToLocalDateTime(fechaInicioStr);
         LocalDateTime fin = convertor.StringToLocalDateTime(fechaFinStr);
 
         List<Booking> filtradas = new ArrayList<>();
         
-        for (Booking b : bookingList) {
+        for (Booking b : listBooking) {
             LocalDateTime fechaReserva = convertor.StringToLocalDateTime(b.getStartDate());
             if ((fechaReserva.isEqual(inicio) || fechaReserva.isAfter(inicio)) && 
                 (fechaReserva.isEqual(fin) || fechaReserva.isBefore(fin))) {
@@ -215,5 +231,8 @@ public class BookingServices {
         return total;
     }
 
+    public List<Booking> getListBooking() {
+        return this.listBooking;
+    }
     
 }

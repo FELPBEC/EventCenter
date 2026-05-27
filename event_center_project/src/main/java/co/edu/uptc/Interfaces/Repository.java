@@ -1,5 +1,4 @@
 package co.edu.uptc.Interfaces;
-
 import java.util.List;
 /**
  * Interfaz genérica que sirve como definición general o guía general para nuestros repositorios.

@@ -1,6 +1,9 @@
 package co.edu.uptc.Services;
 
 import co.edu.uptc.Model.Salon;
+import co.edu.uptc.Persistence.SalonJsonRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 /**Clase de servicios de salones que sirve para agregar, eliminar, modificar y leer salones {@link Salon}
  * 
@@ -10,19 +13,32 @@ import java.util.List;
 public class SalonServices {
 
     private List<Salon> listSalones;
+    private SalonJsonRepository repository;
     public SalonServices() {
+        this.repository= new SalonJsonRepository("Salon.json");
+        this.listSalones= repository.sendSalonList();
+        if (this.listSalones==null) {
+            this.listSalones= new ArrayList<>();
+        }
     }
-
+    public SalonServices(List<Salon> listSalonesSimulada) {
+        this.listSalones = listSalonesSimulada;
+        this.repository = null; 
+    }
 
     /**Método que guarda un nuevo salón en la lista y en el archivo json
      * 
      * @param salon el nuevo salón que se ingresa
      */
-    public boolean addNewSalon(Salon salon, List<Salon> listSalones){
-        if (buscarSalonPorNombre(salon.getSalonName(),listSalones) != null) {
+    public boolean addNewSalon(Salon salon){
+        if (buscarSalonPorNombre(salon.getSalonName()) != null) {
             return false; // El salón ya existe
         }
+        salon.setId(generateNewId());
         listSalones.add(salon);
+        if (this.repository != null) {
+            repository.saveSalonList(listSalones);
+        }
         return true;
     }
 
@@ -31,8 +47,8 @@ public class SalonServices {
      * @param id identificador númerico del salón
      * @return  un objeto salon
      */
-    public Salon sendSalonById(int id,List<Salon> listSalons ){
-        return listSalons.stream().filter(s->s.getId()==id).findFirst().orElse(null);
+    public Salon sendSalonById(int id ){
+        return listSalones.stream().filter(s->s.getId()==id).findFirst().orElse(null);
     }
 
     /**Método para buscar un salón atraves de su id 
@@ -42,8 +58,8 @@ public class SalonServices {
      * @return  verdadero si se encontro el salón
      * @return falso si no se encontro el salón
      */
-    public boolean searchSalonById(int id, List<Salon> listSalons){
-        if(sendSalonById(id,listSalons)!=null){
+    public boolean searchSalonById(int id){
+        if(sendSalonById(id)!=null){
             return true;
         }else{
             return false;
@@ -57,10 +73,10 @@ public class SalonServices {
      * @return la posición del salón en la lista si lo encuentra
      * @return una posición superior a la lista;
      */
-    public int sendSalonPosition(int id, List<Salon> listSalons){
-        int position= listSalons.size()+1;
-        for (int i = 0; i < listSalons.size(); i++) {
-            if(id==listSalons.get(i).getId()){
+    public int sendSalonPosition(int id){
+        int position= listSalones.size()+1;
+        for (int i = 0; i < listSalones.size(); i++) {
+            if(id==listSalones.get(i).getId()){
                 position=i;
             }
         }
@@ -71,25 +87,32 @@ public class SalonServices {
      * Hace uso del método sendSalonPosition para enviarle la posición con base en la id
      * @param id identificador númerico del salón
      */
-    public void deleteSalon(int id,List<Salon> listSalons ){
-        listSalons.removeIf(salon -> salon.getId()==id);
+    public void deleteSalon(int id){
+        listSalones.removeIf(salon -> salon.getId()==id);
+        if (this.repository != null) {
+            repository.saveSalonList(listSalones);
+        }
     }
 
-     /**
+    /**
      * Modifica los datos de un salón existente.
      * @param id El ID del salón que se desea modificar.
      * @param updatedSalon el salón modificado
      * @param listSalons lista de salones donde se hara la modificación
      */
-    public boolean updateSalon(int id,Salon updatedSalon,List<Salon> listSalons) {
-        Salon salonEncontrado = sendSalonById(id,listSalons);
+    public boolean updateSalon(int id,Salon updatedSalon) {
+        Salon salonEncontrado = sendSalonById(id);
         if (salonEncontrado != null) {
-            for (int i = 0; i < listSalons.size(); i++) {
-            if (listSalons.get(i).getId() == id) {
-                listSalons.set(i, updatedSalon);
-            }
-        }
-            return true;
+            for (int i = 0; i < listSalones.size(); i++) {
+                if (listSalones.get(i).getId() == id) {
+                    updatedSalon.setId(id);
+                    listSalones.set(i, updatedSalon);
+                    if (this.repository != null) {
+                        repository.saveSalonList(listSalones);
+                    }
+                    return true;
+                }
+            }   
         }
         return false;
     }
@@ -98,11 +121,11 @@ public class SalonServices {
      * 
      * @return el nuevo identificador númerico de salón
      */
-    public int generateNewId(List<Salon> listSalons){
+    public int generateNewId(){
         int biggestId=0;
-        for (int i = 0; i < listSalons.size(); i++) {
-            if(listSalons.get(i).getId()>biggestId){
-                biggestId=listSalons.get(i).getId();
+        for (int i = 0; i < listSalones.size(); i++) {
+            if(listSalones.get(i).getId()>biggestId){
+                biggestId=listSalones.get(i).getId();
             }
         }
         return biggestId+1;
@@ -113,7 +136,7 @@ public class SalonServices {
      * @param nombre El nombre del salón a buscar.
      * @return El objeto Salon si lo encuentra, de lo contrario retorna null.
      */
-    public Salon buscarSalonPorNombre(String nombre,List<Salon> listSalones) {
+    public Salon buscarSalonPorNombre(String nombre) {
         for (Salon salon : listSalones) {
             if (salon.getSalonName().equalsIgnoreCase(nombre)) {
                 return salon;
@@ -122,8 +145,9 @@ public class SalonServices {
         return null;
     }
 
-   
-
+    public List<Salon> getListSalones() {
+        return this.listSalones;
+    }
 
     
 }

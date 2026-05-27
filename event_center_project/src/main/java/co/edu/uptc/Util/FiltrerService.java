@@ -7,6 +7,7 @@ import java.util.List;
 import co.edu.uptc.Model.Booking;
 import co.edu.uptc.Model.Salon;
 import co.edu.uptc.Services.BookingServices;
+import co.edu.uptc.Services.SalonServices;
 /**Clase filtro de salones encargada de filtrar salones por precio, fechas y capacidad
  * 
  * @author Felipe Becerra
@@ -19,8 +20,8 @@ public class FiltrerService {
     private int hoursOfBooking;
     private LocalDateTime endDate;
     private BookingServices bookingServices = new BookingServices();
+    private SalonServices salonServices = new SalonServices();
     private DateConvertor dateConvertor= new DateConvertor();
-    
     
     public FiltrerService() {
     }
@@ -33,6 +34,16 @@ public class FiltrerService {
         this.startDate=startDate;
         this.hoursOfBooking=hoursOfBokking;
         this.endDate=startDate.plusHours(hoursOfBokking);
+    }
+
+    public FiltrerService(LocalDateTime startDate, int hoursOfBooking, SalonServices salonServices, BookingServices bookingServices) {
+        this.filtrerByCapacity = false;
+        this.filtrerByPrice = false;
+        this.startDate = startDate;
+        this.hoursOfBooking = hoursOfBooking;
+        this.endDate = startDate.plusHours(hoursOfBooking);
+        this.salonServices = salonServices;
+        this.bookingServices = bookingServices;
     }
     /**Método que envía un verdadero si el filtro por precio esta activado
      * o un falso si esta desactivado
@@ -83,13 +94,14 @@ public class FiltrerService {
      * @param lista de salones que serán filtrados 
      * @return lista de salones válidos con respecto a la fecha
      */
-    public List<Salon> filterByDate(List<Salon> allSalons, List<Booking> allBookings) {
+    public List<Salon> filterByDate() {
+        List<Salon> allSalons = salonServices.getListSalones();
         //Lista de salones que vamos a enviar 
-    List<Salon> validSalons = new ArrayList<>();
+        List<Salon> validSalons = new ArrayList<>();
 
     for (Salon salon : allSalons) {
         boolean isAvailable = true;
-        List<Booking> bookings = bookingServices.sendBookingListBySalon(salon.getId(),allBookings);
+        List<Booking> bookings = bookingServices.sendBookingListBySalon(salon.getId());
 
         for (Booking b : bookings) {
             //Se refiere a la fecha en que inicia la reserva que estamos evaluando 
@@ -160,8 +172,8 @@ public class FiltrerService {
      * @param allSalons envía la lista de todos los salones
      * @return la lista de salones filtrada según preferencias
      */
-    public List<Salon> sendFiltrerSalonList(double budget,int capacity, List<Salon> allSalons, List<Booking> bookingList){
-        List<Salon> filtrerList = filterByDate(allSalons, bookingList);
+    public List<Salon> sendFiltrerSalonList(double budget,int capacity){
+        List<Salon> filtrerList = filterByDate();
         if(filtrerByPrice){
             filtrerList=filterByPrice(budget, filtrerList);
         }if(filtrerByCapacity){

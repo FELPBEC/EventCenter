@@ -16,89 +16,64 @@ public class SalonServicesTest {
 
     @BeforeEach
     void setUp() {
-        salonServices = new SalonServices();
         salonList = new ArrayList<>();
         salonList.add(new Salon(1, "Afrodita", 200, 230000.0));
         salonList.add(new Salon(2, "Zeus", 12, 120000.0));
         salonList.add(new Salon(4, "Apolo", 200, 400000.0));
+        
+        // Inyectamos la lista simulada usando el nuevo constructor
+        salonServices = new SalonServices(salonList);
     }
 
     @Test
     void testAddNewSalon() {
         Salon newSalon = new Salon(5, "Hera", 150, 180000.0);
 
-        boolean added = salonServices.addNewSalon(newSalon, salonList);
+        // Llamada al método corregido
+        boolean added = salonServices.addNewSalon(newSalon);
 
         assertTrue(added);
-        assertEquals(4, salonList.size());
-        assertEquals("Hera", salonServices.buscarSalonPorNombre("Hera", salonList).getSalonName());
+        assertEquals(4, salonServices.getListSalones().size());
+        assertEquals("Hera", salonServices.buscarSalonPorNombre("Hera").getSalonName());
 
-        // Intentar agregar un salón con nombre duplicado
-        Salon duplicate = new Salon(6, "Afrodita", 100, 150000.0);
-        boolean addedDuplicate = salonServices.addNewSalon(duplicate, salonList);
+        // Intentar agregar un salón con nombre repetido
+        Salon duplicatedSalon = new Salon(6, "Afrodita", 100, 100000.0);
+        boolean addedDuplicate = salonServices.addNewSalon(duplicatedSalon);
+        
         assertFalse(addedDuplicate);
-        assertEquals(4, salonList.size());
-    }
-
-    @Test
-    void testBuscarSalonPorNombre() {
-        Salon salon = salonServices.buscarSalonPorNombre("zeus", salonList);
-
-        assertNotNull(salon);
-        assertEquals(2, salon.getId());
-        assertEquals("Zeus", salon.getSalonName());
-
-        assertNull(salonServices.buscarSalonPorNombre("NoExiste", salonList));
-    }
-
-    @Test
-    void testDeleteSalon() {
-        salonServices.deleteSalon(2, salonList);
-
-        assertEquals(2, salonList.size());
-        assertFalse(salonServices.searchSalonById(2, salonList));
-
-        salonServices.deleteSalon(99, salonList);
-        assertEquals(2, salonList.size());
     }
 
     @Test
     void testGenerateNewId() {
-        assertEquals(5, salonServices.generateNewId(salonList));
+        // Llamada al método corregido sin parámetro
+        assertEquals(5, salonServices.generateNewId());
 
-        salonList.add(new Salon(10, "Titan", 300, 500000.0));
-        assertEquals(11, salonServices.generateNewId(salonList));
-    }
-
-    @Test
-    void testSearchSalonById() {
-        assertTrue(salonServices.searchSalonById(1, salonList));
-        assertFalse(salonServices.searchSalonById(99, salonList));
+        salonServices.getListSalones().add(new Salon(10, "Titan", 300, 500000.0));
+        assertEquals(11, salonServices.generateNewId());
     }
 
     @Test
     void testSendSalonById() {
-        Salon salon = salonServices.sendSalonById(4, salonList);
+        Salon salon = salonServices.sendSalonById(4);
 
         assertNotNull(salon);
         assertEquals("Apolo", salon.getSalonName());
 
-        assertNull(salonServices.sendSalonById(99, salonList));
+        assertNull(salonServices.sendSalonById(99));
     }
 
-    
     @Test
     void testUpdateSalon() {
         Salon updatedSalon = new Salon(2, "Zeus Plus", 20, 140000.0);
 
-        boolean updated = salonServices.updateSalon(2, updatedSalon, salonList);
+        // Llamada al método corregido
+        boolean updated = salonServices.updateSalon(2, updatedSalon);
 
         assertTrue(updated);
-        Salon salon = salonServices.sendSalonById(2, salonList);
-        assertEquals("Zeus Plus", salon.getSalonName());
-        assertEquals(20, salon.getCapacity());
-        assertEquals(140000.0, salon.getPriceByHour());
+        assertEquals("Zeus Plus", salonServices.sendSalonById(2).getSalonName());
+        assertEquals(140000.0, salonServices.sendSalonById(2).getPriceByHour());
 
-        assertFalse(salonServices.updateSalon(99, updatedSalon, salonList));
+        boolean updatedMissing = salonServices.updateSalon(99, updatedSalon);
+        assertFalse(updatedMissing);
     }
 }

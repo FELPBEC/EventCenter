@@ -9,7 +9,6 @@ import java.util.List;
 
 import co.edu.uptc.Model.Admin;
 
-
 public class AdminServicesTest {
 
     private AdminServices adminServices;
@@ -17,61 +16,45 @@ public class AdminServicesTest {
 
     @BeforeEach
     void setUp() {
-        adminServices = new AdminServices();
         adminList = new ArrayList<>();
-
-        adminList.add(new Admin("Admin1", 1, "pass1", "111111111", "admin1@test.com"));
-        adminList.add(new Admin("Admin2", 2, "pass2", "222222222", "admin2@test.com"));
-        adminList.add(new Admin("Admin3", 3, "pass3", "333333333", "admin3@test.com"));
+        adminList.add(new Admin("Admin1", 1, "admin1@test.com", "pass1", "111111111"));
+        adminList.add(new Admin("Admin2", 2, "admin2@test.com", "pass2", "222222222"));
+        adminList.add(new Admin("Admin3", 3, "admin3@test.com", "pass3", "333333333"));
+        
+        // Inyectamos la lista simulada usando el nuevo constructor
+        adminServices = new AdminServices(adminList);
     }
 
     @Test
     void testFireAdmin() {
-        assertTrue(adminServices.searchAdminById(2, adminList));
+        assertNotNull(adminServices.sendAdminById(2));
+        adminServices.fireAdmin(2); 
 
-        adminServices.fireAdmin(2, adminList);
-
-        assertFalse(adminServices.searchAdminById(2, adminList));
-        assertEquals(2, adminList.size());
-
-        
-        assertNull(adminServices.sendAdminById(2, adminList));
+        assertNull(adminServices.sendAdminById(2));
+        assertEquals(2, adminServices.getListAdmins().size());
     }
 
     @Test
     void testSaveNewAdmin() {
-        Admin newAdmin = new Admin("NewAdmin", 4, "newpass", "444444444", "new@test.com");
+        Admin newAdmin = new Admin("NewAdmin", 4, "new@test.com", "newpass", "444444444");
 
-        adminServices.saveNewAdmin(newAdmin, adminList);
+        adminServices.saveNewAdmin(newAdmin);
 
-        assertEquals(4, adminList.size());
-        assertTrue(adminServices.searchAdminById(4, adminList));
+        assertEquals(4, adminServices.getListAdmins().size());
+        assertNotNull(adminServices.sendAdminById(4));
 
-        Admin savedAdmin = adminServices.sendAdminById(4, adminList);
+        Admin savedAdmin = adminServices.sendAdminById(4);
 
-        assertNotNull(savedAdmin);
         assertEquals("NewAdmin", savedAdmin.getUserName());
         assertEquals(4, savedAdmin.getId());
     }
 
     @Test
-    void testSearchAdminById() {
-        assertTrue(adminServices.searchAdminById(1, adminList));
-        assertTrue(adminServices.searchAdminById(3, adminList));
-        assertFalse(adminServices.searchAdminById(99, adminList));
-    }
-
-    @Test
     void testSendAdminById() {
-        Admin admin = adminServices.sendAdminById(1, adminList);
-
+        Admin admin = adminServices.sendAdminById(1);
         assertNotNull(admin);
         assertEquals("Admin1", admin.getUserName());
-        assertEquals(1, admin.getId());
 
-        Admin notFound = adminServices.sendAdminById(99, adminList);
-        assertNull(notFound);
+        assertNull(adminServices.sendAdminById(99));
     }
-
-
 }

@@ -1,7 +1,6 @@
 package co.edu.uptc.View;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Locale;
@@ -12,10 +11,6 @@ import co.edu.uptc.Model.Admin;
 import co.edu.uptc.Model.Booking;
 import co.edu.uptc.Model.Client;
 import co.edu.uptc.Model.Salon;
-import co.edu.uptc.Persistence.AdminJsonRepository;
-import co.edu.uptc.Persistence.BookingJsonRepository;
-import co.edu.uptc.Persistence.ClientJsonRepository;
-import co.edu.uptc.Persistence.SalonJsonRepository;
 import co.edu.uptc.Services.AdminServices;
 import co.edu.uptc.Services.BookingServices;
 import co.edu.uptc.Services.ClientService;
@@ -29,8 +24,8 @@ public class VistaConsola {
     private Scanner scanner;
     private Client clienteLogeado;
     private Admin adminLogeado;
-
     private ResourceBundle mensajes;
+
     private AdminServices adminServices;
     private ClientService clientService;
     private SalonServices salonServices;
@@ -38,15 +33,6 @@ public class VistaConsola {
     private ExportadorService exportadorService;
     private DateConvertor dateConvertor= new DateConvertor();
     private RankedSalon rankedSalon;
-    private AdminJsonRepository adminJsonRepository= new AdminJsonRepository("Admins.json");
-    private SalonJsonRepository salonJsonRepository= new SalonJsonRepository("Salon.json");
-    private BookingJsonRepository bookingJsonRepository= new BookingJsonRepository("Booking.json");
-    private ClientJsonRepository clientJsonRepository= new ClientJsonRepository("Cliente.json");
-    //Aquí vamos a indicarle de donde sale la lista:
-    private List<Admin> adminList = adminJsonRepository.sendJsonAdminList();
-    private List<Salon> salonList = salonJsonRepository.sendSalonList();
-    private List<Booking> bookingList= bookingJsonRepository.sendJsonBookingList();
-    private List<Client> listClient= clientJsonRepository.sendJsonClientList();
 
     public VistaConsola() {
         this.scanner = new Scanner(System.in);
@@ -208,10 +194,9 @@ public class VistaConsola {
             }
             System.out.println(mensajes.getString("registro.guardando"));
             Client cliente= new Client(nombre,id,contrasena,telefono,correo,esEmpresarial);
-            boolean exito= clientService.registrarCliente(cliente,listClient);
+            boolean exito= clientService.registrarCliente(cliente);
             if (exito) {
                 System.out.println(mensajes.getString("registro.exito"));
-                clientJsonRepository.saveClientList(listClient);
                 this.clienteLogeado=cliente;
                 menuInternoCliente();
             }else{
@@ -233,9 +218,9 @@ public class VistaConsola {
                 System.out.println(mensajes.getString("login.cancelando"));
                 break;
             }
-            if (clientService.validateAccess(id, constrasena,listClient)) {
+            if (clientService.validateAccess(id, constrasena)) {
                 System.out.println(mensajes.getString("login.exito"));
-                this.clienteLogeado=clientService.buscarClientPorId(id,listClient);
+                this.clienteLogeado=clientService.buscarClientPorId(id);
                 menuInternoCliente();
                 autenticado=true;
             }else{
@@ -258,7 +243,7 @@ public class VistaConsola {
                 scanner.nextLine();
                 switch (opcion) {
                     case 1:
-                        List<Booking> listReservas =bookingServices.sendBookingListByClient(this.clienteLogeado.getId(),bookingList);
+                        List<Booking> listReservas =bookingServices.sendBookingListByClient(this.clienteLogeado.getId());
                         if (listReservas.isEmpty()) {
                             System.out.println(mensajes.getString("panel.cliente.op3.vacio"));
                         } else {
@@ -400,8 +385,8 @@ public class VistaConsola {
                             }
                         }
             //APLICANDO FILTROS Y SELECCIONANDO EL SALÓN
-                        rankedSalon.setNumberOfReservations(salonList,bookingList);
-                        List<Salon> salonesDisponibles= filtro.sendFiltrerSalonList(budget, capacity, salonList,bookingList);
+                        rankedSalon.setNumberOfReservations();
+                        List<Salon> salonesDisponibles= filtro.sendFiltrerSalonList(budget, capacity);
                         if (salonesDisponibles.isEmpty()) { //No hay salones que cumplan con los requerimientos
                             System.out.println("No hay salones disponibles para esa fecha");
                         }else{ //Si hay salones disponibles
@@ -447,11 +432,10 @@ public class VistaConsola {
                                     //Pasamos a formato String para poder importarlas
                                     String fechaInicioStr=dateConvertor.localDateTimeToString(startDateBooking);
                                     String fechaFinStr = dateConvertor.localDateTimeToString(endDateBooking);
-                                    int nuevoId = bookingServices.sendNewId(bookingList);
+                                    int nuevoId = bookingServices.sendNewId();
                                     Booking nuevaReserva = new Booking(nuevoId, this.clienteLogeado, salonElegido, fechaInicioStr, horas, fechaFinStr);
-                                    nuevaReserva.setPrice(bookingServices.calculatePriceBooking(nuevaReserva,bookingList));
-                                    bookingServices.saveNewBooking(nuevaReserva,bookingList);
-                                    bookingJsonRepository.saveBookingList(bookingList);
+                                    nuevaReserva.setPrice(bookingServices.calculatePriceBooking(nuevaReserva));
+                                    bookingServices.saveNewBooking(nuevaReserva);
                                     System.out.println("\n>> " + mensajes.getString("cliente.reserva.exito") + " " + fechaFinStr);
                                     System.out.println(mensajes.getString("booking.services.mostrar.precio")+" $"+nuevaReserva.getPrice());
                                 } catch (java.time.format.DateTimeParseException e) {
@@ -460,7 +444,7 @@ public class VistaConsola {
                         }
                         break;
                     case 3:
-                        listReservas =bookingServices.sendBookingListByClient(this.clienteLogeado.getId(),bookingList);
+                        listReservas =bookingServices.sendBookingListByClient(this.clienteLogeado.getId());
                         if (listReservas.isEmpty()) {
                             System.out.println(mensajes.getString("panel.cliente.op3.vacio"));
                         } else {
@@ -490,8 +474,7 @@ public class VistaConsola {
                                     scanner.nextLine();
                                     for (Booking booking : listReservas) {
                                         if (booking.getId()==id) {
-                                            bookingServices.cancelBooking(id, bookingList);
-                                            bookingJsonRepository.saveBookingList(bookingList);
+                                            bookingServices.cancelBooking(id);
                                             idvalido=true;
                                             break;
                                         }
@@ -530,8 +513,8 @@ public class VistaConsola {
             scanner.nextLine();
             System.out.println(mensajes.getString("login.admin.contrasena"));
             String contrasena= scanner.nextLine();
-            if (adminServices.validateAccess(cedula, contrasena,adminList)) {
-                this.adminLogeado=adminServices.sendAdminById(cedula,adminList);
+            if (adminServices.validateAccess(cedula, contrasena)) {
+                this.adminLogeado=adminServices.sendAdminById(cedula);
                 System.out.println(mensajes.getString("login.exito"));
                 menuInternoAdmin();
             }else{
@@ -600,7 +583,7 @@ public class VistaConsola {
                 scanner.nextLine();
                 switch (op) {
                     case 1:
-                        for (Admin admin : adminList) {
+                        for (Admin admin : adminServices.getListAdmins()) {
                             System.out.println(mensajes.getString("admin.services.mostrar.nombre")+admin.getUserName());
                             System.out.println(mensajes.getString("admin.services.mostrar.id")+admin.getId());
                             System.out.println(mensajes.getString("admin.services.mostrar.numero.telefonico")+admin.getPhoneNumber());
@@ -615,7 +598,7 @@ public class VistaConsola {
                             scanner.nextLine();
                             boolean datosValidos=false;
                             
-                            if(adminServices.sendAdminById(idModificar, adminList)!=null){
+                            if(adminServices.sendAdminById(idModificar)!=null){
                                 String name="";
                                 String correo="";
                                 String contraseña="";
@@ -637,8 +620,7 @@ public class VistaConsola {
                                     scanner.nextLine();
                                 }
                                 }
-                                if(adminServices.updateAdmin(idModificar, new Admin(name, idModificar, correo, contraseña, numeroTelefonico), adminList)){
-                                    adminJsonRepository.saveJsonAdminList(adminList);
+                                if(adminServices.updateAdmin(idModificar, new Admin(name, idModificar, correo, contraseña, numeroTelefonico))){
                                     System.out.println(mensajes.getString("modificar.admin.exito"));
                                 }else{
                                     System.out.println(mensajes.getString("modificar.admin.error"));
@@ -658,8 +640,7 @@ public class VistaConsola {
                                 System.out.println(mensajes.getString("admin.admins.op3.pedirID"));
                                 int idFired=scanner.nextInt();
                                 scanner.nextLine();
-                                adminServices.fireAdmin(idFired, adminList);    
-                                adminJsonRepository.saveJsonAdminList(adminList);
+                                adminServices.fireAdmin(idFired);
                             } catch (InputMismatchException e) {
                                 System.out.println(mensajes.getString("general.error.formato"));
                             }
@@ -670,7 +651,7 @@ public class VistaConsola {
                             scanner.nextLine();
                             boolean datosValidos=false;
                             
-                            if(adminServices.sendAdminById(idNuevoAdmin, adminList)==null){
+                            if(adminServices.sendAdminById(idNuevoAdmin)==null){
                                 String name="";
                                 String correo="";
                                 String contraseña="";
@@ -692,8 +673,7 @@ public class VistaConsola {
                                         scanner.nextLine();
                                     }
                                 }
-                                adminServices.saveNewAdmin(new Admin(name, idNuevoAdmin, correo, contraseña, numeroTelefonico), adminList);
-                                adminJsonRepository.saveJsonAdminList(adminList);
+                                adminServices.saveNewAdmin(new Admin(name, idNuevoAdmin, correo, contraseña, numeroTelefonico));
                             }else{
                                     System.out.println(mensajes.getString("modificar.admin.error"));
                             }
@@ -723,10 +703,10 @@ public class VistaConsola {
                 int op= scanner.nextInt();
                 switch (op) {
                     case 1: 
-                        if (listClient.isEmpty()) {
+                        if (clientService.getListClients().isEmpty()) {
                             System.out.println(mensajes.getString("admin.salones.op2.vacio"));
                         } else {
-                            for (Client client : listClient) {
+                            for (Client client : clientService.getListClients()) {
                                 System.out.println("-------------------------------------------------");
                                 System.out.println(mensajes.getString("client.services.mostrar.id") + " " + client.getId());
                                 System.out.println(mensajes.getString("client.services.mostrar.nombre") + " " + client.getUserName());
@@ -753,7 +733,7 @@ public class VistaConsola {
                             System.out.println(mensajes.getString("admin.clientes.op2.id"));
                             int idcliente= scanner.nextInt();
                             scanner.nextLine();
-                            if (clientService.buscarClientPorId(idcliente, listClient)!=null) {
+                            if (clientService.buscarClientPorId(idcliente)!=null) {
                                 System.out.println(mensajes.getString("admin.clientes.op2.aviso"));
                                 scanner.nextLine();
                                 System.out.println(mensajes.getString("registro.pedir.nombre"));
@@ -788,8 +768,7 @@ public class VistaConsola {
                                         scanner.nextLine();
                                     }
                                 }
-                                if (clientService.modificarCliente(idcliente, new Client(nombre, idcliente, contrasenaNueva, correo, telefono, esEmpresarial),listClient)) {
-                                    clientJsonRepository.saveClientList(listClient);
+                                if (clientService.modificarCliente(idcliente, new Client(nombre, idcliente, contrasenaNueva, correo, telefono, esEmpresarial))) {
                                     System.out.println(mensajes.getString("general.modificado.exito"));
                                 }else{
                                     System.out.println(mensajes.getString("general.modificado.error"));
@@ -804,9 +783,8 @@ public class VistaConsola {
                     case 3: 
                         System.out.println(mensajes.getString("admin.cliente.op3.id"));
                         int id=scanner.nextInt();
-                        if (clientService.eliminarCliente(id,listClient)) {
+                        if (clientService.eliminarCliente(id)) {
                             System.out.println(mensajes.getString("general.delete.exito"));
-                            clientJsonRepository.saveClientList(listClient);
                         }else{
                             System.out.println(mensajes.getString("general.delete.error"));
                         }
@@ -836,10 +814,7 @@ public class VistaConsola {
                 scanner.nextLine();
                 switch (op) {
                     case 1: 
-                        if (salonList==null) {
-                            salonList= new ArrayList<>();
-                        }
-                        int id= salonServices.generateNewId(salonList);
+                        int id= salonServices.generateNewId();
                         System.out.println("\n--- " + mensajes.getString("admin.salones.op1").toUpperCase() + " ---");
                         System.out.println(mensajes.getString("registro.salon.pedir.nombre"));
                         String nombreSalon = scanner.nextLine();
@@ -862,21 +837,20 @@ public class VistaConsola {
                             }
                         }
                         Salon nuevoSalon = new Salon(id,nombreSalon, capacidad, precio);
-                        boolean guardadoExitoso = salonServices.addNewSalon(nuevoSalon,salonList);
+                        boolean guardadoExitoso = salonServices.addNewSalon(nuevoSalon);
                         
                         if (guardadoExitoso) {
-                            salonJsonRepository.saveSalonList(salonList);
                             System.out.println("\n>> " + mensajes.getString("registro.salon.exito"));
                         } else {
                             System.out.println("\n>> " + mensajes.getString("registro.salon.error"));
                         }
                         break;
                     case 2:
-                        rankedSalon.setNumberOfReservations(salonList,bookingList);
-                        if (salonList.isEmpty()) {
+                        rankedSalon.setNumberOfReservations();
+                        if (salonServices.getListSalones().isEmpty()) {
                             System.out.println("\n>> No hay salones registrados actualmente en el sistema.\n");
                         } else {
-                            for (Salon salon : salonList) {
+                            for (Salon salon : salonServices.getListSalones()) {
                                 System.out.println("-------------------------------------------------");
                                 System.out.println(mensajes.getString("salon.services.mostrar.id") + " " + salon.getId());
                                 System.out.println(mensajes.getString("salon.services.mostrar.nombre") + " " + salon.getSalonName());
@@ -892,7 +866,7 @@ public class VistaConsola {
                         System.out.println(mensajes.getString("modificar.salon.pedir.id"));
                         int idModificar = scanner.nextInt();
                         scanner.nextLine();
-                        if (salonServices.searchSalonById(idModificar,salonList)) {
+                        if (salonServices.searchSalonById(idModificar)) {
                             System.out.println(mensajes.getString("modificar.salon.aviso"));
                             System.out.println(mensajes.getString("registro.salon.pedir.nombre"));
                             String nuevoNombre = scanner.nextLine();
@@ -913,8 +887,7 @@ public class VistaConsola {
                                     scanner.nextLine();
                                 }
                             }
-                            if (salonServices.updateSalon(idModificar, new Salon(idModificar, nuevoNombre, nuevaCapacidad, nuevoPrecio),salonList)) {
-                                salonJsonRepository.saveSalonList(salonList);
+                            if (salonServices.updateSalon(idModificar, new Salon(idModificar, nuevoNombre, nuevaCapacidad, nuevoPrecio))) {
                                 System.out.println("\n>> " + mensajes.getString("modificar.salon.exito"));
                             } else {
                                 System.out.println("\n>> " + mensajes.getString("modificar.salon.error"));
@@ -951,7 +924,7 @@ public class VistaConsola {
             scanner.nextLine();
             switch (op) {
                 case 1: 
-                    List<Salon> listSalones = rankedSalon.sendTop5BestSalons(salonList);
+                    List<Salon> listSalones = rankedSalon.sendTop5BestSalons();
                         if (listSalones.isEmpty()) {
                             System.out.println("admin.salones.op2.vacio");
                         } else {
@@ -1011,7 +984,7 @@ public class VistaConsola {
                         }
                         String fechaInicioStr=dateConvertor.localDateTimeToString(fechaInicio);
                         String fechaFinStr= dateConvertor.localDateTimeToString(fechaFin);
-                        List<Booking> reservasFiltradas = bookingServices.obtenerReservasPorRango(fechaInicioStr, fechaFinStr,bookingList);
+                        List<Booking> reservasFiltradas = bookingServices.obtenerReservasPorRango(fechaInicioStr, fechaFinStr);
                         
                         if (reservasFiltradas.isEmpty()) {
                             System.out.println(mensajes.getString("admin.export.pedir.fecha.error"));
