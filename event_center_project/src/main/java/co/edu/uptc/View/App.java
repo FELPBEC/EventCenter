@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class App extends Application {
 
@@ -19,7 +21,6 @@ public class App extends Application {
             Font.loadFont(App.class.getResourceAsStream("/co/edu/uptc/fonts/IBMPlexMono-Regular.ttf"), 10);
             Font.loadFont(App.class.getResourceAsStream("/co/edu/uptc/fonts/Caveat-Regular.ttf"), 10);
 
-        
             scene = new Scene(loadFXML("mainView"));
             
             stage.setTitle("Centro de Eventos Elite - Sistema de Gestión");
@@ -39,13 +40,14 @@ public class App extends Application {
         }
     }
 
-    // Este método lo usaremos más adelante para cambiar de ventana sin perder el tamaño maximizado
     public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/co/edu/uptc/fxml/" + fxml + ".fxml"));
+        Locale locale = Locale.getDefault();
+        ResourceBundle bundle = ResourceBundle.getBundle("co.edu.uptc.i18n.textos", locale);
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/co/edu/uptc/fxml/" + fxml + ".fxml"), bundle);
         return fxmlLoader.load();
     }
 

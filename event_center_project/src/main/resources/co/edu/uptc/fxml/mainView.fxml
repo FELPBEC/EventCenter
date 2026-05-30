@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -10,75 +8,73 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="700.0" prefWidth="900.0" styleClass="root" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   
-   <top>
-      <HBox alignment="CENTER_RIGHT" prefHeight="60.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+<BorderPane prefHeight="700.0" prefWidth="1280.0" styleClass="fondo-pantalla-Interior" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uptc.viewController.MainViewController">
+   <bottom>
+      <HBox alignment="CENTER_LEFT" prefHeight="75.0" styleClass="barra-inferior" BorderPane.alignment="CENTER">
          <children>
-            <ComboBox prefWidth="150.0" promptText="Español" styleClass="selector-idioma">
-               <items>
-                  <FXCollections fx:factory="observableArrayList">
-                     <String fx:value="Español" />
-                     <String fx:value="English" />
-                  </FXCollections>
-               </items>
-            </ComboBox>
-         </children>
-         <padding>
-            <Insets right="30.0" top="15.0" />
-         </padding>
-      </HBox>
-   </top>
-
-   <center>
-      <VBox alignment="CENTER" spacing="25.0" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="180.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+            <Region HBox.hgrow="ALWAYS" />
+            <ImageView fitHeight="56.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/logo.png" />
+                  <Image url="file:../images/LogoVersion3.png" />
                </image>
             </ImageView>
-            
-            <Label styleClass="titulo-seccion" text="Centro de Eventos Elite" textAlignment="CENTER" />
-            
-            <Label styleClass="label-campo" text="Bienvenido al Sistema Operativo" textAlignment="CENTER" />
-            
-            <Button mnemonicParsing="false" styleClass="btn-principal" text="Portal de Administradores" />
-         </children>
-         <padding>
-            <Insets bottom="40.0" left="20.0" right="20.0" top="20.0" />
-         </padding>
-      </VBox>
-   </center>
-
-   <bottom>
-      <HBox prefHeight="70.0" prefWidth="200.0" styleClass="barra-inferior" BorderPane.alignment="CENTER">
-         <children>
-            <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-               <children>
-                  <Label style="-fx-font-family: 'IBM Plex Mono'; -fx-font-size: 14px; -fx-text-fill: rgba(254,206,121,1);" text="© 2026 Centro de Eventos Elite S.A." />
-                  <Label style="-fx-font-family: 'IBM Plex Mono'; -fx-font-size: 12px; -fx-text-fill: #888888;" text="Todos los derechos reservados." />
-               </children>
-            </VBox>
-            
             <Region HBox.hgrow="ALWAYS" />
-            
-            <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-               <children>
-                  <ImageView fitHeight="35.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/logo_mini.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </VBox>
+            <ComboBox fx:id="comboIdioma" onAction="#switchToLanguageChange" prefHeight="40.0" prefWidth="180.0" promptText="%prompt.idiomas" styleClass="selector-idioma">
+               <HBox.margin>
+                  <Insets right="40.0" />
+               </HBox.margin>
+            </ComboBox>
          </children>
-         <padding>
-            <Insets left="40.0" right="40.0" />
-         </padding>
       </HBox>
    </bottom>
+   <center>
+      <StackPane maxHeight="600.0" maxWidth="1000.0" styleClass="capa-informacion" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER" spacing="40.0">
+               <children>
+                  <VBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Label styleClass="titulo-principal" text="%titulo.principal" />
+                        <Label styleClass="slogan" text="%titulo.slogan" />
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER" spacing="80.0">
+                     <children>
+                        <VBox alignment="CENTER" spacing="15.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:../images/ClientesLogo.png" />
+                                 </image>
+                              </ImageView>
+                              <Button mnemonicParsing="false" onAction="#switchToClientLogin" prefHeight="60.0" prefWidth="280.0" styleClass="btn-portal" text="%portal.cliente" />
+                              <Label styleClass="slogan" text="%portal.cliente.desc" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="15.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:../images/AdminsLogo.png" />
+                                 </image>
+                              </ImageView>
+                              <Button mnemonicParsing="false" onAction="#switchToAdminLogin" prefHeight="63.0" prefWidth="332.0" styleClass="btn-portal" text="%portal.admin" />
+                              <Label styleClass="slogan" text="%portal.admin.desc" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <Button mnemonicParsing="false" onAction="#switchToExit" prefHeight="50.0" prefWidth="240.0" styleClass="btn-portal" text="%btn.salir" />
+               </children>
+               <StackPane.margin>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+               </StackPane.margin>
+            </VBox>
+         </children>
+      </StackPane>
+   </center>
 </BorderPane>

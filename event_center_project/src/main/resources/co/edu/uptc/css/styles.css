@@ -2,93 +2,143 @@
    VARIABLES GLOBALES (PALETA DE COLORES ELITE)
    ========================================================================== */
 .root {
-    -color-bistre: rgba(33, 1, 0, 1);        /* Fondo oscuro, textos principales */
-    -color-goldfinch: rgba(230, 163, 65, 1); /* Detalles, hover, o acentos dorados */
-    -color-butter: rgba(254, 206, 121, 1);   /* Fondos claros, cajas de texto */
-    -color-indian-red: rgba(177, 74, 54, 1); /* Alertas, o botones secundarios */
-    -color-garnet: rgba(140, 9, 2, 1);       /* Botones principales, acentos fuertes */
-    
-    /* Fondo claro pastel sutil para hacer contraste */
-    -fx-background-color: -color-goldfinch; 
+    -color-bistre: rgba(33, 1, 0, 1);        /* Azul/marrón oscuro profundo para textos y footer */
+    -color-goldfinch: rgba(230, 163, 65, 1); /* Capa exterior / Detalles dorados */
+    -color-butter: rgba(254, 206, 121, 1);   /* Capa interior de información */
+    -color-indian-red: rgba(177, 74, 54, 1); /* Color de realce / Hover secundario */
+    -color-garnet: rgba(140, 9, 2, 1);       /* Color de los botones de portales */
 }
 
 /* ==========================================================================
-   TIPOGRAFÍAS POR ROLES (Especificadas por el usuario)
+   ESTRUCTURA DE CAPAS (FONDO)
    ========================================================================== */
+/* Capa de Información que flota sobre el fondo Goldfinch de la app */
+.capa-informacion {
+    -fx-background-color: -color-butter;
+    -fx-background-radius: 20px;
+    -fx-border-width: 2px;
+    -fx-border-radius: 20px;
+    /* Efecto de sombra para dar profundidad sobre la capa de abajo */
+    padding: 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(33, 1, 0, 0.3), 15, 0, 0, 5);
+}
+.fondo-pantalla-Interior {
+    -fx-background-color: -color-goldfinch;
+}
 
-/* Secciones como Inicio de sesión o registro / Menú Inicial */
+/* ==========================================================================
+   TIPOGRAFÍAS Y TEXTOS
+   ========================================================================== */
 .titulo-seccion {
     -fx-font-family: "Pacifico";
-    -fx-font-size: 48px;
-    -fx-text-fill: -color-bistre;
+    -fx-font-size: 35px;
+    -fx-text-fill: -color-garnet;
 }
 
-/* Anuncia un campo de ingreso o subtítulos descriptivos */
-.label-campo {
+.titulo-principal {
     -fx-font-family: "Pacifico";
-    -fx-font-size: 40px;
-    -fx-text-fill: -color-bistre;
+    -fx-font-size: 45px;
+    -fx-text-fill: -color-garnet;
 }
 
-/* Datos ingresados por el usuario dentro de las cajas de texto */
-.input-texto {
-    -fx-font-family: "IBM Plex Mono";
-    -fx-font-size: 36px;
-    -fx-text-fill: -color-bistre;
-    -fx-background-color: -color-butter;
-    -fx-border-color: -color-goldfinch;
-    -fx-border-width: 2px;
-    -fx-border-radius: 5px;
-    -fx-background-radius: 5px;
-    -fx-padding: 5px 15px;
-}
 
 /* ==========================================================================
-   OBJETOS PREDETERMINADOS (Botones, Barras, Selectores)
+   NUEVOS COMPONENTES GENÉRICOS (Requerimiento del usuario)
    ========================================================================== */
 
-/* Botón Principal (Ej: "Portal de Administradores", "Iniciar sesión") */
-.btn-principal {
+.btn-portal {
     -fx-font-family: "Pacifico";
-    -fx-font-size: 40px;
-    -fx-background-color: -color-garnet;
-    -fx-text-fill: -color-butter; /* Texto claro sobre fondo oscuro para contraste */
-    -fx-background-radius: 12px;
-    -fx-padding: 10px 40px;
+    -fx-font-size: 24px; /* Bajamos el tamaño a 24px para que no rompa el botón */
+    -fx-background-color: -color-bistre;
+    -fx-text-fill: -color-butter;
+    -fx-padding: 10px 20px;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 8, 0, 0, 4);
+    -fx-alignment: center;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 8, 0, 0, 4);
 }
 
-.btn-principal:hover {
+.btn-portal:hover {
     -fx-background-color: -color-indian-red;
-    -fx-effect: dropshadow(three-pass-box, rgba(140,9,2,0.3), 10, 0, 0, 5);
+    -fx-effect: dropshadow(three-pass-box, rgba(140, 9, 2, 0.4), 12, 0, 0, 6);
 }
 
-/* La Barra Inferior (Footer que aparece en casi todas las páginas) */
+/* Botón transparente específico para el Icono de Salir */
+.btn-salir {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 5px;
+    -fx-background-radius: 50%;
+}
+.btn-salir:hover {
+    -fx-background-color: rgba(177, 74, 54, 0.15); /* Destello sutil rojizo al pasar el mouse */
+}
+
+.slogan {
+    -fx-font-family: "Pacifico";
+    -fx-font-size: 24px;
+    -fx-text-fill: -color-bistre;
+}
+/* La Barra Inferior Reutilizable corporativa */
 .barra-inferior {
     -fx-background-color: -color-bistre;
-    -fx-alignment: center;
-    /* Borde superior decorativo dorado de 3px */
+    -fx-alignment: center_left;
     -fx-border-color: -color-goldfinch transparent transparent transparent;
     -fx-border-width: 4px;
 }
 
-/* Barra Desplegable de Idiomas (ComboBox) */
+/* Barra Desplegable de Idiomas (Estilo IBM Plex Mono) */
 .selector-idioma {
     -fx-font-family: "IBM Plex Mono";
     -fx-font-size: 18px; 
     -fx-background-color: -color-butter;
     -fx-text-fill: -color-bistre;
     -fx-border-color: -color-goldfinch;
-    -fx-border-width: 1.5px;
-    -fx-border-radius: 6px;
-    -fx-background-radius: 6px;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
     -fx-cursor: hand;
 }
-
 .selector-idioma .list-cell {
     -fx-font-family: "IBM Plex Mono";
     -fx-font-size: 18px;
     -fx-text-fill: -color-bistre;
     -fx-background-color: -color-butter;
+}
+
+.selector-idioma {
+    -fx-background-color: -color-butter;
+    -fx-background-radius: 8px;
+    -fx-border-color: -color-goldfinch;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 8px;
+    -fx-font-family: "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-bistre;
+    -fx-cursor: hand;
+}
+
+/* Color del texto descriptivo inicial (Prompt Text "Idiomas") */
+.selector-idioma .combo-box-id-container,
+.selector-idioma .prompt-text {
+    -fx-text-fill: rgba(33, 1, 0, 0.7); /* Variante sutil de tu color bistre */
+}
+
+/* Personalización de la lista desplegable interna */
+.selector-idioma .list-cell {
+    -fx-text-fill: -color-bistre;
+    -fx-background-color: -color-butter;
+    -fx-padding: 8px 12px;
+}
+
+/* Efecto visual al pasar el mouse sobre las opciones de idioma */
+.selector-idioma .list-cell:hover {
+    -fx-background-color: -color-goldfinch;
+    -fx-text-fill: white;
+}
+
+/* Color de la flecha del ComboBox */
+.selector-idioma .arrow {
+    -fx-background-color: -color-bistre;
 }
