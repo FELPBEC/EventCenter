@@ -22,5 +22,13 @@
     "password": "felp",
     "phoneNumber": "12",
     "email": "123132"
+  },
+  {
+    "nivelAcceso": 0,
+    "userName": "pepe23",
+    "id": 123,
+    "password": "1212",
+    "phoneNumber": "121212",
+    "email": "pepe12334"
   }
 ]

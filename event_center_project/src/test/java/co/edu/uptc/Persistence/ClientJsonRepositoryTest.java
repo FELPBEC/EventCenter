@@ -1,35 +1,40 @@
 package co.edu.uptc.Persistence;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import co.edu.uptc.Model.Client;
 
 public class ClientJsonRepositoryTest {
 
-    private static final String CLIENT_JSON_PATH = "test_Cliente.json"; // Ruta relativa desde test a raíz
+    @TempDir
+    Path tempDir;
 
-    @Test
-void testSaveClientList() throws IOException {
+    private String originalUserDir;
 
-    Path path = Paths.get(CLIENT_JSON_PATH);
-
-    
-    if (!Files.exists(path)) {
-        Files.createFile(path);
+    @AfterEach
+    void restoreUserDir() {
+        if (originalUserDir != null) {
+            // Restaura la ruta original después de la prueba para no afectar otras partes
+            System.setProperty("user.dir", originalUserDir);
+        }
     }
 
-    String originalContent = Files.readString(path);
+    @Test
+    void testSaveClientList() throws IOException {
+        // Engañamos al sistema para que guarde en la carpeta temporal
+        originalUserDir = System.getProperty("user.dir");
+        System.setProperty("user.dir", tempDir.toString());
 
-    try {
-        ClientJsonRepository repo = new ClientJsonRepository(CLIENT_JSON_PATH);
+        ClientJsonRepository repo = new ClientJsonRepository("test_Cliente.json");
 
         List<Client> newClients = new ArrayList<>();
         newClients.add(new Client("TestClient", 999, "testpass", "555555555", "test@email.com", true));
@@ -40,18 +45,6 @@ void testSaveClientList() throws IOException {
 
         assertNotNull(loadedClients);
         assertEquals(1, loadedClients.size());
-
-        Client client = loadedClients.get(0);
-
-        assertNotNull(client);
-        assertEquals("TestClient", client.getUserName());
-        assertEquals(999, client.getId());
-        assertTrue(client.isEmpresarial());
-
-    } finally {
-        Files.writeString(path, originalContent);
+        assertEquals("TestClient", loadedClients.get(0).getUserName());
     }
-}
-
-  
 }

@@ -15,7 +15,7 @@ public class MainTest {
         InputStream originalIn = System.in;
         try {
             System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-            assertDoesNotThrow(() -> Main.main(new String[0]));
+            assertDoesNotThrow(() -> MainConsola.main(new String[0]));
         } finally {
             System.setIn(originalIn);
         }
