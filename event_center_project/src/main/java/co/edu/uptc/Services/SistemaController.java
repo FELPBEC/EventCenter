@@ -103,11 +103,6 @@ public class SistemaController {
         if (!validationService.isValidCedula(cedulaStr)) return false;
         int id = validationService.parseCedula(cedulaStr);
         Admin admin = adminServices.sendAdminById(id);
-        System.out.println("ID buscado: " + id);
-        System.out.println("Admin encontrado: " + admin);
-        System.out.println("Buscando JSON en: " + System.getProperty("user.dir") + "/data/Admins.json");
-        System.out.println("Hash en JSON: [" + admin.getPassword() + "]");
-        System.out.println("Password ingresada: [" + rawPassword + "]");
         if (admin == null) return false;
         return passwordService.verify(rawPassword, admin.getPassword());
     }
@@ -119,6 +114,10 @@ public class SistemaController {
 
     public Admin obtenerAdmin(int id) {
         return adminServices.sendAdminById(id);
+    }
+
+    public boolean actualizarAdmin(int id, Admin adminActualizado) {
+    return adminServices.updateAdmin(id, adminActualizado);
     }
 
     // =========================================================================

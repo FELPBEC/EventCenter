@@ -1,9 +1,9 @@
 [
   {
-    "userName": "Carlos Administrador",
+    "userName": "Julian Papu",
     "id": 1012345678,
-    "email": "admin@eventcenter.co",
     "password": "$2a$12$ubcCqkWDqOoYsdzy5jxokORLMN8qrARyZ7oyQd7Cd71k1eQmrdU.m",
-    "phoneNumber": "3001234567"
+    "phoneNumber": "3221234567",
+    "email": "admin@eventcenter.co"
   }
 ]
