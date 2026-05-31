@@ -1,4 +1,7 @@
-target/
+/target/
 *.class
-.vscode/
 *.jar
+.settings/
+.classpath
+.project
+.vscode/
