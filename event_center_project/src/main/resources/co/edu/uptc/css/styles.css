@@ -142,3 +142,32 @@
 .selector-idioma .arrow {
     -fx-background-color: -color-bistre;
 }
+
+/* ==========================================================================
+CAMPO DE TEXTO (TextField / PasswordField)
+   ========================================================================== */
+.campo-texto {
+    -fx-font-family: "IBM Plex Mono";
+    -fx-font-size: 22px;
+    -fx-text-fill: -color-bistre;
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-border-color: -color-goldfinch;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-padding: 12px 16px;
+    -fx-pref-width: 520px;
+    -fx-pref-height: 60px;
+    -fx-effect: dropshadow(three-pass-box, rgba(33, 1, 0, 0.15), 6, 0, 0, 3);
+}
+
+.campo-texto:focused {
+    -fx-border-color: -color-indian-red;
+    -fx-border-width: 2.5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(177, 74, 54, 0.35), 10, 0, 0, 4);
+}
+
+.campo-texto .prompt-text {
+    -fx-fill: rgba(33, 1, 0, 0.45);
+    -fx-font-style: italic;
+}

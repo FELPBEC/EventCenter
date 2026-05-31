@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import co.edu.uptc.View.App;
+
 public class MainViewController {
 
     @FXML
@@ -27,22 +29,22 @@ public class MainViewController {
     }
 
     @FXML
-    private void switchToClientLogin(ActionEvent event) {
+    private void switchToClientLogin( ) {
         System.out.println("Navegando al Portal de Clientes...");
     }
 
     @FXML
-    private void switchToAdminLogin(ActionEvent event) {
-        System.out.println("Navegando al Portal de Administradores...");
+    private void switchToAdminLogin( ) throws IOException {
+        App.setRoot("loginView");
     }
 
     @FXML
-    private void switchToExit(ActionEvent event) {
+    private void switchToExit( ) {
         System.exit(0);
     }
 
     @FXML
-    private void switchToLanguageChange(ActionEvent event) {
+    private void switchToLanguageChange() {
         String seleccion = comboIdioma.getValue();
         if (seleccion == null) return;
 

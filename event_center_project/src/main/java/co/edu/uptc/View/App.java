@@ -13,6 +13,8 @@ import java.util.ResourceBundle;
 public class App extends Application {
 
     private static Scene scene;
+    // Guardamos el nombre del FXML actual para poder refrescarlo al cambiar de idioma
+    private static String currentFxml = "mainView"; 
 
     @Override
     public void start(Stage stage) {
@@ -21,32 +23,35 @@ public class App extends Application {
             Font.loadFont(App.class.getResourceAsStream("/co/edu/uptc/fonts/IBMPlexMono-Regular.ttf"), 10);
             Font.loadFont(App.class.getResourceAsStream("/co/edu/uptc/fonts/Caveat-Regular.ttf"), 10);
 
+            // Cargamos la vista inicial
             scene = new Scene(loadFXML("mainView"));
             
             stage.setTitle("Centro de Eventos Elite - Sistema de Gestión");
             stage.setScene(scene);
-            
             stage.setResizable(true);  
             stage.setMaximized(true); 
-            
             stage.show();
             
         } catch (IOException e) {
-            System.err.println("Error crítico: No se pudo cargar el FXML inicial 'mainView'.");
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-            System.err.println("Error de carga: Asegúrate de que las fuentes estén en /co/edu/uptc/fonts/.");
+            System.err.println("Error crítico: No se pudo cargar el FXML inicial.");
             e.printStackTrace();
         }
     }
 
     public static void setRoot(String fxml) throws IOException {
+        currentFxml = fxml; // Actualizamos la pantalla activa
         scene.setRoot(loadFXML(fxml));
+    }
+
+    public static String getCurrentFxml() {
+        return currentFxml;
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
         Locale locale = Locale.getDefault();
         ResourceBundle bundle = ResourceBundle.getBundle("co.edu.uptc.i18n.textos", locale);
+        
+        // CORRECCIÓN: Pasamos el 'bundle' como segundo parámetro para que funcione el i18n
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/co/edu/uptc/fxml/" + fxml + ".fxml"), bundle);
         return fxmlLoader.load();
     }
