@@ -1,64 +1,87 @@
 package co.edu.uptc.viewController;
 
+import co.edu.uptc.Model.Admin;
+import co.edu.uptc.Services.SessionManager;
 import co.edu.uptc.Services.SistemaController;
 import co.edu.uptc.View.App;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class LoginController {
 
-    @FXML private TextField txtCedula;
+    @FXML private TextField     txtCedula;
     @FXML private PasswordField txtPassword;
-
     @FXML private ResourceBundle resources;
 
-    // -------------------------------------------------------------------------
-    // Inicialización
-    // -------------------------------------------------------------------------
     @FXML
-    public void initialize() {
-        // Por ahora vacío, listo para crecer
-    }
+    public void initialize() { }
 
-    // -------------------------------------------------------------------------
-    // Acción: Iniciar Sesión
-    // -------------------------------------------------------------------------
     @FXML
-    private void switchToLogin(ActionEvent event) {
-        String cedulaTexto = txtCedula.getText().trim();
-        String password    = txtPassword.getText().trim();
+    private void switchToLogin() {
+        String cedula   = txtCedula.getText().trim();
+        String password = txtPassword.getText();
 
-        if (cedulaTexto.isEmpty() || password.isEmpty()) {
+        if (cedula.isEmpty() && password.isEmpty()) {
             mostrarAlerta(AlertType.WARNING,
                 resources.getString("login.alerta.camposVacios.titulo"),
                 resources.getString("login.alerta.camposVacios.mensaje"));
             return;
         }
 
-        int id;
-        try {
-            id = Integer.parseInt(cedulaTexto);
-        } catch (NumberFormatException e) {
+        if (cedula.isEmpty()) {
+            mostrarAlerta(AlertType.WARNING,
+                resources.getString("login.alerta.cedulaVacia.titulo"),
+                resources.getString("login.alerta.cedulaVacia.mensaje"));
+            return;
+        }
+
+        if (password.isEmpty()) {
+            mostrarAlerta(AlertType.WARNING,
+                resources.getString("login.alerta.passwordVacia.titulo"),
+                resources.getString("login.alerta.passwordVacia.mensaje"));
+            return;
+        }
+
+        if (!cedula.matches("\\d+")) {
+            mostrarAlerta(AlertType.ERROR,
+                resources.getString("login.alerta.cedulaNoNumerica.titulo"),
+                resources.getString("login.alerta.cedulaNoNumerica.mensaje"));
+            return;
+        }
+
+        if (!SistemaController.getInstance().isCedulaValida(cedula)) {
             mostrarAlerta(AlertType.ERROR,
                 resources.getString("login.alerta.idInvalida.titulo"),
                 resources.getString("login.alerta.idInvalida.mensaje"));
             return;
         }
 
-        boolean acceso = SistemaController.getInstance().loginAdmin(id, password);
+        boolean acceso;
+        try {
+            acceso = SistemaController.getInstance().loginAdmin(cedula, password);
+        } catch (Exception e) {
+            mostrarAlerta(AlertType.ERROR,
+                resources.getString("login.alerta.errorSistema.titulo"),
+                resources.getString("login.alerta.errorSistema.mensaje"));
+            e.printStackTrace();
+            return;
+        }
 
         if (acceso) {
             try {
-                App.setRoot("adminDashboard"); // cambia por tu fxml de destino cuando lo tengas
+                Admin admin = SistemaController.getInstance()
+                                            .obtenerAdmin(Integer.parseInt(cedula));
+                SessionManager.getInstance().iniciarSesionAdmin(admin);
+                App.setRoot("perfilAdmin");
             } catch (IOException e) {
+                mostrarAlerta(AlertType.ERROR,
+                    resources.getString("login.alerta.errorNavegacion.titulo"),
+                    resources.getString("login.alerta.errorNavegacion.mensaje"));
                 e.printStackTrace();
             }
         } else {
@@ -68,21 +91,18 @@ public class LoginController {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Acción: Atrás
-    // -------------------------------------------------------------------------
     @FXML
-    private void switchToBack(ActionEvent event) {
+    private void switchToBack() {
         try {
             App.setRoot("mainView");
         } catch (IOException e) {
+            mostrarAlerta(AlertType.ERROR,
+                resources.getString("login.alerta.errorNavegacion.titulo"),
+                resources.getString("login.alerta.errorNavegacion.mensaje"));
             e.printStackTrace();
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Utilidad interna
-    // -------------------------------------------------------------------------
     private void mostrarAlerta(AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);

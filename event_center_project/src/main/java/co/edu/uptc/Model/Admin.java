@@ -9,7 +9,6 @@ import co.edu.uptc.Abstracts.Person;
  * 
  */
 public class Admin extends Person{
-    private int nivelAcceso;
     /**Método constructor vacío de la clase administrador para facilitar su importación desde archivos Json y Csv */
     public Admin() {
     }
