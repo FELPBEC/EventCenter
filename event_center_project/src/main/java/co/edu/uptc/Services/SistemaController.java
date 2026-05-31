@@ -4,33 +4,35 @@ import co.edu.uptc.Model.Admin;
 import co.edu.uptc.Model.Booking;
 import co.edu.uptc.Model.Client;
 import co.edu.uptc.Model.Salon;
+import co.edu.uptc.Security.PasswordSecurityService;
+import co.edu.uptc.Security.ValidationService;
 
 import java.util.List;
 
 /**
  * Controlador principal del sistema (Fachada/Singleton).
- * Centraliza el acceso a todos los servicios para que la Vista (Consola o JavaFX)
- * no interactúe directamente con la lógica de negocio ni cree múltiples instancias.
+ * Centraliza acceso a servicios. La vista nunca toca la lógica directamente.
  */
 public class SistemaController {
 
-    // 1. Instancia única (Singleton)
     private static SistemaController instance;
 
-    // 2. Servicios centralizados
-    private AdminServices adminServices;
-    private ClientService clientService;
-    private SalonServices salonServices;
-    private BookingServices bookingServices;
-    
+    private final AdminServices          adminServices;
+    private final ClientService          clientService;
+    private final SalonServices          salonServices;
+    private final BookingServices        bookingServices;
+    private final PasswordSecurityService passwordService;
+    private final ValidationService      validationService;
+
     private SistemaController() {
-        this.adminServices = new AdminServices();
-        this.clientService = new ClientService();
-        this.salonServices = new SalonServices();
-        this.bookingServices = new BookingServices();
+        this.adminServices     = new AdminServices();
+        this.clientService     = new ClientService();
+        this.salonServices     = new SalonServices();
+        this.bookingServices   = new BookingServices();
+        this.passwordService   = new PasswordSecurityService();
+        this.validationService = new ValidationService();
     }
 
-    // 4. Método para obtener la instancia única en cualquier parte del proyecto
     public static SistemaController getInstance() {
         if (instance == null) {
             instance = new SistemaController();
@@ -39,9 +41,42 @@ public class SistemaController {
     }
 
     // =========================================================================
-    //                        MÉTODOS DE CLIENTES
+    // VALIDACIONES PÚBLICAS (las usa la vista antes de llamar al login)
     // =========================================================================
 
+    /** Valida formato de cédula colombiana (3–10 dígitos, sin ceros puros) */
+    public boolean isCedulaValida(String cedula) {
+        return validationService.isValidCedula(cedula);
+    }
+
+    /** Valida formato de contraseña: mínimo 8 chars, 1 mayúscula, 1 carácter especial */
+    public boolean isPasswordValida(String rawPassword) {
+        return passwordService.isValidFormat(rawPassword);
+    }
+
+    /** Encripta una contraseña válida. Usar al registrar o actualizar contraseña. */
+    public String encriptarPassword(String rawPassword) {
+        return passwordService.encrypt(rawPassword);
+    }
+
+    // =========================================================================
+    // CLIENTES
+    // =========================================================================
+
+    /**
+     * Login de cliente con verificación BCrypt.
+     * @param cedulaStr cédula como String (viene del TextField)
+     * @param rawPassword contraseña en texto plano
+     */
+    public boolean loginCliente(String cedulaStr, String rawPassword) {
+        if (!validationService.isValidCedula(cedulaStr)) return false;
+        int id = validationService.parseCedula(cedulaStr);
+        Client cliente = clientService.buscarClientPorId(id);
+        if (cliente == null) return false;
+        return passwordService.verify(rawPassword, cliente.getPassword());
+    }
+
+    /** @deprecated Usa loginCliente(String, String) para BCrypt */
     public boolean loginCliente(int id, String password) {
         return clientService.validateAccess(id, password);
     }
@@ -55,9 +90,29 @@ public class SistemaController {
     }
 
     // =========================================================================
-    //                        MÉTODOS DE ADMINISTRADORES
+    // ADMINISTRADORES
     // =========================================================================
 
+    /**
+     * Login de admin con validación de cédula colombiana y verificación BCrypt.
+     * @param cedulaStr cédula como String (viene del TextField)
+     * @param rawPassword contraseña en texto plano que escribe el usuario
+     * @return true si las credenciales son correctas
+     */
+    public boolean loginAdmin(String cedulaStr, String rawPassword) {
+        if (!validationService.isValidCedula(cedulaStr)) return false;
+        int id = validationService.parseCedula(cedulaStr);
+        Admin admin = adminServices.sendAdminById(id);
+        System.out.println("ID buscado: " + id);
+        System.out.println("Admin encontrado: " + admin);
+        System.out.println("Buscando JSON en: " + System.getProperty("user.dir") + "/data/Admins.json");
+        System.out.println("Hash en JSON: [" + admin.getPassword() + "]");
+        System.out.println("Password ingresada: [" + rawPassword + "]");
+        if (admin == null) return false;
+        return passwordService.verify(rawPassword, admin.getPassword());
+    }
+
+    /** @deprecated Usa loginAdmin(String, String) para BCrypt */
     public boolean loginAdmin(int id, String password) {
         return adminServices.validateAccess(id, password);
     }
@@ -67,7 +122,7 @@ public class SistemaController {
     }
 
     // =========================================================================
-    //                        MÉTODOS DE SALONES
+    // SALONES
     // =========================================================================
 
     public List<Salon> obtenerTodosLosSalones() {
@@ -91,7 +146,7 @@ public class SistemaController {
     }
 
     // =========================================================================
-    //                        MÉTODOS DE RESERVAS
+    // RESERVAS
     // =========================================================================
 
     public void crearReserva(Booking reserva) {
@@ -101,6 +156,4 @@ public class SistemaController {
     public List<Booking> obtenerTodasLasReservas() {
         return bookingServices.getListBooking();
     }
-
-    // Agrega aquí más métodos intermediarios a medida que los necesites (ej. filtros, reportes)
 }

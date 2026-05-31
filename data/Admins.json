@@ -1,34 +1,9 @@
 [
   {
-    "nivelAcceso": 0,
-    "userName": "julian",
-    "id": 1234,
-    "password": "1234",
-    "phoneNumber": "dsadas",
-    "email": "dsadas"
-  },
-  {
-    "nivelAcceso": 0,
-    "userName": "pepe",
-    "id": 2,
-    "password": "pepe",
-    "phoneNumber": "1234",
-    "email": "3213213"
-  },
-  {
-    "nivelAcceso": 0,
-    "userName": "felipe",
-    "id": 12,
-    "password": "felp",
-    "phoneNumber": "12",
-    "email": "123132"
-  },
-  {
-    "nivelAcceso": 0,
-    "userName": "pepe23",
-    "id": 123,
-    "password": "1212",
-    "phoneNumber": "121212",
-    "email": "pepe12334"
+    "userName": "Carlos Administrador",
+    "id": 1012345678,
+    "email": "admin@eventcenter.co",
+    "password": "$2a$12$ubcCqkWDqOoYsdzy5jxokORLMN8qrARyZ7oyQd7Cd71k1eQmrdU.m",
+    "phoneNumber": "3001234567"
   }
 ]

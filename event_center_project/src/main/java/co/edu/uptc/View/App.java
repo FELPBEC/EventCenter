@@ -39,7 +39,7 @@ public class App extends Application {
     }
 
     public static void setRoot(String fxml) throws IOException {
-        currentFxml = fxml; // Actualizamos la pantalla activa
+        currentFxml = fxml; 
         scene.setRoot(loadFXML(fxml));
     }
 
@@ -51,7 +51,6 @@ public class App extends Application {
         Locale locale = Locale.getDefault();
         ResourceBundle bundle = ResourceBundle.getBundle("co.edu.uptc.i18n.textos", locale);
         
-        // CORRECCIÓN: Pasamos el 'bundle' como segundo parámetro para que funcione el i18n
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/co/edu/uptc/fxml/" + fxml + ".fxml"), bundle);
         return fxmlLoader.load();
     }

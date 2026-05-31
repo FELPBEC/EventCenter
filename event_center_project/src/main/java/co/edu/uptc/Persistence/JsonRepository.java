@@ -27,7 +27,7 @@ public class JsonRepository<T> implements Repository<T> {
      */
     public JsonRepository(String fileName, Type typeClass) {
         String rutaDeEjecucion = System.getProperty("user.dir");
-        File carpetaData = new File(rutaDeEjecucion, "data");
+        File carpetaData = new File(rutaDeEjecucion, "../data");
         // Si la carpeta "data" no existe junto al programa, la crea
         if (!carpetaData.exists()) {
             carpetaData.mkdirs(); 
