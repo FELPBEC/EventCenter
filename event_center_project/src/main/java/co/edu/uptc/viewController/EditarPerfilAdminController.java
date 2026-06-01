@@ -8,9 +8,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class EditarPerfilAdminController {
@@ -57,31 +59,90 @@ public class EditarPerfilAdminController {
 
     @FXML
     private void guardarCambios() {
-        String nombre   = txtNombre.getText().trim();
-        String telefono = txtTelefono.getText().trim();
-        String correo   = txtCorreo.getText().trim();
+        String nuevoNombre   = txtNombre.getText().trim();
+        String nuevoTelefono = txtTelefono.getText().trim();
+        String nuevoCorreo   = txtCorreo.getText().trim();
 
-        if (nombre.isEmpty() || telefono.isEmpty() || correo.isEmpty()) {
+        // 1. Validar campos vacios
+        if (nuevoNombre.isEmpty() || nuevoTelefono.isEmpty() || nuevoCorreo.isEmpty()) {
             mostrarAlerta(AlertType.WARNING,
                 resources.getString("editarPerfil.alerta.camposVacios.titulo"),
                 resources.getString("editarPerfil.alerta.camposVacios.mensaje"));
             return;
         }
 
-        Admin adminActual = SessionManager.getInstance().getAdminActual();
+        Admin actual = SessionManager.getInstance().getAdminActual();
+
+        // 2. Detectar qué campos cambiaron para mostrarlos en la confirmación
+        StringBuilder cambios = new StringBuilder();
+
+        if (!nuevoNombre.equals(actual.getUserName())) {
+            cambios.append(resources.getString("perfil.nombre"))
+                   .append(" ")
+                   .append(actual.getUserName())
+                   .append(" -> ")
+                   .append(nuevoNombre)
+                   .append("\n");
+        }
+        if (!nuevoTelefono.equals(actual.getPhoneNumber())) {
+            cambios.append(resources.getString("perfil.telefono"))
+                   .append(" ")
+                   .append(actual.getPhoneNumber())
+                   .append(" -> ")
+                   .append(nuevoTelefono)
+                   .append("\n");
+        }
+        if (!nuevoCorreo.equals(actual.getEmail())) {
+            cambios.append(resources.getString("perfil.correo"))
+                   .append(" ")
+                   .append(actual.getEmail())
+                   .append(" -> ")
+                   .append(nuevoCorreo)
+                   .append("\n");
+        }
+
+        // 3. Si no hubo ningún cambio, avisar y no hacer nada
+        if (cambios.length() == 0) {
+            mostrarAlerta(AlertType.INFORMATION,
+                resources.getString("editarPerfil.alerta.sinCambios.titulo"),
+                resources.getString("editarPerfil.alerta.sinCambios.mensaje"));
+            return;
+        }
+
+        // 4. Mostrar confirmación con el detalle de los cambios
+        String mensajeConfirmacion = resources.getString("editarPerfil.confirmacion.mensaje")
+                                     + "\n\n" + cambios.toString();
+
+        Alert confirmacion = new Alert(AlertType.CONFIRMATION);
+        confirmacion.setTitle(resources.getString("editarPerfil.confirmacion.titulo"));
+        confirmacion.setHeaderText(resources.getString("editarPerfil.confirmacion.header"));
+        confirmacion.setContentText(mensajeConfirmacion);
+
+        ButtonType btnAceptar = new ButtonType(
+            resources.getString("editarPerfil.confirmacion.aceptar")
+        );
+        ButtonType btnCancelar = new ButtonType(
+            resources.getString("editarPerfil.confirmacion.cancelar")
+        );
+        confirmacion.getButtonTypes().setAll(btnAceptar, btnCancelar);
+
+        Optional<ButtonType> resultado = confirmacion.showAndWait();
+
+        if (resultado.isEmpty() || resultado.get() != btnAceptar) return;
+
+        // 5. Aplicar cambios
         Admin adminActualizado = new Admin(
-            nombre,
-            adminActual.getId(),
-            correo,
-            adminActual.getPassword(),
-            telefono
+            nuevoNombre,
+            actual.getId(),
+            nuevoCorreo,
+            actual.getPassword(),
+            nuevoTelefono
         );
 
         boolean exito = SistemaController.getInstance()
-                                         .actualizarAdmin(adminActual.getId(), adminActualizado);
+                                         .actualizarAdmin(actual.getId(), adminActualizado);
 
         if (exito) {
-            // Actualizamos la sesion con los nuevos datos
             SessionManager.getInstance().iniciarSesionAdmin(adminActualizado);
             mostrarAlerta(AlertType.INFORMATION,
                 resources.getString("editarPerfil.alerta.exito.titulo"),

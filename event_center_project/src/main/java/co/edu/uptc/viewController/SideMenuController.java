@@ -36,32 +36,36 @@ public class SideMenuController {
     }
 
     @FXML
-    private void irAEditarPerfil(ActionEvent event) {
+    private void irAEditarPerfil( ) {
         System.out.println("Pasando a Editar Perfil...");
     }
 
     @FXML
-    private void irAClientes(ActionEvent event) {
+    private void irAClientes( ) {
         System.out.println("Pasando a Gestion de Clientes...");
     }
 
     @FXML
-    private void irASalones(ActionEvent event) {
+    private void irASalones( ) {
         System.out.println("Pasando a Gestion de Salones...");
     }
 
     @FXML
-    private void irAAdmins(ActionEvent event) {
+    private void irAAdmins( ) {
         System.out.println("Pasando a Gestion de Admins...");
     }
 
     @FXML
-    private void irAReportes(ActionEvent event) {
-        System.out.println("Pasando a Reportes...");
+    private void irAReportes() {
+        try {
+            App.setRoot("reportes");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    private void cerrarSesion(ActionEvent event) {
+    private void cerrarSesion( ) {
         if (!SessionManager.getInstance().haySesionAdmin()) return;
 
         String nombre = SessionManager.getInstance().getAdminActual().getUserName();
