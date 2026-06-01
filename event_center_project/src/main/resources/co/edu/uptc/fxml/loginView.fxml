@@ -65,10 +65,18 @@
                   <!-- Botones -->
                   <HBox alignment="CENTER_LEFT" spacing="30.0">
                      <children>
-                        <Button styleClass="btn-portal"
-                                text="%login.btn.atras"
-                                onAction="#switchToBack"
-                                prefHeight="65.0" prefWidth="220.0" />
+                        <Button styleClass="btn-portal" 
+                              text="%login.btn.atras" 
+                              onAction="#switchToBack" 
+                              prefHeight="65.0" prefWidth="220.0">
+                           <graphic>
+                              <ImageView fitHeight="20" fitWidth="20">
+                                    <image>
+                                       <Image url="@/co/edu/uptc/images/IconoVolver.png" />
+                                    </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                         <Button styleClass="btn-portal"
                                 text="%login.btn.ingresar"
                                 onAction="#switchToLogin"

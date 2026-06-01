@@ -8,10 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.io.File;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 /**Clase de servicios de salones que sirve para agregar, eliminar, modificar y leer salones {@link Salon}
@@ -23,8 +20,12 @@ public class SalonServices {
 
     private List<Salon> listSalones;
     private SalonJsonRepository repository;
-    private final String IMAGES_BASE_PATH = "images";
+    private final String IMAGES_BASE_PATH = "../images/";
     public SalonServices() {
+        File folder = new File(IMAGES_BASE_PATH);
+        if (!folder.exists()) {
+        folder.mkdirs(); // Esto creará la carpeta si por alguna razón no existe
+        }
         this.repository= new SalonJsonRepository("Salon.json");
         this.listSalones= repository.sendSalonList();
         if (this.listSalones==null) {
@@ -32,6 +33,10 @@ public class SalonServices {
         }
     }
     public SalonServices(List<Salon> listSalonesSimulada) {
+        File folder = new File(IMAGES_BASE_PATH);
+        if (!folder.exists()) {
+        folder.mkdirs(); // Esto creará la carpeta si por alguna razón no existe
+    }
         this.listSalones = listSalonesSimulada;
         this.repository = null; 
     }

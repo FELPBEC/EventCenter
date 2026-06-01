@@ -11,8 +11,10 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
 
-<BorderPane styleClass="fondo-pantalla-Interior" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uptc.viewController.RegisterClientController">
+
+<BorderPane styleClass="fondo-pantalla-Interior" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uptc.viewController.RegisterClientController">
 
    <bottom>
       <fx:include source="bottomBar.fxml" />
@@ -21,7 +23,7 @@
    <center>
       <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="TOP_LEFT" styleClass="capa-informacion" spacing="15.0" maxWidth="700.0">
+            <VBox alignment="TOP_LEFT" maxWidth="700.0" spacing="15.0" styleClass="capa-informacion">
                <padding>
                   <Insets bottom="35.0" left="50.0" right="50.0" top="35.0" />
                </padding>
@@ -82,8 +84,8 @@
                               <Label alignment="CENTER" styleClass="label-campo" text="%empresarial.question" />
                               <HBox alignment="CENTER_LEFT" spacing="20.0">
                                  <children>
-                                    <RadioButton fx:id="radYes" text="Sí" toggleGroup="$empresarial" />
-                                    <RadioButton fx:id="radNo" text="No" toggleGroup="$empresarial" />
+                                    <RadioButton fx:id="radYes" text="%empresarial.yes" toggleGroup="$empresarial"> </RadioButton>
+                                    <RadioButton fx:id="radNo" text="%empresarial.no" toggleGroup="$empresarial" />
                                  </children>
                               </HBox>
                            </children>
@@ -91,12 +93,26 @@
                      </children>
                   </HBox>
 
-                  <HBox alignment="CENTER">
+                  <HBox alignment="CENTER" prefHeight="71.0" prefWidth="600.0">
                      <VBox.margin>
                         <Insets top="15.0" />
                      </VBox.margin>
                      <children>
-                        <Button fx:id="btnRegister" alignment="CENTER" mnemonicParsing="false" onAction="#register" prefHeight="45.0" prefWidth="280.0" styleClass="btn-menu-lateral" text="%register.btn" />
+                        <Button fx:id="btnRegister" alignment="CENTER" mnemonicParsing="false" onAction="#register" prefHeight="67.0" prefWidth="280.0" styleClass="btn-menu-lateral" text="%register.btn"> 
+                     </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="BOTTOM_RIGHT" prefHeight="69.0" prefWidth="600.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="56.0" prefWidth="164.0" styleClass="btn-menu-lateral" text="%login.btn.atras" onAction="#switchToBack">
+                           <graphic>
+                              <ImageView fitHeight="20" fitWidth="20">
+                                    <image>
+                                       <Image url="@/co/edu/uptc/images/IconoVolver.png" />
+                                    </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </HBox>
 

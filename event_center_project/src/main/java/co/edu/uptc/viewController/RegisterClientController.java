@@ -8,9 +8,14 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+
+import java.io.IOException;
+
 import co.edu.uptc.Model.Client;
 import co.edu.uptc.Services.SessionManager;
 import co.edu.uptc.Services.SistemaController;
+import co.edu.uptc.View.App;
+import javafx.event.ActionEvent;
 
 public class RegisterClientController {
     
@@ -123,4 +128,10 @@ public void initialize() {
         txtPhoneNumber.clear();
         empresarial.selectToggle(null);
     }
+
+    @FXML
+    private void switchToBack()throws IOException {
+       App.setRoot("loginClient");
+    }
+
 }

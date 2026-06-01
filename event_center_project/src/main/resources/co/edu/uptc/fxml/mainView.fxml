@@ -68,7 +68,15 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <Button mnemonicParsing="false" onAction="#switchToExit" prefHeight="50.0" prefWidth="240.0" styleClass="btn-portal" text="%btn.salir" />
+                  <Button mnemonicParsing="false" onAction="#switchToExit" prefHeight="50.0" prefWidth="240.0" styleClass="btn-portal" text="%btn.salir">
+    <graphic>
+        <ImageView fitHeight="20" fitWidth="20">
+            <image>
+                <Image url="@/co/edu/uptc/images/IconoSalir.png" />
+            </image>
+        </ImageView>
+    </graphic>
+</Button>
                </children>
                <StackPane.margin>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

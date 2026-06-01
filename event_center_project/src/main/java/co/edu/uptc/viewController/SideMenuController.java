@@ -2,7 +2,6 @@ package co.edu.uptc.viewController;
 
 import co.edu.uptc.Services.SessionManager;
 import co.edu.uptc.View.App;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
