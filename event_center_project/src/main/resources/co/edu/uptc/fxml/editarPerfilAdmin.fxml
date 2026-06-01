@@ -31,7 +31,7 @@
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@co/edu/uptc/images/IconoMenú.png" />
+                        <Image url="@/co/edu/uptc/images/IconoMenú.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -54,7 +54,7 @@
                   <children>
                      <ImageView fitHeight="220.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                           <Image url="@co/edu/uptc/images/AdminsLogo.png" />
+                           <Image url="@/co/edu/uptc/images/AdminsLogo.png" />
                         </image>
                      </ImageView>
                   </children>
