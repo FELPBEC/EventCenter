@@ -48,7 +48,7 @@
                            <children>
                               <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="file:../images/ClientesLogo.png" />
+                                    <Image url="@/co/edu/uptc/images/ClientesLogo.png" />
                                  </image>
                               </ImageView>
                               <Button mnemonicParsing="false" onAction="#switchToClientLogin" prefHeight="60.0" prefWidth="280.0" styleClass="btn-portal" text="%portal.cliente" />
@@ -59,7 +59,7 @@
                            <children>
                               <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="file:../images/AdminsLogo.png" />
+                                    <Image url="@/co/edu/uptc/images/AdminsLogo.png" />
                                  </image>
                               </ImageView>
                               <Button mnemonicParsing="false" onAction="#switchToAdminLogin" prefHeight="63.0" prefWidth="332.0" styleClass="btn-portal" text="%portal.admin" />

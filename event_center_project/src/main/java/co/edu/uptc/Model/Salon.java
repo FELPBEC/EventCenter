@@ -1,21 +1,25 @@
 package co.edu.uptc.Model;
+import java.util.ArrayList;
 /**Clase que sirve de modelo para los salones que serán alquilados por los clientes
  * 
  * @author Felipe Becerra
  * @version v 1.0
  */
+import java.util.List;
 public class Salon {
     private int id;
     private String salonName;
     private int capacity;
     private double priceByHour;
     private int numberOfReservations;
+    private List<String> imagePaths;
 
     /**Constructor vacio para la clase,
      * con objetivo de poder cargar objetos guardados en repositorios
      * 
      */
     public Salon() {
+        this.imagePaths = new ArrayList<>();
     }
 
     /**Método constructor con párametros de la clase Salon en caso de desear crear un salón manualmente
@@ -32,6 +36,7 @@ public class Salon {
         this.capacity = capacity;
         this.priceByHour = priceByHour;
         this.numberOfReservations = 0;
+        this.imagePaths = new ArrayList<>();
     }
 
 
@@ -116,10 +121,23 @@ public class Salon {
         this.numberOfReservations = numberOfReservations;
     }
 
+    public List<String> getImagePaths() {
+        return imagePaths;
+    }
 
-    
-    
+    public void setImagePaths(List<String> imagePaths) {
+        this.imagePaths = imagePaths;
+    }
 
-    
+    /**
+     * Añade una nueva ruta de imagen a la lista del salón.
+     * @param path La ruta absoluta de la imagen en el sistema.
+     */
+    public void addImagePath(String path) {
+        if (this.imagePaths == null) {
+            this.imagePaths = new ArrayList<>();
+        }
+        this.imagePaths.add(path);
+    }
     
 }

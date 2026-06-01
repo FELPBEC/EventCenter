@@ -9,6 +9,7 @@ import co.edu.uptc.View.App;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Hyperlink;
 
 public class LoginClientController {
 
@@ -16,6 +17,8 @@ public class LoginClientController {
     @FXML private PasswordField txtPassword;
 
     private SistemaController sistema = SistemaController.getInstance();
+    @FXML
+    private Hyperlink hypRegister;
 
     @FXML
     public void switchToLogin() {

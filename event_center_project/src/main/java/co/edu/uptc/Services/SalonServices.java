@@ -3,6 +3,15 @@ package co.edu.uptc.Services;
 import co.edu.uptc.Model.Salon;
 import co.edu.uptc.Persistence.SalonJsonRepository;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.io.File;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 /**Clase de servicios de salones que sirve para agregar, eliminar, modificar y leer salones {@link Salon}
@@ -14,6 +23,7 @@ public class SalonServices {
 
     private List<Salon> listSalones;
     private SalonJsonRepository repository;
+    private final String IMAGES_BASE_PATH = "images";
     public SalonServices() {
         this.repository= new SalonJsonRepository("Salon.json");
         this.listSalones= repository.sendSalonList();
@@ -148,6 +158,26 @@ public class SalonServices {
     public List<Salon> getListSalones() {
         return this.listSalones;
     }
+    public void addImageToSalon(int salonId, File imageFile) throws IOException {
+    // Usamos el método que ya tienes en SalonServices, no el repositorio
+    Salon salon = sendSalonById(salonId); 
+    
+    if (salon == null) return;
 
+    // 1. Crear nombre único y ruta de destino
+    String fileName = System.currentTimeMillis() + "_" + imageFile.getName();
+    Path destinationPath = Paths.get(IMAGES_BASE_PATH, fileName);
+
+    // 2. Copiar físicamente
+    Files.copy(imageFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+
+    // 3. Actualizar modelo
+    salon.addImagePath(destinationPath.toString());
+
+    // 4. Persistir los cambios usando el repositorio que ya tienes (this.repository)
+    if (this.repository != null) {
+        repository.saveSalonList(listSalones);
+    }
+}
     
 }

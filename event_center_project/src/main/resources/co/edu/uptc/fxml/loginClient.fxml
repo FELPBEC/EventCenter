@@ -98,7 +98,7 @@
          <children>
             <ImageView fitHeight="500.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="file:../images/LogoVersión1.png" />
+                  <Image url="@/co/edu/uptc/images/LogoVersión1.png" />
                </image>
             </ImageView>
          </children>
