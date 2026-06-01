@@ -28,8 +28,8 @@ public class MainViewController {
     }
 
     @FXML
-    private void switchToClientLogin( ) {
-        System.out.println("Navegando al Portal de Clientes...");
+    private void switchToClientLogin( )throws IOException {
+        App.setRoot("loginClient");
     }
 
     @FXML

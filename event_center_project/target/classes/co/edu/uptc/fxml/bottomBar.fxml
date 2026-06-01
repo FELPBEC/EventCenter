@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+
+<HBox alignment="CENTER_LEFT" prefHeight="110.0" styleClass="barra-inferior" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uptc.viewController.BottomBarController">
+   <children>
+      <Region HBox.hgrow="ALWAYS" />
+      <ImageView fitHeight="85.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:../images/LogoVersion3.png" />
+         </image>
+      </ImageView>
+      <Region HBox.hgrow="ALWAYS" />
+      <ComboBox fx:id="comboIdioma" onAction="#switchToLanguageChange" prefHeight="55.0" prefWidth="240.0" promptText="%prompt.idiomas" styleClass="selector-idioma">
+         <HBox.margin>
+            <Insets right="60.0" />
+         </HBox.margin>
+      </ComboBox>
+   </children>
+</HBox>
