@@ -45,7 +45,7 @@ public class LoginClientController {
                 
                 // 5. Navegación nativa de tu proyecto hacia la vista interior/principal
                 // Nota: Asegúrate de cambiar "mainView" por el nombre FXML de la pantalla a la que deba ir el cliente
-                App.setRoot("mainView"); 
+                App.setRoot("perfilCliente"); 
                 
             } else {
                 // FALLO: Credenciales incorrectas
