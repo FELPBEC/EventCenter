@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane styleClass="fondo-pantalla-Interior"
+            stylesheets="@../css/styles.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.uptc.viewController.ReportesController">
+
+   <bottom>
+      <fx:include source="bottomBar.fxml" />
+   </bottom>
+
+   <left>
+      <fx:include fx:id="sideMenuContainer" source="sideBar.fxml" />
+   </left>
+
+   <top>
+      <HBox alignment="CENTER_LEFT"
+            prefHeight="65.0"
+            styleClass="fondo-pantalla-Interior">
+         <padding>
+            <Insets top="10.0" right="10.0" bottom="10.0" left="16.0" />
+         </padding>
+         <children>
+            <Button fx:id="btnToggleMenu"
+                    styleClass="btn-portal"
+                    onAction="#toggleMenu"
+                    prefHeight="50.0"
+                    prefWidth="60.0">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0"
+                             pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="file:../images/IconoMenú.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+   </top>
+
+   <center>
+      <VBox alignment="CENTER"
+            VBox.vgrow="ALWAYS"
+            BorderPane.alignment="CENTER">
+         <padding>
+            <Insets top="20.0" right="60.0" bottom="20.0" left="60.0" />
+         </padding>
+         <children>
+
+            <TabPane fx:id="tabPaneReportes"
+                     styleClass="tab-pane-reportes"
+                     tabClosingPolicy="UNAVAILABLE"
+                     VBox.vgrow="ALWAYS">
+               <tabs>
+
+                  <!-- TAB 1: Top 5 Salones -->
+                  <Tab text="%reportes.tab.top5">
+                     <content>
+                        <VBox alignment="CENTER"
+                              spacing="20.0">
+                           <padding>
+                              <Insets top="30.0" right="40.0" bottom="30.0" left="40.0" />
+                           </padding>
+                           <children>
+
+                              <Label text="%reportes.top5.titulo"
+                                     styleClass="titulo-seccion" />
+
+                              <TableView fx:id="tablaTop5"
+                                         styleClass="tabla-reportes"
+                                         VBox.vgrow="ALWAYS">
+                                 <columns>
+                                    <TableColumn fx:id="colPuesto"
+                                                 text="%reportes.col.puesto"
+                                                 prefWidth="160.0" />
+                                    <TableColumn fx:id="colNombre"
+                                                 text="%reportes.col.nombre"
+                                                 prefWidth="400.0" />
+                                    <TableColumn fx:id="colCapacidad"
+                                                 text="%reportes.col.capacidad"
+                                                 prefWidth="240.0" />
+                                    <TableColumn fx:id="colReservas"
+                                                 text="%reportes.col.reservas"
+                                                 prefWidth="300.0" />
+                                 </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+
+                           </children>
+                        </VBox>
+                     </content>
+                  </Tab>
+
+                  <!-- TAB 2: Exportar Ingresos -->
+                  <Tab text="%reportes.tab.exportar">
+                     <content>
+                        <VBox alignment="CENTER_LEFT"
+                              spacing="28.0">
+                           <padding>
+                              <Insets top="40.0" right="60.0" bottom="40.0" left="60.0" />
+                           </padding>
+                           <children>
+
+                              <Label text="%reportes.exportar.titulo"
+                                     styleClass="titulo-seccion" />
+
+                              <Label text="%reportes.exportar.descripcion"
+                                     styleClass="label-valor"
+                                     wrapText="true" />
+
+                              <!-- Fila principal: campos izquierda, formatos derecha -->
+                              <HBox spacing="40.0" alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                 <children>
+
+                                    <!-- Campos de fecha y nombre -->
+                                    <VBox spacing="20.0" HBox.hgrow="ALWAYS">
+                                       <children>
+
+                                          <HBox spacing="16.0" alignment="CENTER_LEFT">
+                                             <children>
+                                                <Label text="%reportes.exportar.fechaInicio"
+                                                       styleClass="titulo-seccion"
+                                                       minWidth="280.0" />
+                                                <DatePicker fx:id="dateInicio"
+                                                            styleClass="campo-texto" />
+                                             </children>
+                                          </HBox>
+
+                                          <HBox spacing="16.0" alignment="CENTER_LEFT">
+                                             <children>
+                                                <Label text="%reportes.exportar.fechaFin"
+                                                       styleClass="titulo-seccion"
+                                                       minWidth="280.0" />
+                                                <DatePicker fx:id="dateFin"
+                                                            styleClass="campo-texto" />
+                                             </children>
+                                          </HBox>
+
+                                          <HBox spacing="16.0" alignment="CENTER_LEFT">
+                                             <children>
+                                                <Label text="%reportes.exportar.nombreArchivo"
+                                                       styleClass="titulo-seccion"
+                                                       minWidth="280.0" />
+                                                <TextField fx:id="txtNombreArchivo"
+                                                           styleClass="campo-texto" />
+                                             </children>
+                                          </HBox>
+
+                                          <Button fx:id="btnDescargar"
+                                                  text="%reportes.exportar.btn"
+                                                  styleClass="btn-portal"
+                                                  onAction="#descargarReporte"
+                                                  prefHeight="70.0"
+                                                  prefWidth="360.0" />
+
+                                       </children>
+                                    </VBox>
+
+                                    <!-- Panel formatos -->
+                                    <VBox styleClass="panel-formatos"
+                                          spacing="20.0"
+                                          alignment="CENTER"
+                                          prefWidth="260.0"
+                                          minWidth="220.0"
+                                          HBox.hgrow="NEVER">
+                                       <padding>
+                                          <Insets top="24.0" right="24.0" bottom="24.0" left="24.0" />
+                                       </padding>
+                                       <children>
+                                          <Label text="%reportes.exportar.formato"
+                                                 styleClass="titulo-seccion"
+                                                 wrapText="true" />
+                                          <CheckBox fx:id="chkCSV"
+                                                    text="CSV"
+                                                    styleClass="check-reporte" />
+                                          <CheckBox fx:id="chkXML"
+                                                    text="XML"
+                                                    styleClass="check-reporte" />
+                                          <CheckBox fx:id="chkPDF"
+                                                    text="PDF"
+                                                    styleClass="check-reporte" />
+                                       </children>
+                                    </VBox>
+
+                                 </children>
+                              </HBox>
+
+                           </children>
+                        </VBox>
+                     </content>
+                  </Tab>
+
+               </tabs>
+            </TabPane>
+
+         </children>
+      </VBox>
+   </center>
+
+</BorderPane>

@@ -37,7 +37,11 @@ public class SideMenuController {
 
     @FXML
     private void irAEditarPerfil( ) {
-        System.out.println("Pasando a Editar Perfil...");
+        try {
+            App.setRoot("perfilAdmin");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

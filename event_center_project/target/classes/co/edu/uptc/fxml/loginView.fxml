@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane styleClass="fondo-pantalla-Interior"
+            stylesheets="@../css/styles.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.uptc.viewController.LoginController">
+
+   <bottom>
+      <fx:include source="bottomBar.fxml" />
+   </bottom>
+
+   <center>
+      <!-- Panel izquierdo: formulario -->
+      <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="TOP_LEFT"
+                  styleClass="capa-informacion"
+                  HBox.hgrow="NEVER">
+               <padding>
+                  <Insets top="60.0" right="70.0" bottom="60.0" left="70.0" />
+               </padding>
+               <children>
+
+                  <!-- Título -->
+                  <Label styleClass="titulo-seccion" text="%login.titulo">
+                     <VBox.margin>
+                        <Insets bottom="40.0" />
+                     </VBox.margin>
+                  </Label>
+
+                  <!-- Campo cédula -->
+                  <Label styleClass="slogan" text="%login.cedula">
+                     <VBox.margin><Insets bottom="8.0" /></VBox.margin>
+                  </Label>
+                  <TextField fx:id="txtCedula"
+                             styleClass="campo-texto"
+                             promptText="%login.cedula.prompt">
+                     <VBox.margin><Insets bottom="30.0" /></VBox.margin>
+                  </TextField>
+
+                  <!-- Campo contraseña -->
+                  <Label styleClass="slogan" text="%login.contrasena">
+                     <VBox.margin><Insets bottom="8.0" /></VBox.margin>
+                  </Label>
+                  <PasswordField fx:id="txtPassword"
+                                 styleClass="campo-texto"
+                                 promptText="%login.contrasena.prompt">
+                     <VBox.margin><Insets bottom="50.0" /></VBox.margin>
+                  </PasswordField>
+
+                  <!-- Botones -->
+                  <HBox alignment="CENTER_LEFT" spacing="30.0">
+                     <children>
+                        <Button styleClass="btn-portal"
+                                text="%login.btn.atras"
+                                onAction="#switchToBack"
+                                prefHeight="65.0" prefWidth="220.0" />
+                        <Button styleClass="btn-portal"
+                                text="%login.btn.ingresar"
+                                onAction="#switchToLogin"
+                                prefHeight="65.0" prefWidth="280.0" />
+                     </children>
+                  </HBox>
+
+               </children>
+            </VBox>
+
+            <!-- Espaciador para empujar el panel a la izquierda -->
+            <Region HBox.hgrow="ALWAYS" />
+         </children>
+
+         <HBox.margin>
+            <Insets left="120.0" />
+         </HBox.margin>
+      </HBox>
+   </center>
+
+   <right>
+      <!-- Panel derecho: logo -->
+      <StackPane BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="500.0" fitWidth="500.0"
+                       pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:../images/LogoVersión1.png" />
+               </image>
+            </ImageView>
+         </children>
+         <padding>
+            <Insets right="100.0" />
+         </padding>
+      </StackPane>
+   </right>
+
+</BorderPane>

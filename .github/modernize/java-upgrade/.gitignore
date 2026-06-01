@@ -1,0 +1,14 @@
+# Ignorar la carpeta target en cualquier subcarpeta (Solución al problema)
+target/
+**/target/
+
+# Archivos compilados de Java
+*.class
+*.jar
+
+# Configuraciones de editores (VS Code y Eclipse)
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath

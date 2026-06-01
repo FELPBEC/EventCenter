@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="15e72b5e-b0b8-4ff6-b23e-0fc855959398" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/event_center_project/src/main/java/co/edu/uptc/Interfaces/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/src/main/java/co/edu/uptc/Interfaces/Repository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Abstracts/Person.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Abstracts/Person.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Interfaces/Repository.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Interfaces/Repository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Model/Admin.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Model/Admin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Model/Booking.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Model/Booking.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Model/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Model/Client.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Model/ReporteIngresos.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Model/ReporteIngresos.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Model/Salon.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Model/Salon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/AdminJsonRepository$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/AdminJsonRepository$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/AdminJsonRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/AdminJsonRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/BookingJsonRepository$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/BookingJsonRepository$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/BookingJsonRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/BookingJsonRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/ClientJsonRepository$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/ClientJsonRepository$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/ClientJsonRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/ClientJsonRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/JsonRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/JsonRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/SalonJsonRepository$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/SalonJsonRepository$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/SalonJsonRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Persistence/SalonJsonRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Services/AdminServices.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Services/AdminServices.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Services/BookingServices.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Services/BookingServices.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Services/ClientService.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Services/ClientService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Services/SalonServices.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Services/SalonServices.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Util/DateConvertor.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Util/DateConvertor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Util/ExportadorService.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Util/ExportadorService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Util/FiltrerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Util/FiltrerService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Util/RankedSalon.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/Util/RankedSalon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/View/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/View/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/View/VistaConsola.class" beforeDir="false" afterPath="$PROJECT_DIR$/event_center_project/target/classes/co/edu/uptc/View/VistaConsola.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;jm1407db&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/FELPBEC/EventCenter.git&quot;,
+    &quot;accountId&quot;: &quot;600cdadd-6b90-4a07-90d6-9f55055d7f40&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="3D2FIAp21ZKp1Wti4Z1A68f2DCy" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="co.edu.uptc.View.Main" />
+      <module name="event_center_project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="co.edu.uptc.View.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="15e72b5e-b0b8-4ff6-b23e-0fc855959398" name="Changes" comment="" />
+      <created>1777472178552</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1777472178552</updated>
+      <workItem from="1777473865530" duration="118000" />
+      <workItem from="1777474033722" duration="17000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
