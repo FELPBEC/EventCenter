@@ -14,76 +14,70 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane styleClass="fondo-pantalla-Interior" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1"
- fx:controller="co.edu.uptc.viewController.LoginClientController">
+<BorderPane styleClass="fondo-pantalla-Interior" 
+            stylesheets="@../css/styles.css" 
+            xmlns="http://javafx.com/javafx/21" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="co.edu.uptc.viewController.LoginClientController">
 
    <bottom>
       <fx:include source="bottomBar.fxml" />
    </bottom>
 
    <center>
-      <!-- Panel izquierdo: formulario -->
       <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="TOP_LEFT" styleClass="capa-informacion" HBox.hgrow="NEVER">
+            <VBox alignment="TOP_LEFT" styleClass="capa-informacion" HBox.hgrow="NEVER" spacing="20.0">
                <padding>
-                  <Insets bottom="60.0" left="70.0" right="70.0" top="60.0" />
+                  <Insets top="60.0" right="70.0" bottom="60.0" left="70.0" />
                </padding>
                <children>
 
-                        <!-- Título -->
-                  <Label styleClass="titulo-seccion" text="%login.titulo">
-                     <VBox.margin>
-                        <Insets bottom="40.0" />
-                     </VBox.margin>
-                  </Label>
+                  <Label styleClass="titulo-seccion" text="%login.titulo" />
+                  
+                  <VBox spacing="8.0">
+                     <children>
+                        <Label text="%login.cedula" styleClass="label-formulario" />
+                        <TextField fx:id="txtCedula" prefHeight="45.0" prefWidth="350.0" promptText="%login.cedula.prompt" />
+                     </children>
+                  </VBox>
+                  
+                  <VBox spacing="8.0">
+                     <children>
+                        <Label text="%login.contrasena" styleClass="label-formulario" />
+                        <PasswordField fx:id="txtPassword" prefHeight="45.0" prefWidth="350.0" promptText="%login.contrasena.prompt" />
+                     </children>
+                  </VBox>
 
-                        <!-- Campo cédula -->
-                  <Label styleClass="slogan" text="%login.cedula">
-                     <VBox.margin>
-                        <Insets bottom="8.0" />
-                     </VBox.margin>
-                  </Label>
-                  <TextField fx:id="txtCedula" promptText="%login.cedula.prompt" styleClass="campo-texto">
-                     <VBox.margin>
-                        <Insets bottom="30.0" />
-                     </VBox.margin>
-                  </TextField>
-
-                        <!-- Campo contraseña -->
-                  <Label styleClass="slogan" text="%login.contrasena">
-                     <VBox.margin>
-                        <Insets bottom="8.0" />
-                     </VBox.margin>
-                  </Label>
-                  <PasswordField fx:id="txtPassword" promptText="%login.contrasena.prompt" styleClass="campo-texto">
-                     <VBox.margin>
-                        <Insets bottom="50.0" />
-                     </VBox.margin>
-                  </PasswordField>
-
-                        <!-- Botones -->
                   <HBox alignment="CENTER_LEFT" spacing="30.0">
                      <children>
-                        <VBox prefHeight="200.0" prefWidth="212.0">
-                           <children>
-                              <Button alignment="TOP_LEFT" onAction="#switchToBack" prefHeight="65.0" prefWidth="218.0" styleClass="btn-portal" text="%login.btn.atras" />
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="276.0">
-                           <children>
-                              <Button onAction="#switchToLogin" prefHeight="65.0" prefWidth="280.0" styleClass="btn-portal" text="%login.btn.ingresar" />
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="276.0" styleClass="slogan" text="%login.Ir.Registro" />
-                              <Hyperlink fx:id="hypRegister" alignment="CENTER" contentDisplay="CENTER" onAction="#goRegister" prefHeight="34.0" prefWidth="276.0" text="%login.Registro" textAlignment="CENTER" />
-                           </children>
-                        </VBox>
+                        <Button styleClass="btn-portal" 
+                                text="%login.btn.atras" 
+                                onAction="#switchToBack" 
+                                prefHeight="65.0" prefWidth="220.0" />
+                        <Button styleClass="btn-portal" 
+                                text="%login.btn.ingresar" 
+                                onAction="#switchToLogin" 
+                                prefHeight="65.0" prefWidth="280.0" />
                      </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
                   </HBox>
 
+                  <VBox alignment="CENTER_LEFT" spacing="5.0">
+                     <VBox.margin>
+                        <Insets top="15.0" />
+                     </VBox.margin>
+                     <children>
+                        <Label styleClass="slogan" text="%login.Ir.Registro" />
+                        <Hyperlink fx:id="hypRegister" onAction="#goRegister" text="%login.Registro" />
                      </children>
+                  </VBox>
+
+               </children>
             </VBox>
 
-            <!-- Espaciador para empujar el panel a la izquierda -->
             <Region HBox.hgrow="ALWAYS" />
          </children>
 
@@ -92,8 +86,8 @@
          </HBox.margin>
       </HBox>
    </center>
-   <left>
-      <!-- Panel derecho: logo -->
+
+   <right>
       <StackPane BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="500.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
@@ -106,6 +100,6 @@
             <Insets right="100.0" />
          </padding>
       </StackPane>
-   </left>
+   </right>
 
 </BorderPane>
