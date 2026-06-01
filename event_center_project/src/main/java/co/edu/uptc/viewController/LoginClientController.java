@@ -28,7 +28,7 @@ public class LoginClientController {
     private TextField txtCedula;
 
     
-    @FXML
+     @FXML
     private void switchToLogin(ActionEvent event) {
         String cedulaTexto = txtCedula.getText().trim();
         String password    = txtPassword.getText().trim();

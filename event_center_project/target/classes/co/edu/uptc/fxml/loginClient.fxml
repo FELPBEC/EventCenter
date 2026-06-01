@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane styleClass="fondo-pantalla-Interior" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1"
-fx:controller="co.edu.uptc.viewController.LoginClientController">
+ fx:controller="co.edu.uptc.viewController.LoginClientController">
 
    <bottom>
       <fx:include source="bottomBar.fxml" />
