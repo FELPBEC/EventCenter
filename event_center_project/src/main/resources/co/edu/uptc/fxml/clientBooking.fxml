@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="928.0" prefWidth="1682.0" styleClass="fondo-pantalla-Interior" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uptc.viewController.clientBokkingsController">
+
+   <bottom>
+      <fx:include source="bottomBar.fxml" />
+   </bottom>
+
+   <left>
+      <fx:include fx:id="sideMenuContainer" source="sideBar.fxml" />
+   </left>
+
+   <top>
+      <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="1682.0" styleClass="fondo-pantalla-Interior">
+         <padding>
+            <Insets bottom="10.0" left="16.0" right="10.0" top="10.0" />
+         </padding>
+         <children>
+            <Button fx:id="btnToggleMenu" onAction="#toggleMenu" prefHeight="50.0" prefWidth="60.0" styleClass="btn-portal">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="file:../images/IconoMenú.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <HBox prefHeight="970.0" prefWidth="1322.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="770.0" prefWidth="67.0" />
+            <TableView fx:id="tbBookings" prefHeight="770.0" prefWidth="416.0" styleClass="tabla-reportes" HBox.hgrow="NEVER">
+              <columns>
+                <TableColumn fx:id="dateBooking" prefWidth="412.33331298828125" text="%date.Booking" />
+              </columns>
+            </TableView>
+            <HBox prefHeight="970.0" prefWidth="88.0" />
+            <VBox prefHeight="933.0" prefWidth="547.0" styleClass="capa-informacion" HBox.hgrow="NEVER">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="352.0" prefWidth="547.0">
+                     <children>
+                        <Button fx:id="prevImage" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="64.0" prefWidth="86.0" styleClass="btn-portal" text="&lt;" />
+                        <ImageView fitHeight="196.0" fitWidth="354.0" pickOnBounds="true" preserveRatio="true" />
+                        <Button fx:id="nexImage" mnemonicParsing="false" prefHeight="64.0" prefWidth="90.0" styleClass="btn-portal" text="&gt;" />
+                     </children>
+                  </HBox>
+                  <VBox prefHeight="723.0" prefWidth="547.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="112.0" prefWidth="547.0">
+                           <children>
+                              <Label prefHeight="41.0" prefWidth="139.0" styleClass="label-campo" text="%start.Booking" />
+                              <Pane prefHeight="95.0" prefWidth="67.0" />
+                              <TextField fx:id="txtDateSelectedBooking" prefHeight="59.0" prefWidth="238.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="112.0" prefWidth="547.0">
+                           <children>
+                              <Label styleClass="label-campo" text="%reserve.Duration" />
+                              <Pane prefHeight="112.0" prefWidth="43.0" />
+                              <TextField fx:id="txtReservationDate" prefHeight="59.0" prefWidth="109.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="122.0" prefHeight="112.0" prefWidth="547.0">
+                           <children>
+                              <Label styleClass="label-campo" text="%salon.Reservated" />
+                              <Pane prefHeight="112.0" prefWidth="43.0" />
+                              <TextField fx:id="txtSalonReservado" prefHeight="59.0" prefWidth="293.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="10.0" layoutY="209.0" prefHeight="723.0" prefWidth="547.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="113.0" prefWidth="547.0">
+                           <children>
+                              <Label styleClass="label-campo" text="%price.Reservation" />
+                              <Pane prefHeight="112.0" prefWidth="43.0" />
+                              <TextField fx:id="txtPrice" prefHeight="59.0" prefWidth="293.0" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Pane prefHeight="100.0" prefWidth="167.0" />
+                              <Button fx:id="btnCancel" alignment="CENTER" mnemonicParsing="false" onAction="#cancelBooking" prefHeight="64.0" prefWidth="228.0" styleClass="btn-portal" text="%cancel.Booking" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
+
+</BorderPane>
