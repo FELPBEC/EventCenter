@@ -1,18 +1,10 @@
 [
   {
-    "Empresarial": true,
-    "userName": "julian",
-    "id": 1234,
-    "password": "1234",
-    "phoneNumber": "dsadas",
-    "email": "judsa"
-  },
-  {
-    "Empresarial": true,
-    "userName": "pepe2",
-    "id": 123456,
-    "password": "1234567",
-    "phoneNumber": "123124",
-    "email": "dsadsadsa"
+    "Empresarial": false,
+    "userName": "Juan Felipe Becerra",
+    "id": 1054146432,
+    "password": "$2a$12$vWqFcz2eHUsP8mOkgqY3.e/.J78i/LMO93CObDXQ3nkUKGICkUHtq",
+    "phoneNumber": "3204195642",
+    "email": "juan.becerra20@uptc.edu.co"
   }
 ]

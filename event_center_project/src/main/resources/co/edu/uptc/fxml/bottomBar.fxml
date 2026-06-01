@@ -7,10 +7,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 
-<HBox alignment="CENTER_LEFT" prefHeight="110.0" styleClass="barra-inferior" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uptc.viewController.BottomBarController">
+<HBox alignment="CENTER_LEFT" prefHeight="75" minHeight="75" maxHeight="75" styleClass="barra-inferior" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uptc.viewController.BottomBarController">
    <children>
       <Region HBox.hgrow="ALWAYS" />
-      <ImageView fitHeight="85.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="56.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="file:../images/LogoVersion3.png" />
          </image>
