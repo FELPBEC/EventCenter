@@ -284,3 +284,134 @@
     -fx-background-color: -color-goldfinch;
     -fx-effect: dropshadow(three-pass-box, rgba(33, 1, 0, 0.3), 12, 0, 0, 6);
 }
+
+/* ==========================================================================
+   REPORTES - TabPane
+   ========================================================================== */
+.tab-pane-reportes {
+    -fx-background-color: transparent;
+    -fx-tab-min-height: 55px;
+    -fx-tab-max-height: 55px;
+    -fx-tab-min-width: 220px;
+}
+
+.tab-pane-reportes > .tab-header-area {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 0;
+}
+
+.tab-pane-reportes > .tab-header-area > .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.tab-pane-reportes > .tab-header-area > .headers-region > .tab {
+    -fx-background-color: -color-bistre;
+    -fx-background-radius: 10px 10px 0px 0px;
+    -fx-padding: 12px 32px;
+    -fx-cursor: hand;
+    -fx-min-width: 220px;
+}
+
+.tab-pane-reportes > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
+    -fx-font-family: "Pacifico";
+    -fx-font-size: 22px;
+    -fx-text-fill: -color-butter;
+    -fx-alignment: center;
+}
+
+.tab-pane-reportes > .tab-header-area > .headers-region > .tab:selected {
+    -fx-background-color: -color-garnet;
+}
+
+.tab-pane-reportes > .tab-header-area > .headers-region > .tab:selected > .tab-container > .tab-label {
+    -fx-text-fill: white;
+}
+
+.tab-pane-reportes > .tab-content-area {
+    -fx-background-color: -color-butter;
+    -fx-background-radius: 0px 10px 10px 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(33, 1, 0, 0.3), 15, 0, 0, 5);
+}
+/* ==========================================================================
+   REPORTES - Tabla Top 5
+   ========================================================================== */
+.tabla-reportes {
+    -fx-background-color: -color-butter;
+    -fx-border-color: -color-bistre;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+.tabla-reportes .column-header-background {
+    -fx-background-color: -color-bistre;
+}
+
+.tabla-reportes .column-header .label {
+    -fx-font-family: "Pacifico";
+    -fx-font-size: 20px;
+    -fx-text-fill: -color-garnet;
+    -fx-alignment: center;
+}
+
+.tabla-reportes .table-row-cell {
+    -fx-background-color: -color-butter;
+    -fx-border-color: derive(-color-bistre, 60%);
+    -fx-border-width: 0 0 1px 0;
+    -fx-font-family: "IBM Plex Mono";
+    -fx-font-size: 18px;
+}
+
+.tabla-reportes .table-row-cell:odd {
+    -fx-background-color: derive(-color-butter, -6%);
+}
+
+.tabla-reportes .table-row-cell:selected {
+    -fx-background-color: -color-indian-red;
+    -fx-text-fill: white;
+}
+
+.tabla-reportes .table-cell {
+    -fx-text-fill: -color-bistre;
+    -fx-alignment: center-left;
+    -fx-padding: 8px 12px;
+}
+
+/* Celda de puesto centrada */
+.tabla-reportes .table-cell:first-child {
+    -fx-font-family: "Pacifico";
+    -fx-font-size: 20px;
+    -fx-text-fill: -color-garnet;
+    -fx-alignment: center;
+}
+
+/* ==========================================================================
+   REPORTES - Panel de Formatos
+   ========================================================================== */
+.panel-formatos {
+    -fx-background-color: -color-garnet;
+    -fx-background-radius: 14px;
+}
+
+.panel-formatos .titulo-seccion {
+    -fx-text-fill: -color-butter;
+}
+
+/* Checkbox dentro del panel de formatos */
+.check-reporte {
+    -fx-font-family: "Pacifico";
+    -fx-font-size: 22px;
+    -fx-text-fill: -color-bistre;
+}
+
+.check-reporte .box {
+    -fx-background-color: -color-butter;
+    -fx-border-color: -color-bistre;
+    -fx-border-width: 2px;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+}
+
+.check-reporte:selected .mark {
+    -fx-background-color: -color-bistre;
+}

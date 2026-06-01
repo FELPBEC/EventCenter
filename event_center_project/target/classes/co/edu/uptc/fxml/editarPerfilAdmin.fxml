@@ -31,7 +31,7 @@
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="file:../images/IconoMenu.png" />
+                        <Image url="file:../images/IconoMenú.png" />
                      </image>
                   </ImageView>
                </graphic>
