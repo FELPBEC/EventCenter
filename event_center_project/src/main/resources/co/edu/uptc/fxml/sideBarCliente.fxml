@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxWidth="360.0" minWidth="360.0" prefHeight="970.0" prefWidth="360.0" style="-fx-border-color: black; -fx-border-width: 3; -fx-border-radius: 10; -fx-background-radius: 10;" styleClass="fondo-pantalla-Interior" stylesheets="@../css/styles.css" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uptc.viewController.SideMenuController">
+<VBox maxWidth="360.0" minWidth="360.0" prefHeight="970.0" prefWidth="360.0" style="-fx-border-color: black; -fx-border-width: 3; -fx-border-radius: 10; -fx-background-radius: 10;" styleClass="fondo-pantalla-Interior" stylesheets="@../css/styles.css" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uptc.viewController.SideMenuClientController">
 
    <children>
 
@@ -21,23 +21,26 @@
          <children>
             <ImageView fx:id="imgAvatar" fitHeight="88.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@/co/edu/uptc/images/AdminsLogo.png" />
+                  <Image url="@/co/edu/uptc/images/ClientesLogo.png" />
                </image>
             </ImageView>
-            <Button fx:id="btnEditarPerfil" maxWidth="1.7976931348623157E308" onAction="#irAEditarPerfil" prefHeight="91.0" styleClass="btn-portal" text="%menu.editarPerfil" HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnEditarPerfil" maxWidth="1.7976931348623157E308" onAction="#irAPerfil" prefHeight="91.0" styleClass="btn-portal" text="%menu.editarPerfil" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
 
+      <!-- BOTONES DE NAVEGACION -->
       <!-- BOTONES DE NAVEGACION -->
       <VBox alignment="CENTER" spacing="20.0" VBox.vgrow="ALWAYS">
          <padding>
             <Insets bottom="24.0" left="14.0" right="14.0" top="24.0" />
          </padding>
          <children>
-            <Button fx:id="btnClientes" maxWidth="1.7976931348623157E308" onAction="#irAClientes" prefHeight="85.0" styleClass="btn-portal" text="%menu.clientes" />
-            <Button fx:id="btnSalones" maxWidth="1.7976931348623157E308" onAction="#irASalones" prefHeight="85.0" styleClass="btn-portal" text="%menu.salones" />
-            <Button fx:id="btnAdmins" maxWidth="1.7976931348623157E308" onAction="#irAAdmins" prefHeight="85.0" styleClass="btn-portal" text="%menu.admins" />
-            <Button fx:id="btnReportes" maxWidth="1.7976931348623157E308" onAction="#irAReportes" prefHeight="85.0" styleClass="btn-portal" text="%menu.reportes" />
+            <Button fx:id="btnMisReservas"
+                  maxWidth="1.7976931348623157E308"
+                  prefHeight="85.0"
+                  styleClass="btn-portal"
+                  text="%menu.cliente.reservas"
+                  onAction="#irAReservas" />
          </children>
       </VBox>
 
