@@ -89,6 +89,10 @@ public class SistemaController {
         return clientService.registrarCliente(cliente);
     }
 
+    public boolean actualizarCliente(int id, Client clienteActualizado) {
+        return clientService.modificarCliente(id, clienteActualizado);
+}
+
     // =========================================================================
     // ADMINISTRADORES
     // =========================================================================
@@ -143,6 +147,8 @@ public class SistemaController {
     public boolean modificarSalon(int id, Salon salonActualizado) {
         return salonServices.updateSalon(id, salonActualizado);
     }
+
+    
 
     // =========================================================================
     // RESERVAS

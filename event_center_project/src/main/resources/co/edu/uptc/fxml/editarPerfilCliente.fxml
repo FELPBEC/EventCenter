@@ -11,25 +11,31 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane styleClass="fondo-pantalla-Interior" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uptc.viewController.EditarPerfilClienteController">
+<BorderPane styleClass="fondo-pantalla-Interior"
+            stylesheets="@../css/styles.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.uptc.viewController.EditarPerfilAdminController">
 
    <bottom>
       <fx:include source="bottomBar.fxml" />
    </bottom>
 
    <left>
-      <fx:include fx:id="sideMenuContainer" source="sideBarCliente.fxml" />
+      <fx:include fx:id="sideMenuContainer" source="sideBar.fxml" />
    </left>
 
    <top>
-      <HBox alignment="CENTER_LEFT" prefHeight="65.0" styleClass="fondo-pantalla-Interior">
+      <HBox alignment="CENTER_LEFT" prefHeight="55.0" styleClass="fondo-pantalla-Interior">
          <padding>
-            <Insets bottom="10.0" left="16.0" right="10.0" top="10.0" />
+            <Insets top="8.0" right="10.0" bottom="8.0" left="12.0" />
          </padding>
          <children>
-            <Button fx:id="btnToggleMenu" onAction="#toggleMenu" prefHeight="50.0" prefWidth="60.0" styleClass="btn-portal">
+            <Button fx:id="btnToggleMenu" styleClass="btn-portal"
+                    onAction="#toggleMenu" prefHeight="44.0" prefWidth="52.0">
                <graphic>
-                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="26.0" fitWidth="26.0"
+                             pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@/co/edu/uptc/images/IconoMenú.png" />
                      </image>
@@ -41,78 +47,81 @@
    </top>
 
    <center>
-      <VBox alignment="CENTER" BorderPane.alignment="CENTER" >
+      <VBox alignment="CENTER" VBox.vgrow="ALWAYS" BorderPane.alignment="CENTER">
          <padding>
-            <Insets bottom="20.0" left="60.0" right="60.0" top="20.0" />
+            <Insets top="16.0" right="40.0" bottom="16.0" left="40.0" />
          </padding>
          <children>
 
             <HBox styleClass="capa-informacion" >
 
-               <!-- Franja izquierda con avatar -->
-               <VBox alignment="CENTER" maxWidth="260.0" minWidth="180.0" prefWidth="220.0" styleClass="franja-perfil" HBox.hgrow="NEVER">
+               <VBox alignment="CENTER" styleClass="franja-perfil" HBox.hgrow="NEVER">
                   <children>
-                     <ImageView fitHeight="220.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true">
+                     <ImageView fitHeight="160.0" fitWidth="160.0"
+                                pickOnBounds="true" preserveRatio="true">
                         <image>
-                           <Image url="@/co/edu/uptc/images/ClientesLogo.png" />
+                           <Image url="@/co/edu/uptc/images/AdminsLogo.png" />
                         </image>
                      </ImageView>
                   </children>
                </VBox>
 
-               <!-- Formulario de edicion -->
-               <VBox alignment="CENTER_LEFT" spacing="24.0" >
+               <VBox alignment="CENTER_LEFT" spacing="20.0" HBox.hgrow="ALWAYS">
                   <padding>
-                     <Insets bottom="20.0" left="50.0" right="60.0" top="40.0" />
+                     <Insets top="30.0" right="40.0" bottom="20.0" left="36.0" />
                   </padding>
                   <children>
 
-                     <Label styleClass="titulo-principal" text="%editarPerfil.titulo">
-                        <VBox.margin>
-                           <Insets bottom="10.0" />
-                        </VBox.margin>
+                     <Label text="%editarPerfil.titulo" styleClass="titulo-principal">
+                        <VBox.margin><Insets bottom="6.0" /></VBox.margin>
                      </Label>
 
-                     <!-- Nombre -->
-                     <HBox alignment="CENTER_LEFT" spacing="20.0">
+                     <HBox alignment="CENTER_LEFT" spacing="14.0">
                         <children>
-                           <Label minWidth="220.0" styleClass="titulo-seccion" text="%perfil.nombre" />
-                           <TextField fx:id="txtNombre" styleClass="campo-texto" />
+                           <Label text="%perfil.nombre" styleClass="titulo-seccion"
+                                  minWidth="140.0" maxWidth="160.0" />
+                           <TextField fx:id="txtNombre" styleClass="campo-texto"
+                                      HBox.hgrow="ALWAYS" />
                         </children>
                      </HBox>
 
-                     <!-- Telefono -->
-                     <HBox alignment="CENTER_LEFT" spacing="20.0">
+                     <HBox alignment="CENTER_LEFT" spacing="14.0">
                         <children>
-                           <Label minWidth="220.0" styleClass="titulo-seccion" text="%perfil.telefono" />
-                           <TextField fx:id="txtTelefono" styleClass="campo-texto" />
+                           <Label text="%perfil.telefono" styleClass="titulo-seccion"
+                                  minWidth="140.0" maxWidth="160.0" />
+                           <TextField fx:id="txtTelefono" styleClass="campo-texto"
+                                      HBox.hgrow="ALWAYS" />
                         </children>
                      </HBox>
 
-                     <!-- Correo -->
-                     <HBox alignment="CENTER_LEFT" spacing="20.0">
+                     <HBox alignment="CENTER_LEFT" spacing="14.0">
                         <children>
-                           <Label minWidth="220.0" styleClass="titulo-seccion" text="%perfil.correo" />
-                           <TextField fx:id="txtCorreo" styleClass="campo-texto" />
+                           <Label text="%perfil.correo" styleClass="titulo-seccion"
+                                  minWidth="140.0" maxWidth="160.0" />
+                           <TextField fx:id="txtCorreo" styleClass="campo-texto"
+                                      HBox.hgrow="ALWAYS" />
                         </children>
                      </HBox>
 
                   </children>
                </VBox>
-
             </HBox>
 
-            <!-- Barra de acciones: Cancelar / Guardar -->
-            <HBox maxHeight="90.0" minHeight="90.0" styleClass="barra-acciones">
+            <HBox styleClass="barra-acciones" minHeight="80.0" maxHeight="80.0">
                <children>
-                  <Button fx:id="btnCancelar" onAction="#cancelar" prefHeight="65.0" prefWidth="240.0" styleClass="btn-accion" text="%editarPerfil.btn.cancelar" />
-                  <Region  />
-                  <Button fx:id="btnGuardar" onAction="#guardarCambios" prefHeight="65.0" prefWidth="280.0" styleClass="btn-accion" text="%editarPerfil.btn.guardar" />
+                  <Button fx:id="btnCancelar" text="%editarPerfil.btn.cancelar"
+                          styleClass="btn-accion" onAction="#cancelar"
+                          prefHeight="56.0" maxWidth="1.7976931348623157E308"
+                          HBox.hgrow="ALWAYS" />
+                  <Region minWidth="20.0" />
+                  <Button fx:id="btnGuardar" text="%editarPerfil.btn.guardar"
+                          styleClass="btn-portal" onAction="#guardarCambios"
+                          prefHeight="56.0" maxWidth="1.7976931348623157E308"
+                          HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
 
          </children>
       </VBox>
    </center>
-
 </BorderPane>

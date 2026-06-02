@@ -16,90 +16,127 @@
             xmlns:fx="http://javafx.com/fxml/1" 
             fx:controller="co.edu.uptc.viewController.PerfilClienteController">
 
-    <bottom>
-        <fx:include source="bottomBar.fxml" />
-    </bottom>
+   <bottom>
+      <fx:include source="bottomBar.fxml" />
+   </bottom>
 
-    <left>
-        <fx:include fx:id="sideMenuContainer" source="sideBarCliente.fxml" />
-    </left>
+   <left>
+      <fx:include fx:id="sideMenuContainer" source="sideBarCliente.fxml" />
+   </left>
 
-    <top>
-        <HBox alignment="CENTER_LEFT" prefHeight="65.0" styleClass="fondo-pantalla-Interior">
-            <padding>
-                <Insets bottom="10.0" left="16.0" right="10.0" top="10.0" />
-            </padding>
-            <children>
-                <Button fx:id="btnToggleMenu" onAction="#toggleMenu" prefHeight="50.0" prefWidth="60.0" styleClass="btn-portal">
-                    <graphic>
-                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@/co/edu/uptc/images/IconoMenú.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-            </children>
-        </HBox>
-    </top>
+   <top>
+      <HBox alignment="CENTER_LEFT" prefHeight="55.0" styleClass="fondo-pantalla-Interior">
+         <padding>
+            <Insets top="8.0" right="10.0" bottom="8.0" left="12.0" />
+         </padding>
+         <children>
+            <Button fx:id="btnToggleMenu" styleClass="btn-portal"
+                    onAction="#toggleMenu" prefHeight="44.0" prefWidth="52.0">
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="26.0"
+                             pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/co/edu/uptc/images/IconoMenú.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+   </top>
 
-    <center>
-        <VBox alignment="TOP_CENTER" BorderPane.alignment="TOP_CENTER">
-            <padding>
-            <Insets top="10.0" right="20.0" bottom="10.0" left="20.0" />
-        </padding>
-            <children>
-                <HBox styleClass="capa-informacion" alignment="CENTER">
-                    <VBox alignment="CENTER" maxWidth="260.0" minWidth="180.0" prefWidth="220.0" styleClass="franja-perfil">
+   <center>
+      <VBox alignment="CENTER" VBox.vgrow="ALWAYS" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets top="16.0" right="40.0" bottom="16.0" left="40.0" />
+         </padding>
+         <children>
+
+            <HBox styleClass="capa-informacion" VBox.vgrow="ALWAYS">
+
+               <VBox alignment="CENTER" styleClass="franja-perfil" HBox.hgrow="NEVER">
+                  <children>
+                     <ImageView fx:id="imgAvatar"
+                                fitHeight="160.0" fitWidth="160.0"
+                                pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@/co/edu/uptc/images/ClientesLogo.png" />
+                        </image>
+                     </ImageView>
+                  </children>
+               </VBox>
+
+               <VBox alignment="CENTER_LEFT" spacing="20.0" HBox.hgrow="ALWAYS">
+                  <padding>
+                     <Insets top="30.0" right="40.0" bottom="20.0" left="36.0" />
+                  </padding>
+                  <children>
+
+                     <Label text="%perfil.titulo" styleClass="titulo-principal">
+                        <VBox.margin><Insets bottom="6.0" /></VBox.margin>
+                     </Label>
+
+                     <HBox alignment="CENTER_LEFT" spacing="14.0">
                         <children>
-                            <ImageView fx:id="imgAvatar" fitHeight="220.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@/co/edu/uptc/images/ClientesLogo.png" />
-                                </image>
-                            </ImageView>
+                           <Label text="%perfil.nombre" styleClass="titulo-seccion"
+                                  minWidth="140.0" maxWidth="160.0" />
+                           <Label fx:id="lblNombre" styleClass="label-valor" wrapText="true"
+                                  HBox.hgrow="ALWAYS" />
                         </children>
                     </VBox>
 
-                    <VBox alignment="CENTER_LEFT" spacing="24.0">
-                        <padding>
-                            <Insets bottom="20.0" left="50.0" right="60.0" top="40.0" />
-                        </padding>
+                     <HBox alignment="CENTER_LEFT" spacing="14.0">
                         <children>
-                            <Label styleClass="titulo-principal" text="%perfil.titulo">
-                                <VBox.margin><Insets bottom="10.0" /></VBox.margin>
-                            </Label>
-                            
-                            <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                <Label minWidth="180.0" styleClass="titulo-seccion" text="%perfil.nombre" />
-                                <Label fx:id="lblNombre" styleClass="label-valor" />
-                            </HBox>
-                            
-                            <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                <Label minWidth="180.0" styleClass="titulo-seccion" text="%perfil.cedula" />
-                                <Label fx:id="lblCedula" styleClass="label-valor" />
-                            </HBox>
-
-                            <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                <Label minWidth="180.0" styleClass="titulo-seccion" text="%perfil.telefono" />
-                                <Label fx:id="lblTelefono" styleClass="label-valor" />
-                            </HBox>
-
-                            <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                <Label minWidth="180.0" styleClass="titulo-seccion" text="%perfil.correo" />
-                                <Label fx:id="lblCorreo" styleClass="label-valor" />
-                            </HBox>
+                           <Label text="%perfil.cedula" styleClass="titulo-seccion"
+                                  minWidth="140.0" maxWidth="160.0" />
+                           <Label fx:id="lblCedula" styleClass="label-valor" wrapText="true"
+                                  HBox.hgrow="ALWAYS" />
                         </children>
-                    </VBox>
-                </HBox>
+                     </HBox>
 
-                <HBox maxHeight="70.0" minHeight="70.0" alignment="CENTER" styleClass="barra-acciones">
-                <children>
-                    <Button fx:id="btnCambiarPassword" prefHeight="50.0" prefWidth="250.0" styleClass="btn-accion" text="%perfil.btn.cambiarPassword" />
-                    <Region prefWidth="10.0" />
-                    <Button fx:id="btnModificarPerfil" onAction="#modificarPerfil" prefHeight="50.0" prefWidth="200.0" styleClass="btn-accion" text="%perfil.btn.modificar" />
-                </children>
+                     <HBox alignment="CENTER_LEFT" spacing="14.0">
+                        <children>
+                           <Label text="%perfil.telefono" styleClass="titulo-seccion"
+                                  minWidth="140.0" maxWidth="160.0" />
+                           <Label fx:id="lblTelefono" styleClass="label-valor" wrapText="true"
+                                  HBox.hgrow="ALWAYS" />
+                        </children>
+                     </HBox>
+
+                     <HBox alignment="CENTER_LEFT" spacing="14.0">
+                        <children>
+                           <Label text="%perfil.correo" styleClass="titulo-seccion"
+                                  minWidth="140.0" maxWidth="160.0" />
+                           <Label fx:id="lblCorreo" styleClass="label-valor" wrapText="true"
+                                  HBox.hgrow="ALWAYS" />
+                        </children>
+                     </HBox>
+
+                  </children>
+               </VBox>
             </HBox>
-            </children>
-        </VBox>
-    </center>
+
+            <HBox styleClass="barra-acciones" minHeight="80.0" maxHeight="80.0">
+               <children>
+                  <Button fx:id="btnCambiarPassword"
+                          text="%perfil.btn.cambiarPassword"
+                          styleClass="btn-accion"
+                          onAction="#cambiarPassword"
+                          prefHeight="56.0"
+                          maxWidth="1.7976931348623157E308"
+                          HBox.hgrow="ALWAYS" />
+                  <Region minWidth="20.0" />
+                  <Button fx:id="btnModificarPerfil"
+                          text="%perfil.btn.modificar"
+                          styleClass="btn-accion"
+                          onAction="#modificarPerfil"
+                          prefHeight="56.0"
+                          maxWidth="1.7976931348623157E308"
+                          HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+
+         </children>
+      </VBox>
+   </center>
 </BorderPane>

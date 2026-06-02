@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/23"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="co.edu.uptc.viewController.ActualizarClienteController"
+      spacing="12.0"
+      alignment="CENTER"
+      stylesheets="@../css/styles.css"
+      styleClass="fondo-pantalla-Interior"
+      prefWidth="480.0"
+      prefHeight="320.0">
+
+    <padding>
+        <Insets top="16" right="16" bottom="16" left="16"/>
+    </padding>
+
+    <children>
+        <Label text="Actualizar cliente" styleClass="titulo-seccion" />
+
+        <GridPane hgap="10" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="30" />
+                <ColumnConstraints percentWidth="70" />
+            </columnConstraints>
+
+            <children>
+                <Label text="Nombre:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="slogan" />
+                <TextField fx:id="txtNombre" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="campo-texto" />
+
+                <Label text="Correo:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="slogan"/>
+                <TextField fx:id="txtCorreo" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="campo-texto" />
+
+                <Label text="Teléfono:" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="slogan"/>
+                <TextField fx:id="txtTelefono" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="campo-texto" />
+
+                <Label text="Empresarial:" GridPane.rowIndex="3" GridPane.columnIndex="0" styleClass="slogan"/>
+                <CheckBox fx:id="chkEmpresarial" GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="campo-texto" />
+            </children>
+        </GridPane>
+
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <children>
+                <Button fx:id="btnCancelar" text="Cancelar" styleClass="btn-accion" onAction="#cancelar" />
+                <Button fx:id="btnGuardar" text="Guardar" styleClass="btn-portal" onAction="#guardarCliente" />
+            </children>
+        </HBox>
+
+    </children>
+
+</VBox>

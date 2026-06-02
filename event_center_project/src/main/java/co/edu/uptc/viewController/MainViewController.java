@@ -58,7 +58,7 @@ public class MainViewController {
 
         try {
             Stage stage = (Stage) comboIdioma.getScene().getWindow();
-            ResourceBundle bundle = ResourceBundle.getBundle("co.edu.uptc.i18n.textos", nuevaLocale);
+            ResourceBundle bundle = ResourceBundle.getBundle("co.edu.uptc.Resources.textos", nuevaLocale);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/edu/uptc/fxml/mainView.fxml"), bundle);
             Parent root = loader.load();
             
