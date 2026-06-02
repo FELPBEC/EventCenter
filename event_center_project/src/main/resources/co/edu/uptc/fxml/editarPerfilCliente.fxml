@@ -15,14 +15,14 @@
             stylesheets="@../css/styles.css"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="co.edu.uptc.viewController.EditarPerfilAdminController">
+            fx:controller="co.edu.uptc.viewController.EditarPerfilClienteController">
 
    <bottom>
       <fx:include source="bottomBar.fxml" />
    </bottom>
 
    <left>
-      <fx:include fx:id="sideMenuContainer" source="sideBar.fxml" />
+      <fx:include fx:id="sideMenuContainer" source="sideBarCliente.fxml" />
    </left>
 
    <top>
@@ -53,14 +53,14 @@
          </padding>
          <children>
 
-            <HBox styleClass="capa-informacion" >
+            <HBox styleClass="capa-informacion" VBox.vgrow="ALWAYS">
 
                <VBox alignment="CENTER" styleClass="franja-perfil" HBox.hgrow="NEVER">
                   <children>
                      <ImageView fitHeight="160.0" fitWidth="160.0"
                                 pickOnBounds="true" preserveRatio="true">
                         <image>
-                           <Image url="@/co/edu/uptc/images/AdminsLogo.png" />
+                           <Image url="@/co/edu/uptc/images/ClientesLogo.png" />
                         </image>
                      </ImageView>
                   </children>

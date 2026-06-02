@@ -8,7 +8,6 @@ import co.edu.uptc.View.App;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Hyperlink;
 
 public class LoginClientController {
 
@@ -56,7 +55,8 @@ public class LoginClientController {
             mostrarAlerta("Error de formato", "La cédula debe ser un número entero válido.");
         } catch (Exception e) {
             // Captura cualquier otro error inesperado de lectura de archivos JSON, etc.
-            mostrarAlerta("Error crítico", "Ocurrió un error inesperado: " + e.getMessage());
+            System.out.println("❌ EXPLOTÓ AL CARGAR PERFIL CLIENTE:");
+            e.printStackTrace();
         }
     }
 
