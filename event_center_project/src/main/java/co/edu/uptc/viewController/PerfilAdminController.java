@@ -4,14 +4,25 @@ import co.edu.uptc.Model.Admin;
 import co.edu.uptc.Services.SessionManager;
 import co.edu.uptc.View.App;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import java.io.IOException;
-import java.util.ResourceBundle;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import java.util.Locale;
 public class PerfilAdminController {
 
     @FXML private Label  lblNombre;
@@ -45,11 +56,6 @@ public class PerfilAdminController {
     }
 
     @FXML
-    private void cambiarPassword() {
-        System.out.println("Pasando a Cambiar Contrasena...");
-    }
-
-    @FXML
     private void modificarPerfil() {
         try {
             App.setRoot("editarPerfilAdmin");
@@ -67,5 +73,27 @@ public class PerfilAdminController {
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void cambiarPassword() {
+        try {
+            Locale locale = Locale.getDefault();
+            ResourceBundle bundle = ResourceBundle.getBundle("co.edu.uptc.i18n.textos", locale);
+
+            FXMLLoader loader = new FXMLLoader(
+                App.class.getResource("/co/edu/uptc/fxml/cambiarPassword.fxml"), bundle);
+            VBox contenido = loader.load();
+
+            Stage modal = new Stage();
+            modal.setTitle(bundle.getString("cambiarPassword.titulo"));
+            modal.setScene(new Scene(contenido));
+            modal.initModality(Modality.APPLICATION_MODAL); // bloquea la ventana de atras
+            modal.setResizable(false);
+            modal.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
