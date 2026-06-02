@@ -138,6 +138,14 @@
                         <Button fx:id="actualizarButton"
                                 text="%admin.salones.op3" 
                                 styleClass="btn-accion"/>
+                        <Button fx:id="btnEliminarSalon"
+                                text="Eliminar salón"
+                                styleClass="btn-accion"
+                                onAction="#deleteSalon" />
+                        <Button fx:id="actualizarButton"
+                                text="Actualizar salón" 
+                                styleClass="btn-accion"
+                                onAction="#openUpdateSalon" />
                     </children>
 
                 </HBox>

@@ -5,6 +5,7 @@ co\edu\uptc\Services\SistemaController.class
 co\edu\uptc\Util\FiltrerService.class
 co\edu\uptc\viewController\BottomBarController.class
 co\edu\uptc\Persistence\BookingJsonRepository.class
+co\edu\uptc\viewController\actualizarSalonController.class
 co\edu\uptc\viewController\PerfilClienteController.class
 co\edu\uptc\Model\ReporteIngresos.class
 co\edu\uptc\Security\PasswordSecurityService.class
@@ -28,6 +29,10 @@ co\edu\uptc\viewController\PerfilAdminController.class
 co\edu\uptc\Abstracts\Person.class
 co\edu\uptc\Services\ClientService.class
 co\edu\uptc\viewController\ClientBokkingsController.class
+<<<<<<< HEAD
+=======
+co\edu\uptc\viewController\RegisterSalonController.class
+>>>>>>> c9c0f851604f404d98e81f52daf22ef55a98f470
 co\edu\uptc\Util\ExportadorService.class
 co\edu\uptc\viewController\SideMenuController.class
 co\edu\uptc\Services\BookingServices.class
