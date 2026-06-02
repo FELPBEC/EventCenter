@@ -55,7 +55,7 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="352.0" prefWidth="547.0">
                      <children>
-                        <Button fx:id="prevImage" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#retrocederImagen" prefHeight="64.0" prefWidth="86.0" styleClass="btn-portal" text="&lt;" />
+                        <Button fx:id="prevImage" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="retrocederImagen" prefHeight="64.0" prefWidth="86.0" styleClass="btn-portal" text="&lt;" />
                         <ImageView fx:id="imgSalon" fitHeight="196.0" fitWidth="354.0" pickOnBounds="true" preserveRatio="true" />
                         <Button fx:id="nexImage" mnemonicParsing="false" onAction="#avanzarImagen" prefHeight="64.0" prefWidth="90.0" styleClass="btn-portal" text="&gt;" />
                      </children>

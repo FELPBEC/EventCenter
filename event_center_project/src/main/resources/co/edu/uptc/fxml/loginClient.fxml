@@ -33,14 +33,14 @@
                   
                   <VBox spacing="8.0">
                      <children>
-                        <Label styleClass="label-campo" text="%login.cedula" />
+                        <Label styleClass="slogan" text="%login.cedula" />
                         <TextField fx:id="txtCedula" prefHeight="45.0" prefWidth="350.0" promptText="%login.cedula.prompt" />
                      </children>
                   </VBox>
                   
                   <VBox spacing="8.0">
                      <children>
-                        <Label styleClass="label-campo" text="%login.contrasena" />
+                        <Label styleClass="slogan" text="%login.contrasena" />
                         <PasswordField fx:id="txtPassword" prefHeight="45.0" prefWidth="350.0" promptText="%login.contrasena.prompt" />
                      </children>
                   </VBox>
