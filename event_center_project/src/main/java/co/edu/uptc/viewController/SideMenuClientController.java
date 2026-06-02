@@ -35,7 +35,11 @@ public class SideMenuClientController {
     private void irAReservas()throws IOException {
         App.setRoot("clientBooking");
     }
-
+    
+    @FXML
+    private void goNewBooking()throws IOException {
+        App.setRoot("newBooking");
+    }
     @FXML
     private void cerrarSesion() {
         Alert confirmacion = new Alert(AlertType.CONFIRMATION);
@@ -68,4 +72,5 @@ public class SideMenuClientController {
             }
         }
     }
+
 }

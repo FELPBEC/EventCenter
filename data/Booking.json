@@ -14,7 +14,8 @@
       "salonName": "Afrodita",
       "capacity": 200,
       "priceByHour": 230000.0,
-      "numberOfReservations": 0
+      "numberOfReservations": 0,
+      "imagePaths": []
     },
     "startDate": "2026/08/25/12:12:12",
     "amountOfHours": 2,
@@ -36,7 +37,8 @@
       "salonName": "Zeus",
       "capacity": 12,
       "priceByHour": 120000.0,
-      "numberOfReservations": 0
+      "numberOfReservations": 0,
+      "imagePaths": []
     },
     "startDate": "2026/08/25/12:12:12",
     "amountOfHours": 1,
@@ -58,7 +60,8 @@
       "salonName": "Afrodita",
       "capacity": 200,
       "priceByHour": 230000.0,
-      "numberOfReservations": 1
+      "numberOfReservations": 1,
+      "imagePaths": []
     },
     "startDate": "2026/09/12/12:12:00",
     "amountOfHours": 2,

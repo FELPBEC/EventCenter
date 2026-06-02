@@ -170,4 +170,8 @@ public class SistemaController {
     public double calculatePrice(Booking booking){
         return bookingServices.calculatePriceBooking(booking);
     }
+    // Añadir dentro de SistemaController.java
+    public int obtenerNuevaIdReserva() {
+    return bookingServices.sendNewId();
+    }
 }

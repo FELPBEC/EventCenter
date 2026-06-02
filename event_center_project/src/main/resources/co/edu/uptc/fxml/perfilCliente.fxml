@@ -88,12 +88,6 @@
                      </HBox>
                      <HBox alignment="CENTER_LEFT" spacing="14.0">
                         <children>
-                           <Label maxWidth="160.0" minWidth="140.0" styleClass="titulo-seccion" text="%perfil.cedula" />
-                           <Label fx:id="lblCedula" styleClass="label-valor" wrapText="true" />
-                        </children>
-                     </HBox>
-                     <HBox alignment="CENTER_LEFT" spacing="14.0">
-                        <children>
                            <Label maxWidth="160.0" minWidth="140.0" styleClass="titulo-seccion" text="%perfil.telefono" />
                            <Label fx:id="lblTelefono" styleClass="label-valor" wrapText="true" />
                         </children>

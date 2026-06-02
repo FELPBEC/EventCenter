@@ -1,5 +1,6 @@
 co\edu\uptc\Model\Client.class
 co\edu\uptc\viewController\LoginClientController.class
+co\edu\uptc\viewController\NewBookingController.class
 co\edu\uptc\Services\SistemaController.class
 co\edu\uptc\Util\FiltrerService.class
 co\edu\uptc\viewController\BottomBarController.class
@@ -26,9 +27,11 @@ co\edu\uptc\viewController\ReportesController.class
 co\edu\uptc\viewController\PerfilAdminController.class
 co\edu\uptc\Abstracts\Person.class
 co\edu\uptc\Services\ClientService.class
+co\edu\uptc\viewController\ClientBokkingsController.class
 co\edu\uptc\Util\ExportadorService.class
 co\edu\uptc\viewController\SideMenuController.class
 co\edu\uptc\Services\BookingServices.class
+co\edu\uptc\viewController\CambiarPasswordController.class
 co\edu\uptc\Persistence\SalonJsonRepository.class
 co\edu\uptc\viewController\RegisterClientController.class
 co\edu\uptc\viewController\EditarPerfilAdminController.class
