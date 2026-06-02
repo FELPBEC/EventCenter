@@ -363,14 +363,14 @@
     -fx-background-radius: 8px;
 }
 
-.tabla-reportes .column-header-background {
-    -fx-background-color: -color-bistre;
+.tabla-reportes .column-header {
+    -fx-background-color: -color-garnet;
 }
 
 .tabla-reportes .column-header .label {
+    -fx-text-fill: -color-goldfinch;
     -fx-font-family: "Pacifico";
     -fx-font-size: 20px;
-    -fx-text-fill: -color-garnet;
     -fx-alignment: center;
 }
 
@@ -392,9 +392,8 @@
 }
 
 .tabla-reportes .table-cell {
-    -fx-text-fill: -color-bistre;
-    -fx-alignment: center-left;
-    -fx-padding: 8px 12px;
+    -fx-border-color: -color-garnet;
+    -fx-border-width: 0 1 1 0; /* (arriba, derecha, abajo, izquierda) */
 }
 
 /* Celda de puesto centrada */

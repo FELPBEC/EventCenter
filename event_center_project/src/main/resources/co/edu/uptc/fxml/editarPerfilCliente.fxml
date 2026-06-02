@@ -53,7 +53,7 @@
          </padding>
          <children>
 
-            <HBox styleClass="capa-informacion" VBox.vgrow="ALWAYS">
+            <HBox styleClass="capa-informacion" >
 
                <VBox alignment="CENTER" styleClass="franja-perfil" HBox.hgrow="NEVER">
                   <children>

@@ -32,8 +32,8 @@ public class SideMenuClientController {
     }
 
     @FXML
-    private void irAReservas() {
-        System.out.println("Pasando a Mis Reservas...");
+    private void irAReservas()throws IOException {
+        App.setRoot("clientBooking");
     }
 
     @FXML

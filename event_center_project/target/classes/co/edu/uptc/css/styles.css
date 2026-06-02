@@ -27,33 +27,27 @@
 /* ==========================================================================
    TIPOGRAFIAS Y TEXTOS
    ========================================================================== */
-.titulo-seccion {
+.titulo-principal {
     -fx-font-family: "Pacifico";
-    -fx-font-size: 35px;
+    -fx-font-size: 36px;
     -fx-text-fill: -color-garnet;
 }
 
-.titulo-principal {
+.titulo-seccion {
     -fx-font-family: "Pacifico";
-    -fx-font-size: 45px;
+    -fx-font-size: 26px;
     -fx-text-fill: -color-garnet;
 }
 
 .slogan {
     -fx-font-family: "Pacifico";
-    -fx-font-size: 24px;
+    -fx-font-size: 20px;
     -fx-text-fill: -color-bistre;
-}
-
-.label-campo {
-    -fx-font-family: "Pacifico";
-    -fx-font-size: 22px;
-    -fx-text-fill: -color-garnet;
 }
 
 .label-valor {
     -fx-font-family: "IBM Plex Mono";
-    -fx-font-size: 20px;
+    -fx-font-size: 17px;
     -fx-text-fill: -color-bistre;
 }
 
@@ -169,19 +163,17 @@
    ========================================================================== */
 .campo-texto {
     -fx-font-family: "IBM Plex Mono";
-    -fx-font-size: 22px;
+    -fx-font-size: 18px;
     -fx-text-fill: -color-bistre;
     -fx-background-color: white;
     -fx-background-radius: 10px;
     -fx-border-color: -color-goldfinch;
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
-    -fx-padding: 12px 16px;
-    -fx-pref-width: 520px;
-    -fx-pref-height: 60px;
+    -fx-padding: 10px 14px;
+    -fx-pref-height: 50px;
     -fx-effect: dropshadow(three-pass-box, rgba(33, 1, 0, 0.15), 6, 0, 0, 3);
 }
-
 .campo-texto:focused {
     -fx-border-color: -color-indian-red;
     -fx-border-width: 2.5px;
@@ -284,10 +276,10 @@
 .franja-perfil {
     -fx-background-color: -color-indian-red;
     -fx-alignment: center;
-    -fx-pref-width: 400px;
-    -fx-min-width: 400px;
+    -fx-pref-width: 180px;
+    -fx-min-width: 140px;
+    -fx-max-width: 220px;
 }
-
 .barra-acciones {
     -fx-background-color: -color-bistre;
     -fx-padding: 16px 24px;
@@ -371,14 +363,14 @@
     -fx-background-radius: 8px;
 }
 
-.tabla-reportes .column-header-background {
-    -fx-background-color: -color-bistre;
+.tabla-reportes .column-header {
+    -fx-background-color: -color-garnet;
 }
 
 .tabla-reportes .column-header .label {
+    -fx-text-fill: -color-goldfinch;
     -fx-font-family: "Pacifico";
     -fx-font-size: 20px;
-    -fx-text-fill: -color-garnet;
     -fx-alignment: center;
 }
 
@@ -400,9 +392,8 @@
 }
 
 .tabla-reportes .table-cell {
-    -fx-text-fill: -color-bistre;
-    -fx-alignment: center-left;
-    -fx-padding: 8px 12px;
+    -fx-border-color: -color-garnet;
+    -fx-border-width: 0 1 1 0; /* (arriba, derecha, abajo, izquierda) */
 }
 
 /* Celda de puesto centrada */
