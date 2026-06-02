@@ -158,6 +158,9 @@ public class SistemaController {
     public List<Booking> sendBookingByClient(int id){
         return bookingServices.sendBookingListByClient(id);
     }
+    public void cancelBooking(int id){
+        bookingServices.cancelBooking(id);
+    }
     public double calculatePrice(Booking booking){
         return bookingServices.calculatePriceBooking(booking);
     }

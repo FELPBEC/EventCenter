@@ -19,7 +19,10 @@ C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\m
 C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\main\java\co\edu\uptc\viewController\PerfilAdminController.java
 C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\main\java\co\edu\uptc\Services\SessionManager.java
 C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\main\java\co\edu\uptc\Persistence\BookingJsonRepository.java
+C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\main\java\co\edu\uptc\viewController\ClientBokkingsController.java
+C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\main\java\co\edu\uptc\viewController\PerfilClienteController.java
 C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\main\java\co\edu\uptc\Security\PasswordSecurityService.java
+C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\main\java\co\edu\uptc\viewController\EditarPerfilClienteController.java
 C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\main\java\co\edu\uptc\Services\SistemaController.java
 C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\main\java\co\edu\uptc\viewController\LoginController.java
 C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\main\java\co\edu\uptc\viewController\MainViewController.java
@@ -33,6 +36,7 @@ C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\m
 C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\main\java\co\edu\uptc\Model\Admin.java
 C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\main\java\co\edu\uptc\Model\ReporteIngresos.java
 C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\main\java\co\edu\uptc\Persistence\JsonRepository.java
+C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\main\java\co\edu\uptc\viewController\SideMenuClientController.java
 C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\main\java\co\edu\uptc\Util\ExportadorService.java
 C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\main\java\co\edu\uptc\viewController\LoginClientController.java
 C:\Users\Lenovo\Documents\PROGRAMACIÓN 2\EventCenter\event_center_project\src\main\java\co\edu\uptc\View\MainConsola.java

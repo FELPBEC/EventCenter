@@ -13,14 +13,14 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="928.0" prefWidth="1682.0" styleClass="fondo-pantalla-Interior" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uptc.viewController.clientBokkingsController">
+<BorderPane prefHeight="928.0" prefWidth="1682.0" styleClass="fondo-pantalla-Interior" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uptc.viewController.ClientBokkingsController">
 
    <bottom>
       <fx:include source="bottomBar.fxml" />
    </bottom>
 
    <left>
-      <fx:include fx:id="sideMenuContainer" source="sideBar.fxml" />
+      <fx:include fx:id="sideMenuContainer" source="sideBarCliente.fxml" />
    </left>
 
    <top>
@@ -33,7 +33,7 @@
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="file:../images/IconoMenú.png" />
+                        <Image url="@/co/edu/uptc/images/IconoMenú.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -55,9 +55,9 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="352.0" prefWidth="547.0">
                      <children>
-                        <Button fx:id="prevImage" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="64.0" prefWidth="86.0" styleClass="btn-portal" text="&lt;" />
-                        <ImageView fitHeight="196.0" fitWidth="354.0" pickOnBounds="true" preserveRatio="true" />
-                        <Button fx:id="nexImage" mnemonicParsing="false" prefHeight="64.0" prefWidth="90.0" styleClass="btn-portal" text="&gt;" />
+                        <Button fx:id="prevImage" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="retrocederImagen" prefHeight="64.0" prefWidth="86.0" styleClass="btn-portal" text="&lt;" />
+                        <ImageView fx:id="imgSalon" fitHeight="196.0" fitWidth="354.0" pickOnBounds="true" preserveRatio="true" />
+                        <Button fx:id="nexImage" mnemonicParsing="false" onAction="#avanzarImagen" prefHeight="64.0" prefWidth="90.0" styleClass="btn-portal" text="&gt;" />
                      </children>
                   </HBox>
                   <VBox prefHeight="723.0" prefWidth="547.0">
@@ -104,6 +104,7 @@
                   </VBox>
                </children>
             </VBox>
+            <Pane prefHeight="770.0" prefWidth="55.0" />
          </children>
       </HBox>
    </center>
