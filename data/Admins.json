@@ -5,5 +5,12 @@
     "password": "$2a$12$ubcCqkWDqOoYsdzy5jxokORLMN8qrARyZ7oyQd7Cd71k1eQmrdU.m",
     "phoneNumber": "3221234567",
     "email": "admin@eventcenter.co"
+  },
+  {
+    "userName": "julian",
+    "id": 1234,
+    "password": "$2a$12$PkPRKG2qVeI2VwLiZqJs3uej/zZw2lVCQB58jTe/tTbGIol79n2HC",
+    "phoneNumber": "31256",
+    "email": "julian@gmail.com"
   }
 ]

@@ -14,5 +14,13 @@
     "password": "$2a$12$aEXWZotlKSj17BOPldxSme.btpd5MAOADK6oj88DSucuawaK8EWYe",
     "phoneNumber": "31223145672",
     "email": "julianmoreno@gmail.com"
+  },
+  {
+    "Empresarial": true,
+    "userName": "julian gomez",
+    "id": 1052836305,
+    "password": "$2a$12$I8Rftgn.m0gSX69r4MllmO2hOgZIwlkOi3zjt9KSAK2dVzccmiXc.",
+    "phoneNumber": "3133914476",
+    "email": "julian@gmail"
   }
 ]

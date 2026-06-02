@@ -95,6 +95,14 @@ public void initialize() {
     cmbDuracion.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8);
     cmbDuracion.setValue(1);
 
+    // Bloquea todas las fechas anteriores a HOY en el calendario
+    dtFecha.setDayCellFactory(picker -> new javafx.scene.control.DateCell() {
+        public void updateItem(java.time.LocalDate date, boolean empty) {
+            super.updateItem(date, empty);
+            setDisable(empty || date.isBefore(java.time.LocalDate.now()));
+        }
+    });
+
     // 5. Estado inicial y carga de datos
     ocultarPanel();
     cargarSalonesIniciales();
@@ -109,7 +117,7 @@ public void initialize() {
 
     private LocalDateTime obtenerFechaInicio() {
     // Cambiamos la lógica: si no hay fecha o no hay hora seleccionada, es inválido
-    if (dtFecha.getValue() == null || cmbHora.getValue() == null) {
+        if (dtFecha.getValue() == null || cmbHora.getValue() == null) {
         return null;
     }
     
@@ -119,7 +127,14 @@ public void initialize() {
     try {
         int hora = Integer.parseInt(horaStr);
         int minuto = Integer.parseInt(minStr);
-        return LocalDateTime.of(dtFecha.getValue(), LocalTime.of(hora, minuto));
+        LocalDateTime fechaSeleccionada = LocalDateTime.of(dtFecha.getValue(), LocalTime.of(hora, minuto));
+        
+        // --- NUEVA VALIDACIÓN: Fecha no puede ser anterior a la actual ---
+        if (fechaSeleccionada.isBefore(LocalDateTime.now())) {
+            return null; // O podrías lanzar una excepción personalizada
+        }
+        
+        return fechaSeleccionada;
     } catch (NumberFormatException e) {
         return null;
     }
@@ -134,8 +149,10 @@ private void realizarBusqueda() {
     }
 
     LocalDateTime fechaInicio = obtenerFechaInicio();
+
     if (fechaInicio == null) {
-        mostrarAlerta("Error de Formato", "La fecha u hora seleccionada no es válida.");
+        // Si obtenemos null, es porque: o está vacío, o la fecha es pasada
+        mostrarAlerta("Fecha Inválida", "La fecha y hora deben ser futuras. Por favor, verifique su selección.");
         return;
     }
 
@@ -265,8 +282,10 @@ private void reserve() {
 
     // 2. Validaciones de fechas y tiempos
     LocalDateTime fechaInicio = obtenerFechaInicio();
+
     if (fechaInicio == null) {
-        mostrarAlerta("Faltan Datos del Tiempo", "Configure una fecha y hora válidas en el panel de búsqueda.");
+        // Si obtenemos null, es porque: o está vacío, o la fecha es pasada
+        mostrarAlerta("Fecha Inválida", "La fecha y hora deben ser futuras. Por favor, verifique su selección.");
         return;
     }
 

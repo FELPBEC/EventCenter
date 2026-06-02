@@ -2,6 +2,7 @@ package co.edu.uptc.viewController;
 
 import co.edu.uptc.Model.Admin;
 import co.edu.uptc.Services.AdminServices;
+import co.edu.uptc.Security.PasswordSecurityService;
 import co.edu.uptc.View.App;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -19,6 +20,7 @@ public class AnadirAdminController {
     @FXML private TextField txtPassword;
 
     private final AdminServices adminServices = new AdminServices();
+    private final PasswordSecurityService passwordService = new PasswordSecurityService();
 
     @FXML
     private void guardarAdmin() {
@@ -32,6 +34,14 @@ public class AnadirAdminController {
             mostrarAlerta(Alert.AlertType.WARNING,
                 "Datos incompletos",
                 "Todos los campos son obligatorios.");
+            return;
+        }
+
+        // Validar formato de contraseña
+        if (!passwordService.isValidFormat(password)) {
+            mostrarAlerta(Alert.AlertType.WARNING,
+                "Contraseña inválida",
+                "La contraseña debe cumplir con:\n- Mínimo 8 caracteres\n- Al menos una letra mayúscula\n- Al menos un carácter especial (. , ! @ # $ % & * - _ + = ? /)");
             return;
         }
 
@@ -52,7 +62,7 @@ public class AnadirAdminController {
             return;
         }
 
-        Admin nuevoAdmin = new Admin(nombre, id, correo, password, telefono);
+        Admin nuevoAdmin = new Admin(nombre, id, correo, passwordService.encrypt(password), telefono);
         adminServices.saveNewAdmin(nuevoAdmin);
 
         mostrarAlerta(Alert.AlertType.INFORMATION,
