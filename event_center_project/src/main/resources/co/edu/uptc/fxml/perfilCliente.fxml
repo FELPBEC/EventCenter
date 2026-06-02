@@ -10,10 +10,10 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane styleClass="fondo-pantalla-Interior" 
-            stylesheets="@../css/styles.css" 
-            xmlns="http://javafx.com/javafx/26" 
-            xmlns:fx="http://javafx.com/fxml/1" 
+<BorderPane styleClass="fondo-pantalla-Interior"
+            stylesheets="@../css/styles.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="co.edu.uptc.viewController.PerfilClienteController">
 
    <bottom>
@@ -71,8 +71,19 @@
                      </Label>
                      <HBox alignment="CENTER_LEFT" spacing="14.0">
                         <children>
-                           <Label maxWidth="160.0" minWidth="140.0" styleClass="titulo-seccion" text="%perfil.nombre" />
-                           <Label fx:id="lblNombre" styleClass="label-valor" wrapText="true" />
+                           <Label text="%perfil.nombre" styleClass="titulo-seccion"
+                                  minWidth="140.0" maxWidth="160.0" />
+                           <Label fx:id="lblNombre" styleClass="label-valor" wrapText="true"
+                                  HBox.hgrow="ALWAYS" />
+                        </children>
+                     </HBox>
+
+                     <HBox alignment="CENTER_LEFT" spacing="14.0">
+                        <children>
+                           <Label text="%perfil.cedula" styleClass="titulo-seccion"
+                                  minWidth="140.0" maxWidth="160.0" />
+                           <Label fx:id="lblCedula" styleClass="label-valor" wrapText="true"
+                                  HBox.hgrow="ALWAYS" />
                         </children>
                      </HBox>
                      <HBox alignment="CENTER_LEFT" spacing="14.0">

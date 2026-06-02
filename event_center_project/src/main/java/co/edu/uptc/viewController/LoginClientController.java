@@ -56,7 +56,8 @@ public class LoginClientController {
         } catch (Exception e) {
             e.printStackTrace();
             // Captura cualquier otro error inesperado de lectura de archivos JSON, etc.
-            mostrarAlerta("Error crítico", "Ocurrió un error inesperado: " + e.getMessage());
+            System.out.println("❌ EXPLOTÓ AL CARGAR PERFIL CLIENTE:");
+            e.printStackTrace();
         }
     }
 
