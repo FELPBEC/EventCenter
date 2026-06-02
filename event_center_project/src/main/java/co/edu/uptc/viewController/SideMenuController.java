@@ -45,17 +45,45 @@ public class SideMenuController {
 
     @FXML
     private void irAClientes( ) {
-        System.out.println("Pasando a Gestion de Clientes...");
+        try {
+            App.setRoot("gestionCliente");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert error = new Alert(AlertType.ERROR);
+            error.setTitle(resources.getString("perfil.alerta.errorNavegacion.titulo"));
+            error.setHeaderText(null);
+            String msg = resources.getString("perfil.alerta.errorNavegacion.mensaje");
+            error.setContentText(msg + "\n" + e.getMessage());
+            error.showAndWait();
+        }
     }
 
     @FXML
     private void irASalones( ) {
-        System.out.println("Pasando a Gestion de Salones...");
+        try {
+            App.setRoot("gestionSalones");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert error = new Alert(AlertType.ERROR);
+            error.setTitle(resources.getString("perfil.alerta.errorNavegacion.titulo"));
+            error.setHeaderText(null);
+            error.setContentText(resources.getString("perfil.alerta.errorNavegacion.mensaje") + "\n" + e.getMessage());
+            error.showAndWait();
+        }
     }
 
     @FXML
     private void irAAdmins( ) {
-        System.out.println("Pasando a Gestion de Admins...");
+        try {
+            App.setRoot("gestionAdmins");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert error = new Alert(AlertType.ERROR);
+            error.setTitle(resources.getString("perfil.alerta.errorNavegacion.titulo"));
+            error.setHeaderText(null);
+            error.setContentText(resources.getString("perfil.alerta.errorNavegacion.mensaje") + "\n" + e.getMessage());
+            error.showAndWait();
+        }
     }
 
     @FXML

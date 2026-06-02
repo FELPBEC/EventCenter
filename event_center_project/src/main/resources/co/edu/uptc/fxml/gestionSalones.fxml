@@ -16,7 +16,7 @@
             stylesheets="@../css/styles.css"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="co.edu.uptc.viewController.GestionClienteController">
+            fx:controller="co.edu.uptc.viewController.GestionSalonesAdminController">
 
     <bottom>
         <fx:include source="bottomBar.fxml" />
@@ -70,7 +70,7 @@
 
             <children>
 
-                <Label text="%admin.clientes.titulo"
+                <Label text="%admin.salones.titulo"
                        styleClass="titulo-seccion" />
 
                 <HBox spacing="12.0"
@@ -80,45 +80,45 @@
                       maxWidth="900.0">
 
                     <children>
-                        <TextField fx:id="txtBuscarCliente"
+                        <TextField fx:id="txtBuscarSalones"
                                    promptText="Ingrese la identificación"
                                    styleClass="slogan"
                                    HBox.hgrow="ALWAYS"
-                                   onAction="#buscarCliente" />
+                                   onAction="#buscarSalon" />
 
-                        <Button fx:id="btnBuscarCliente"
+                        <Button fx:id="btnBuscarSalones"
                                 text="Buscar"
                                 styleClass="btn-portal"
                                 prefHeight="50.0"
                                 prefWidth="140.0"
-                                onAction="#buscarCliente" />
+                                onAction="#buscarSalon" />
                     </children>
 
                 </HBox>
 
-                <TableView fx:id="clientesTable"
+                <TableView fx:id="salonesTable"
                            VBox.vgrow="ALWAYS"
                            styleClass="tabla-reportes">
 
                     <columns>
-                        <TableColumn fx:id="colIdentificacion"
-                                     text="%client.services.mostrar.id"
+                        <TableColumn fx:id="colId"
+                                     text="%salon.services.mostrar.id"
                                      prefWidth="120.0" />
 
-                        <TableColumn fx:id="colNombres"
-                                     text="%client.services.mostrar.nombre"
+                        <TableColumn fx:id="colNombresSalon"
+                                     text="%salon.services.mostrar.nombre"
                                      prefWidth="200.0" />
 
-                        <TableColumn fx:id="colCorreo"
-                                     text="%client.services.mostrar.correo"
+                        <TableColumn fx:id="colCapacidad"
+                                     text="%salon.services.mostrar.capacidad"
                                      prefWidth="220.0" />
 
-                        <TableColumn fx:id="colTelefono"
-                                     text="%client.services.mostrar.numero.telefonico"
+                        <TableColumn fx:id="colPrecio"
+                                     text="%salon.services.mostrar.precio.por.hora"
                                      prefWidth="140.0" />
 
-                        <TableColumn fx:id="colTipo"
-                                     text="%client.services.mostrar.empresarial"
+                        <TableColumn fx:id="colReservaciones"
+                                     text="%salon.services.mostrar.numero.reservaciones"
                                      prefWidth="80.0" />
                     </columns>
 
@@ -136,14 +136,8 @@
 
                     <children>
                         <Button fx:id="actualizarButton"
-                            text="%admin.clientes.op2" 
-                            styleClass="btn-accion"
-                            onAction="#actualizarCliente" />
-
-                        <Button fx:id="eliminarButton"
-                            text="%admin.clientes.op3"
-                            styleClass="btn-accion"
-                            onAction="#eliminarCliente" />
+                                text="%admin.salones.op3" 
+                                styleClass="btn-accion"/>
                     </children>
 
                 </HBox>

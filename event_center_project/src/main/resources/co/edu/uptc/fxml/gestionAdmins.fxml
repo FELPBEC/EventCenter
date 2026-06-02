@@ -16,7 +16,7 @@
             stylesheets="@../css/styles.css"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="co.edu.uptc.viewController.GestionClienteController">
+            fx:controller="co.edu.uptc.viewController.GestionAdminsController">
 
     <bottom>
         <fx:include source="bottomBar.fxml" />
@@ -30,18 +30,15 @@
         <HBox alignment="CENTER_LEFT"
               prefHeight="65.0"
               styleClass="fondo-pantalla-Interior">
-
             <padding>
                 <Insets top="10.0" right="10.0" bottom="10.0" left="16.0" />
             </padding>
-
             <children>
                 <Button fx:id="btnToggleMenu"
                         styleClass="btn-portal"
                         onAction="#toggleMenu"
                         prefHeight="50.0"
                         prefWidth="60.0">
-
                     <graphic>
                         <ImageView fitHeight="32.0"
                                    fitWidth="32.0"
@@ -52,10 +49,8 @@
                             </image>
                         </ImageView>
                     </graphic>
-
                 </Button>
             </children>
-
         </HBox>
     </top>
 
@@ -63,14 +58,11 @@
         <VBox alignment="CENTER"
               VBox.vgrow="ALWAYS"
               BorderPane.alignment="CENTER">
-
             <padding>
                 <Insets top="20.0" right="60.0" bottom="20.0" left="60.0" />
             </padding>
-
             <children>
-
-                <Label text="%admin.clientes.titulo"
+                <Label text="%admin.admins.titulo"
                        styleClass="titulo-seccion" />
 
                 <HBox spacing="12.0"
@@ -78,86 +70,70 @@
                       VBox.vgrow="NEVER"
                       prefHeight="75.0"
                       maxWidth="900.0">
-
                     <children>
-                        <TextField fx:id="txtBuscarCliente"
-                                   promptText="Ingrese la identificación"
-                                   styleClass="slogan"
+                        <TextField fx:id="txtBuscarAdmin"
+                                   promptText="Ingrese nombre o cédula"
+                                   styleClass="campo-texto"
                                    HBox.hgrow="ALWAYS"
-                                   onAction="#buscarCliente" />
-
-                        <Button fx:id="btnBuscarCliente"
+                                   onAction="#buscarAdmin" />
+                        <Button fx:id="btnBuscarAdmin"
                                 text="Buscar"
                                 styleClass="btn-portal"
                                 prefHeight="50.0"
                                 prefWidth="140.0"
-                                onAction="#buscarCliente" />
+                                onAction="#buscarAdmin" />
+                        <Button fx:id="btnAgregarAdmin"
+                                text="Añadir administrador"
+                                styleClass="btn-portal"
+                                prefHeight="50.0"
+                                prefWidth="220.0"
+                                onAction="#mostrarCrearAdmin" />
                     </children>
-
                 </HBox>
 
-                <TableView fx:id="clientesTable"
+                <TableView fx:id="adminsTable"
                            VBox.vgrow="ALWAYS"
                            styleClass="tabla-reportes">
-
                     <columns>
-                        <TableColumn fx:id="colIdentificacion"
-                                     text="%client.services.mostrar.id"
+                        <TableColumn fx:id="colId"
+                                     text="%admin.services.mostrar.id"
                                      prefWidth="120.0" />
-
-                        <TableColumn fx:id="colNombres"
-                                     text="%client.services.mostrar.nombre"
-                                     prefWidth="200.0" />
-
-                        <TableColumn fx:id="colCorreo"
-                                     text="%client.services.mostrar.correo"
+                        <TableColumn fx:id="colNombre"
+                                     text="%admin.services.mostrar.nombre"
                                      prefWidth="220.0" />
-
+                        <TableColumn fx:id="colCorreo"
+                                     text="%admin.services.mostrar.correo"
+                                     prefWidth="220.0" />
                         <TableColumn fx:id="colTelefono"
-                                     text="%client.services.mostrar.numero.telefonico"
-                                     prefWidth="140.0" />
-
-                        <TableColumn fx:id="colTipo"
-                                     text="%client.services.mostrar.empresarial"
-                                     prefWidth="80.0" />
+                                     text="%admin.services.mostrar.numero.telefonico"
+                                     prefWidth="180.0" />
                     </columns>
-
                 </TableView>
 
                 <HBox spacing="10.0"
-                      alignment="CENTER_LEFT">
-
-                    <padding>
-                        <Insets top="10.0"
-                                right="10.0"
-                                bottom="10.0"
-                                left="10.0" />
-                    </padding>
-
+                      alignment="CENTER_LEFT"
+                      styleClass="barra-acciones">
                     <children>
-                        <Button fx:id="actualizarButton"
-                            text="%admin.clientes.op2" 
-                            styleClass="btn-accion"
-                            onAction="#actualizarCliente" />
-
-                        <Button fx:id="eliminarButton"
-                            text="%admin.clientes.op3"
-                            styleClass="btn-accion"
-                            onAction="#eliminarCliente" />
+                        <Button fx:id="btnEditarAdmin"
+                                text="%admin.admins.op2"
+                                styleClass="btn-accion"
+                                onAction="#editarAdmin"
+                                prefHeight="65.0"
+                                prefWidth="240.0" />
+                        <Button fx:id="btnEliminarAdmin"
+                                text="%admin.admins.op3"
+                                styleClass="btn-accion"
+                                onAction="#eliminarAdmin"
+                                prefHeight="65.0"
+                                prefWidth="240.0" />
                     </children>
-
                 </HBox>
-
             </children>
-
         </VBox>
     </center>
 
     <padding>
-        <Insets top="8.0"
-                right="8.0"
-                bottom="8.0"
-                left="8.0" />
+        <Insets top="8.0" right="8.0" bottom="8.0" left="8.0" />
     </padding>
 
 </BorderPane>
